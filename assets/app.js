@@ -23,7 +23,7 @@
     const ev = { event: name, ...params, ...utm() };
     window.dataLayer.push(ev);
     try { if (C.ga4Installed && window.gtag) gtag("event", name, params); } catch (e) {}
-    try { if (C.metaPixelInstalled && window.fbq) { if (name === "lead_submit_success") fbq("track", "Lead"); else fbq("trackCustom", name, params); } } catch (e) {}
+    try { if (C.metaPixelInstalled && window.fbq) { if (name === "lead_submit_success") fbq("track", "Lead"); else if (name === "call_click" || name === "kakao_click") fbq("track", "Contact", { method: name === "call_click" ? "phone" : "kakao", ...params }); else fbq("trackCustom", name, params); } } catch (e) {}
     log.unshift(new Date().toLocaleTimeString("ko-KR") + "  " + name + " " + JSON.stringify(params));
     const d = $("#dbg"); if (d) d.innerHTML = "<b>측정 이벤트 로그 (테스트)</b>" + log.slice(0, 30).map((l) => "<div>" + esc(l) + "</div>").join("");
   }
