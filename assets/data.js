@@ -29,7 +29,7 @@ window.SITE = {
 
     /* 성과 측정: 실제 설치 전에는 false 유지 */
     ga4Installed: false,
-    metaPixelInstalled: true  // 2026-11-10 픽셀 2103643920279636 설치,
+    metaPixelInstalled: true,  // 2026-11-10 픽셀 2103643920279636 설치
     naverWcsInstalled: false
   },
 
