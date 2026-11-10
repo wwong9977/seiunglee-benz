@@ -15,6 +15,7 @@ var SHEET_NAME = '상담접수';
 var NOTIFY_EMAIL = '';      // 새 접수 알림 메일을 받을 주소. 비워두면 알림 없음 (테스트가 끝난 뒤 입력 권장)
 var DUP_WINDOW_MIN = 10;    // 같은 연락처+모델이 이 시간(분) 안에 다시 들어오면 중복으로 보고 저장하지 않음
 var MAX_PER_HOUR = 300;     // 전체 접수 시간당 상한 (스팸 폭주 방지)
+var RETENTION_DAYS = 30;    // 개인정보 보유기간: 수집일로부터 1개월. 매일 새벽 자동 삭제 (setup 실행 시 예약)
 
 var HEADERS = [
   '접수시각', '접수번호', '상태', '이름', '연락처', '관심모델', '구매방식', '구매시기',
@@ -133,7 +134,21 @@ function out_(obj) {
   return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
 }
 
-/** 설치 직후 한 번 실행: 시트 탭과 머리글을 만들고 권한을 승인합니다 (테스트 행은 만들지 않음) */
+/** 보유기간(RETENTION_DAYS)이 지난 접수 행을 삭제합니다. setup()이 매일 새벽 4시 자동 실행을 예약합니다. */
+function purgeOld() {
+  var sh = sheet_();
+  var last = sh.getLastRow(); if (last < 2) return;
+  var limit = new Date(Date.now() - RETENTION_DAYS * 864e5);
+  var times = sh.getRange(2, 1, last - 1, 1).getValues();
+  for (var i = times.length - 1; i >= 0; i--) {
+    var t = times[i][0];
+    if (t instanceof Date && t < limit) sh.deleteRow(i + 2);
+  }
+}
+
+/** 설치 직후 한 번 실행: 시트 탭·머리글 생성, 권한 승인, 보유기간 자동 삭제 예약 (테스트 행은 만들지 않음) */
 function setup() {
   sheet_();
+  var has = ScriptApp.getProjectTriggers().some(function (t) { return t.getHandlerFunction() === 'purgeOld'; });
+  if (!has) ScriptApp.newTrigger('purgeOld').timeBased().everyDays(1).atHour(4).inTimezone('Asia/Seoul').create();
 }
