@@ -504,3 +504,25 @@ body{font-family:var(--sans);letter-spacing:-.02em}
 .qz-row.big b{font-size:28px;color:var(--gold);letter-spacing:-.03em}
 .qz-break,.qz-fin{font-size:13px;color:var(--silver)}
 .qz-note{font-size:11.5px;color:var(--mut)}
+
+/* 무이자 차량 */
+.zr-grid{display:grid;gap:10px}
+@media(min-width:800px){.zr-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:1100px){.zr-grid{grid-template-columns:1fr 1fr 1fr}}
+.zr{display:grid;grid-template-columns:110px 1fr auto;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px 12px 10px 10px}
+.zr img{width:110px;height:72px;object-fit:cover;border-radius:10px;background:#0d1117}
+.zr-b{min-width:0}
+.zr-top{display:flex;gap:6px;align-items:center;margin-bottom:2px}
+.zr-m{font-size:11.5px;font-weight:700;color:#16120a;background:var(--gold);border-radius:5px;padding:1px 6px}
+.zr-my{font-size:11.5px;color:var(--mut)}
+.zr h3{font-size:14.5px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.zr-d{font-size:12px;color:var(--silver)}
+.zr-p{font-size:13px}
+.zr-p s{color:var(--mut);font-size:12px}
+.zr-p b{color:var(--gold);font-size:15px}
+.zr-go{font-weight:700;color:var(--gold);font-size:13.5px;padding:8px 4px;white-space:nowrap}
+#zrMore[hidden]{display:none}
+.zr-m,.zr-my{white-space:nowrap}
+.zr h3{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+@media(max-width:599px){.zr{grid-template-columns:84px 1fr auto;gap:10px}.zr img{width:84px;height:60px}}
+@media(min-width:1100px){.zr-grid{grid-template-columns:1fr 1fr}}

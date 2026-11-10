@@ -44,28 +44,28 @@ window.SITE = {
   /* ---------- 3. 모델 ---------- */
   models: [
     {
-      id: "e-class", image: "assets/img/model-e.jpg", name: "E-Class", kind: "세단", page: "e-class.html",
+      id: "e-class", image: "assets/img/cat-e-pair.jpg", coreImage: "assets/img/cat-e-side.jpg", name: "E-Class", kind: "세단", page: "e-class.html",
       tagline: "가장 많이 비교되는 비즈니스 세단",
       trims: ["E 200 Exclusive", "E 200 AMG Line", "E 300 4MATIC", "E 350 e 4MATIC", "E 450 4MATIC"],
       priceFrom: 77500000, priceStatus: "27년식",
       fit: "출퇴근·업무 이동이 많고, 편안함과 품격을 함께 원하는 분"
     },
     {
-      id: "s-class", image: "assets/img/model-s.jpg", name: "S-Class", kind: "세단", page: "",
+      id: "s-class", image: "assets/img/cat-s-front.jpg", coreImage: "assets/img/cat-s-black.jpg", name: "S-Class", kind: "세단", page: "",
       tagline: "플래그십 세단 · 법인·재구매 상담",
       trims: ["S 350 d", "S 450 4MATIC", "S 500 4MATIC", "S 580 4MATIC"],
       priceFrom: 154000000, priceStatus: "27년식",
       fit: "뒷좌석 탑승이 잦은 대표·임원, 장거리 이동이 많은 분"
     },
     {
-      id: "glc", image: "assets/img/model-glc.jpg", name: "GLC", kind: "SUV · Coupé", page: "",
+      id: "glc", image: "assets/img/cat-glc-pair.jpg", coreImage: "assets/img/cat-glc-coupe.jpg", name: "GLC", kind: "SUV · Coupé", page: "",
       tagline: "도심형 중형 SUV · SUV와 쿠페 선택",
       trims: ["GLC 220 d 4MATIC", "GLC 300 4MATIC", "GLC 300 4MATIC Coupé"],
       priceFrom: 82200000, priceStatus: "27년식",
       fit: "가족 1~3인, 도심 주행 위주, 적당한 차체를 원하는 분"
     },
     {
-      id: "gle", image: "assets/img/model-gle.jpg", name: "GLE", kind: "SUV · Coupé", page: "",
+      id: "gle", image: "assets/img/cat-gle-suv.jpg", coreImage: "assets/img/cat-gle-coupe-rear.jpg", name: "GLE", kind: "SUV · Coupé", page: "",
       tagline: "넉넉한 공간의 대형 SUV",
       trims: ["GLE 300 d 4MATIC", "GLE 450 4MATIC", "GLE 450 4MATIC Coupé"],
       priceFrom: 119200000, priceStatus: "26년식",
@@ -199,15 +199,15 @@ window.SITE = {
 
   /* ---------- 4-2. 첫 화면 혜택 슬라이드 (promotions에서 model+trim+my로 찾아 계산) ---------- */
   heroOffers: [
-    { model:"e-class", trim:"E 200 Exclusive", my:"MY27", label:"E-Class 27년식", image:"assets/img/model-e.jpg" },
-    { model:"gle", trim:"GLE 450 4MATIC Coupé AMG Line", my:"MY26", label:"GLE 쿠페 · 무이자 24·36개월", image:"assets/img/model-gle.jpg" },
-    { model:"glc", trim:"GLC 300 4MATIC Coupé AVANTGARDE", my:"MY27", label:"GLC 쿠페 27년식 할인 상향", image:"assets/img/model-glc.jpg" },
-    { model:"s-class", trim:"S 450 4MATIC Long", my:"MY26", label:"S-Class 재고 할인", image:"assets/img/model-s.jpg" }
+    { model:"e-class", trim:"E 200 Exclusive", my:"MY27", label:"E-Class 27년식", image:"assets/img/cat-e-blue.jpg" },
+    { model:"gle", trim:"GLE 450 4MATIC Coupé AMG Line", my:"MY26", label:"GLE 쿠페 · 무이자 24·36개월", image:"assets/img/cat-gle-coupe.jpg" },
+    { model:"glc", trim:"GLC 300 4MATIC Coupé AVANTGARDE", my:"MY27", label:"GLC 쿠페 27년식 할인 상향", image:"assets/img/cat-glc-coupe-front.jpg" },
+    { model:"s-class", trim:"S 450 4MATIC Long", my:"MY26", label:"S-Class 재고 할인", image:"assets/img/cat-s-front.jpg" }
   ],
 
   /* ---------- 4-3. 신차·사전계약 소식 ---------- */
   news: [
-    { tag:"사전계약 재구매 혜택", title:"The New S-Class (MY27)", text:"기존 E-Class 이상 보유 고객은 재구매 횟수에 따라 보증연장이 최대 +2년/+7만km까지 늘어납니다. 타 프리미엄 브랜드 보유 고객도 보증연장 +1년/+3만km.", model:"s-class", image:"assets/img/news-s-class.jpg" },
+    { tag:"사전계약 재구매 혜택", title:"The New S-Class (MY27)", text:"기존 E-Class 이상 보유 고객은 재구매 횟수에 따라 보증연장이 최대 +2년/+7만km까지 늘어납니다. 타 프리미엄 브랜드 보유 고객도 보증연장 +1년/+3만km.", model:"s-class", image:"assets/img/cat-s-news.jpg" },
     { tag:"MY27 상담 시작", title:"The new GLE (MY27)", text:"GLE 450 4MATIC AMG Line·Coupé MY27이 11월 조건표에 새로 올라왔습니다. 가격·출고 일정과 MY26 재고 조건을 나란히 비교해 드립니다.", model:"gle" },
     { tag:"11월 신설", title:"Electric CLA · GLB 250+ electric", text:"전기 CLA(CLA 200·CLA 250+)와 GLB 250+ electric에 11월부터 100만원 현금 할인이 생겼습니다. 보조금은 지역·시점에 따라 달라 함께 확인해 드립니다.", model:"other" },
     { tag:"E 200 연식 변경", title:"E 200은 MY27로", text:"E 200 MY26 판매가 끝나 MY27로 진행합니다. MY27 E 200도 24개월 무이자 대상이며 금융 이용 시 Exclusive +4%, AMG Line +3%가 더해집니다.", model:"e-class" }

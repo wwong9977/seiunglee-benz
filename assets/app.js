@@ -140,7 +140,7 @@
     el.innerHTML = S.models.map((m) => {
       const pr = m.priceFrom ? `${man(m.priceFrom)}부터 <span class="flag dark">${esc(m.priceStatus)}</span>` : `가격 <span class="flag dark">확인 필요</span>`;
       const best = S.promotions.filter((p) => p.model === m.id && active(p)).reduce((a, p) => Math.max(a, headRate(p)), 0);
-      return `<article class="mcard">${slot(m.name + " 이미지", "", m.image, "이미지 컷 · 실제 판매 차량과 색상·사양이 다를 수 있습니다")}
+      return `<article class="mcard">${slot(m.name + " 이미지", "", m.image, "카탈로그 이미지 · 판매 차량과 색상·사양이 다를 수 있습니다")}
         <div class="body"><span class="kind">${esc(m.kind)}</span><h3>${esc(m.name)}</h3><p class="tl">${esc(m.tagline)}</p>
         <p class="trims">${m.trims.map(esc).join(" · ")}</p><p class="price">${pr}</p>
         ${best ? `<p class="price" style="color:var(--gold)">이달 현금+금융 최대 ${best}% <small style="color:var(--mut)">(트림·연식별 상이)</small></p>` : ""}
@@ -288,7 +288,7 @@
     el.innerHTML = `<div class="hs-track" id="hsTrack">${slides.map(({ h, p }, i) => {
       const hr = headRate(p), d = discOf(p.price, hr);
       return `<article class="hs-slide" aria-roledescription="slide" aria-label="${i + 1} / ${slides.length}">
-        <div class="hs-img"><img src="${esc(h.image)}" alt="${esc(modelName(p.model))} 이미지" ${i ? 'loading="lazy"' : 'fetchpriority="high"'}><span class="hs-imgnote">이미지 컷</span></div>
+        <div class="hs-img"><img src="${esc(h.image)}" alt="${esc(modelName(p.model))} 이미지" ${i ? 'loading="lazy"' : 'fetchpriority="high"'}><span class="hs-imgnote">카탈로그 이미지</span></div>
         <div class="hs-body">
           <span class="hs-badge">${esc(h.label)}</span>
           <p class="hs-trim">${esc(S.promoMeta.month)} · ${esc(p.trim)} <small>${esc(myLabel(p))}</small></p>
@@ -320,7 +320,7 @@
     el.innerHTML = S.models.map((m) => {
       const p = bestOf(m.id); if (!p) return "";
       const hr = headRate(p), fin = p.price - discOf(p.price, hr);
-      return `<article class="core"><div class="core-img"><img src="${esc(m.image)}" alt="${esc(m.name)} 이미지" loading="lazy"></div>
+      return `<article class="core"><div class="core-img"><img src="${esc(m.coreImage || m.image)}" alt="${esc(m.name)} 이미지" loading="lazy"></div>
         <div class="core-body"><div class="core-badges"><span class="my">${esc(myLabel(p))}</span>${(p.better || []).slice(0, 1).map((b) => `<span>${esc(b)}</span>`).join("")}</div>
         <h3>${esc(p.trim)}</h3>
         <p class="core-rate"><b>${hr}%</b> <span>${man(fin)}</span></p>
@@ -436,6 +436,42 @@
       <div class="st-row">${S.reviews.map((r) => `<a class="st-item" href="#reviews-sec"><img src="${esc(r.photo)}" alt="${esc(r.car)} 실제 출고" loading="lazy"><span>${esc(r.region.split(" · ")[0])} · ${esc(r.car.replace(" 4MATIC", "").replace(" Exclusive", " EX"))}</span></a>`).join("")}</div>`;
   }
 
+  /* 무이자 가능 차량 목록 */
+  const imgFor = (p) => {
+    const t = p.trim.toLowerCase(), c = /coupé|coupe| cp/.test(t);
+    return { "e-class": "assets/img/cat-e-blue.jpg", "s-class": "assets/img/cat-s-black.jpg",
+      glc: c ? "assets/img/cat-glc-coupe.jpg" : "assets/img/cat-glc-suv.jpg",
+      gle: c ? "assets/img/cat-gle-coupe.jpg" : "assets/img/cat-gle-suv.jpg" }[p.model] || "";
+  };
+  function renderZero(el) {
+    if (!el) return;
+    const list = S.promotions.filter((p) => active(p) && p.price && /무이자/.test(p.finance || ""));
+    if (!list.length) { el.closest("section").remove(); return; }
+    const months = (p) => (/24·36/.test(p.finance) ? "24·36개월" : "24개월");
+    const down = (p) => ((p.finance.match(/선수금 (\d+)%/) || [])[1] || "");
+    const chips = ["all", ...S.models.map((m) => m.id).filter((id) => list.some((p) => p.model === id))];
+    const card = (p) => { const hr = headRate(p), fin = p.price - discOf(p.price, hr);
+      return `<article class="zr"><img src="${imgFor(p)}" alt="" loading="lazy">
+        <div class="zr-b"><div class="zr-top"><span class="zr-m">${months(p)} 무이자</span><span class="zr-my">${esc(myLabel(p))}</span></div>
+        <h3>${esc(p.trim)}</h3>
+        <p class="zr-d">${down(p) ? `선수금 ${down(p)}%` : ""}${hr ? ` · 할인 ${hr}%` : ""}</p>
+        <p class="zr-p"><s>${man(p.price)}</s> <b>${man(fin)}</b></p></div>
+        <button class="zr-go" data-quote="${esc(p.model)}|${esc(p.trim)}|${esc(p.my)}" aria-label="${esc(p.trim)} 견적 계산">견적 →</button></article>`; };
+    const draw = (id, all) => {
+      const l = list.filter((p) => id === "all" || p.model === id);
+      const show = all ? l : l.slice(0, 6);
+      $("#zrGrid", el).innerHTML = show.map(card).join("");
+      const more = $("#zrMore", el); more.hidden = all || l.length <= 6; more.textContent = `무이자 차량 ${l.length - 6}대 더 보기`;
+    };
+    el.innerHTML = `<div class="tabs" role="tablist">${chips.map((id, i) => `<button class="tab" role="tab" aria-selected="${i === 0}" data-z="${id}">${id === "all" ? `전체 ${list.length}` : esc(modelName(id))}</button>`).join("")}</div>
+      <div class="zr-grid" id="zrGrid"></div><button class="btn btn-line btn-sm" id="zrMore" type="button" style="margin-top:12px"></button>
+      <p class="note">무이자 할부는 선수금 조건(65~75%)이 있으며, 금융 심사 결과에 따라 이용이 제한될 수 있습니다. 할인 후 금액은 현금+금융 할인 기준(탁송·등록비 별도).</p>`;
+    let cur = "all";
+    $$("[data-z]", el).forEach((b) => b.addEventListener("click", () => { cur = b.dataset.z; $$("[data-z]", el).forEach((x) => x.setAttribute("aria-selected", x === b)); draw(cur, false); track("zero_tab", { model: cur }); }));
+    $("#zrMore", el).addEventListener("click", () => draw(cur, true));
+    draw("all", false);
+  }
+
   /* ---------- 시작 ---------- */
   window.addEventListener("DOMContentLoaded", () => {
     const page = document.body.dataset.page, only = document.body.dataset.model || "";
@@ -443,6 +479,7 @@
     renderQuote($("#quote"));
     renderStrip($("#strip"));
     renderCore($("#core"));
+    renderZero($("#zero"));
     renderNews($("#news"));
     renderReport($("#report"));
     renderChecks($("#checks"));
