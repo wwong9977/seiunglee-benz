@@ -1,2 +1,3 @@
 User-agent: *
 Allow: /
+Sitemap: https://wwong9977.github.io/seiunglee-benz/sitemap.xml
