@@ -219,6 +219,7 @@ window.SITE = {
   },
 
   /* ---------- 전기차 사전계약 (카탈로그 2026.10 · 11월 프로모션 기준) ---------- */
+  /* offer(이달 혜택 문구)는 프로모션 적용 기간(promoMeta)이 지나면 자동으로 숨겨집니다. 다른 기간이면 offerValidFrom/offerValidTo를 추가 */
   ev: [
     { id:"glc-ev", name:"The all-new electric GLC", tag:"사전계약 상담 중", image:"assets/img/cat-glc-ev.jpg", image2:"assets/img/cat-glc-ev-city.jpg",
       trims:["GLC 300 4MATIC electric", "GLC 300 4MATIC electric AMG Line", "GLC 400 4MATIC electric"],

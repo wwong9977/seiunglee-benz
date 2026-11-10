@@ -545,7 +545,7 @@
       <div class="ev-body"><span class="news-tag">${esc(v.tag)}</span><h2 id="${v.id}-h">${esc(v.name)}</h2><p class="ev-lead">${esc(v.lead)}</p>
         <div class="ev-trims">${v.trims.map((t) => `<span>${esc(t)}</span>`).join("")}</div>
         <dl class="ev-specs">${v.specs.map(([k, val]) => `<div><dt>${esc(k)}</dt><dd>${esc(val)}</dd></div>`).join("")}</dl>
-        <p class="ev-offer">🎁 ${esc(v.offer)}</p>
+        ${v.offer && inRange(v.offerValidFrom || S.promoMeta.validFrom, v.offerValidTo || S.promoMeta.validTo) ? `<p class="ev-offer">🎁 ${esc(v.offer)}</p>` : ""}
         <div class="ev-acts"><button class="btn btn-gold" data-pre="${v.id}">사전계약 상담 신청</button><a class="btn btn-line" href="#" data-action="kakao" data-loc="ev_${v.id}">카카오로 문의</a></div>
       </div></section>`).join("");
     $$("[data-pre]", el).forEach((b) => b.addEventListener("click", () => {

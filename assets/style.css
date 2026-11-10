@@ -783,3 +783,5 @@ body.mbar-off .mbar{transform:translateY(110%);opacity:0;pointer-events:none}
 .st-item span{font-size:12px}
 .opt{margin-left:6px}
 .lp-sec{scroll-margin-top:58px}
+.qz-note,.core-badges span,.price small{font-size:12px!important}
+legend .opt,summary .opt{color:var(--mut);font-weight:400;font-size:12px;margin-left:6px}
