@@ -12,8 +12,8 @@ window.SITE = {
     advisorTitle: "과장",
     showroom: "HS더클래스 효성 구리전시장",
     showroomAddress: "",          // 확인 필요: 전시장 주소
-    phone: "010-4748-9977",        // 아임웹 게시 글 기준
-    kakaoUrl: "https://pf.kakao.com/_xfxNFX/chat", // 아임웹 게시 글 기준
+    phone: "010-4748-9977",        // 2026-11-10 과장님 확인
+    kakaoUrl: "https://pf.kakao.com/_xfxfNFX/chat", // 2026-11-10 과장님 확인
     blogUrl: "",                  // 확인 필요: 네이버 블로그 주소
     siteUrl: "https://seiunglee.imweb.me",
     profilePhoto: "assets/img/profile.jpg",
