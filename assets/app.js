@@ -17,6 +17,7 @@
   const inRange = (from, to) => { const t = todayStr(); return (!from || from <= t) && (!to || t <= to); };
   const promoOn = () => inRange(S.promoMeta.validFrom, S.promoMeta.validTo);
   const ML = () => (promoOn() ? Number(S.promoMeta.validFrom.slice(5, 7)) + "월" : "이달"); // 화면의 'O월' 표기 (기간이 지나면 '이달')
+  const sm = (src) => (/^assets\/img\/(?!sm\/).+\.jpg$/.test(src || "") ? src.replace("assets/img/", "assets/img/sm/") : src); // 카드·목록용 작은 사진 (tools/bump_versions.py가 생성)
   const dot = (d) => String(d || "").replace(/-/g, ".");
   const PRICE_DATE = () => dot(S.priceBasis.date || "");
   const store = { get(k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { sessionStorage.setItem(k, v); } catch (e) {} } };
@@ -37,6 +38,21 @@
     log.unshift(new Date().toLocaleTimeString("ko-KR") + "  " + name + " " + JSON.stringify(params));
     const d = $("#dbg"); if (d) d.innerHTML = "<b>측정 이벤트 로그 (테스트)</b>" + log.slice(0, 30).map((l) => "<div>" + esc(l) + "</div>").join("");
   }
+
+  /* ---------- 측정 도구 자동 연결: data.js에 ID를 넣은 경우에만 작동 ---------- */
+  (function loadTrackers() {
+    const add = (src) => { const s = document.createElement("script"); s.async = true; s.src = src; document.head.appendChild(s); return s; };
+    if (C.ga4Id && /^G-[A-Z0-9]+$/.test(C.ga4Id)) {
+      window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+      gtag("js", new Date()); gtag("config", C.ga4Id); add("https://www.googletagmanager.com/gtag/js?id=" + C.ga4Id); C.ga4Installed = true;
+    }
+    if (C.naverWaId) {
+      window.wcs_add = window.wcs_add || {}; window.wcs_add.wa = C.naverWaId;
+      add("https://wcs.naver.net/wcslog.js").onload = () => { try { if (!window._nasa) window._nasa = {}; if (window.wcs) wcs_do(); } catch (e) {} };
+      C.naverWcsInstalled = true;
+    }
+  })();
+  function naverConversion() { try { if (C.naverWcsInstalled && window.wcs) { const n = {}; n.cnv = wcs.cnv("4", "1"); wcs_do(n); } } catch (e) {} } // 4 = 신청·예약
 
   /* ---------- UTM·유입 보존 ----------
      광고·블로그로 들어온 첫 페이지의 UTM을 30일 동안 기억했다가 상담 접수에 함께 저장합니다.
@@ -176,7 +192,7 @@
     el.innerHTML = S.models.filter((m) => m.main).map((m) => {
       const pr = m.priceFrom ? `${man(m.priceFrom)}부터 <span class="flag dark">${esc(m.priceStatus)}</span>` : `가격 <span class="flag dark">확인 필요</span>`;
       const best = S.promotions.filter((p) => p.model === m.id && active(p)).reduce((a, p) => Math.max(a, headRate(p)), 0);
-      return `<article class="mcard">${slot(m.name + " 이미지", "", m.image, "카탈로그 이미지 · 판매 차량과 색상·사양이 다를 수 있습니다")}
+      return `<article class="mcard">${slot(m.name + " 이미지", "", sm(m.image), "카탈로그 이미지 · 판매 차량과 색상·사양이 다를 수 있습니다")}
         <div class="body"><span class="kind">${esc(m.kind)}</span><h3>${esc(m.name)}</h3><p class="tl">${esc(m.tagline)}</p>
         <p class="trims">${m.trims.map(esc).join(" · ")}</p><p class="price">${pr}</p>
         ${best ? `<p class="price" style="color:var(--gold)">이달 현금+금융 최대 ${best}% <small style="color:var(--mut)">(트림·연식별 상이)</small></p>` : ""}
@@ -189,7 +205,7 @@
   function renderReviews(el, only) {
     if (!el) return;
     const list = S.reviews.filter((r) => !only || r.model === only);
-    el.innerHTML = list.map((r) => `<article class="rcard">${slot(r.car + " " + (r.color || "") + " 실제 출고 사진", "", r.photo)}
+    el.innerHTML = list.map((r) => `<article class="rcard">${slot(r.car + " " + (r.color || "") + " 실제 출고 사진", "", sm(r.photo))}
       <div class="body"><span class="kind" style="font-size:12px;color:var(--gold)">${esc(r.tag)}</span><h3>${esc(r.car)}${r.color ? " · " + esc(r.color) : ""}</h3><p class="meta">${esc(r.region)} · ${esc((r.date || "").replace(/-/g, "."))}</p>
       <ol class="steps">${r.worry ? `<li><b>고민</b>${esc(r.worry)}</li>` : ""}<li><b>선택 이유</b>${esc(r.reason)}</li><li><b>진행</b>${esc(r.process)}</li></ol>
       <div class="acts" style="display:flex;gap:8px;margin-top:auto">${r.link ? `<a class="btn btn-line btn-sm" style="flex:1" href="${esc(r.link)}">이야기 읽기</a>` : ""}<button class="btn btn-gold btn-sm" style="flex:1" data-consult="${r.model}" data-loc="review">${esc(modelName(r.model))} 상담</button></div></div></article>`).join("");
@@ -270,8 +286,13 @@
           const j = await res.json().catch(() => ({}));
           if (!res.ok || j.ok !== true) throw new Error(j.error || "no_confirm"); // 저장 확인(ok:true)이 없으면 완료로 표시하지 않음
           doneIds.add(sid);
-          show("ok", `<b>상담 신청이 접수되었습니다.</b><br>${esc(C.advisorName)} ${esc(C.advisorTitle)}이 확인 후 연락드리겠습니다. (접수번호 ${esc(j.id || sid.slice(0, 8))})`);
+          const rid = esc(j.id || sid.slice(0, 8));
+          show("ok", `<b>상담 신청이 접수되었습니다.</b> (접수번호 ${rid})<br>${esc(C.advisorName)} ${esc(C.advisorTitle)}이 확인 후 <b>${esc(data.phone)}</b>로 연락드리겠습니다.
+            <ol class="fmsg-next"><li>신청 내용 확인 후 전화 또는 문자로 연락</li><li>원하시는 트림·구매 방식으로 견적 비교 안내</li><li>시승·방문 또는 비대면으로 계약 진행</li></ol>
+            <p class="fmsg-sub">더 빨리 받아보고 싶으시면 카카오톡으로 접수번호를 보내주세요.</p>
+            <a class="btn btn-gold btn-sm" href="${esc(C.kakaoUrl)}" target="_blank" rel="noopener" data-loc="form_success">카카오톡으로 바로 문의</a>`);
           track("lead_submit_success", { model: data.model, method: data.method });
+          naverConversion();
           f.reset(); sel.value = data.model; sid = crypto.randomUUID ? crypto.randomUUID() : String(Date.now());
         }
       } catch (err) {
@@ -370,13 +391,13 @@
     el.innerHTML = S.models.filter((m) => m.main).map((m) => {
       const p = bestOf(m.id); if (!p) return "";
       const hr = headRate(p), fin = p.price - discOf(p.price, hr);
-      if (!hr) return `<article class="core"><div class="core-img"><img src="${esc(m.coreImage || m.image)}" alt="${esc(m.name)} 이미지" loading="lazy"></div>
+      if (!hr) return `<article class="core"><div class="core-img"><img src="${esc(sm(m.coreImage || m.image))}" alt="${esc(m.name)} 이미지" loading="lazy"></div>
         <div class="core-body"><div class="core-badges"><span class="my">${esc(myLabel(p))}</span>${(p.better || []).slice(0, 1).map((b) => `<span>${esc(b)}</span>`).join("")}</div>
         <h3>The New ${esc(m.name)}</h3>
         <p class="core-rate"><b style="font-size:22px">재구매 최대 ${loyalty(p)}%</b></p>
         <p class="core-sub">${esc(p.trim)} ${man(p.price)}부터 · 재구매 고객 보증연장</p>
         <button class="core-go" data-quote="${esc(p.model)}|${esc(p.trim)}|${esc(p.my)}">견적 계산하기 →</button></div></article>`;
-      return `<article class="core"><div class="core-img"><img src="${esc(m.coreImage || m.image)}" alt="${esc(m.name)} 이미지" loading="lazy"></div>
+      return `<article class="core"><div class="core-img"><img src="${esc(sm(m.coreImage || m.image))}" alt="${esc(m.name)} 이미지" loading="lazy"></div>
         <div class="core-body"><div class="core-badges"><span class="my">${esc(myLabel(p))}</span>${(p.better || []).slice(0, 1).map((b) => `<span>${esc(b)}</span>`).join("")}</div>
         <h3>${esc(p.trim)}</h3>
         <p class="core-rate"><b>${hr}%</b> <span>${man(fin)}</span></p>
@@ -474,7 +495,7 @@
     if (!el || !S.news) return;
     const list = S.news.filter((n) => inRange(n.validFrom, n.validTo || S.promoMeta.validTo)); // 기간 지난 소식은 자동으로 숨김
     if (!list.length) { const sec = el.closest("section"); if (sec) sec.remove(); return; }
-    el.innerHTML = list.map((n) => `<article class="news">${n.image ? `<div class="news-img"><img src="${esc(n.image)}" alt="${esc(n.title)}" loading="lazy"></div>` : ""}<div class="news-body"><span class="news-tag">${esc(n.tag)}</span><h3>${esc(n.title)}</h3><p>${esc(n.text)}</p><button class="news-go" data-consult="${n.model === "other" ? "other" : n.model}" data-loc="news">상담 받기 →</button></div></article>`).join("");
+    el.innerHTML = list.map((n) => `<article class="news">${n.image ? `<div class="news-img"><img src="${esc(sm(n.image))}" alt="${esc(n.title)}" loading="lazy"></div>` : ""}<div class="news-body"><span class="news-tag">${esc(n.tag)}</span><h3>${esc(n.title)}</h3><p>${esc(n.text)}</p><button class="news-go" data-consult="${n.model === "other" ? "other" : n.model}" data-loc="news">상담 받기 →</button></div></article>`).join("");
   }
   function renderReport(el) {
     if (!el || !S.report) return;
@@ -492,7 +513,7 @@
     if (!el) return;
     el.innerHTML = `<div class="st-msg"><b>전국 어디든, 이세웅 과장이 직접 출고합니다.</b>
       <ul><li>울산·인천 송도까지 직접 찾아가 출고</li><li>카카오톡 상담 하루 만에 계약</li><li>계약 1주일 만에 출고한 사례</li><li>S-Class 재구매·소개 고객</li></ul></div>
-      <div class="st-row">${S.reviews.map((r) => `<a class="st-item" href="#reviews-sec"><img src="${esc(r.photo)}" alt="${esc(r.car)} 실제 출고" loading="lazy"><span>${esc(r.region.split(" · ")[0])} · ${esc(r.car.replace(" 4MATIC", "").replace(" Exclusive", " EX"))}</span></a>`).join("")}</div>`;
+      <div class="st-row">${S.reviews.map((r) => `<a class="st-item" href="#reviews-sec"><img src="${esc(sm(r.photo))}" alt="${esc(r.car)} 실제 출고" loading="lazy"><span>${esc(r.region.split(" · ")[0])} · ${esc(r.car.replace(" 4MATIC", "").replace(" Exclusive", " EX"))}</span></a>`).join("")}</div>`;
   }
 
   /* 무이자 가능 차량 목록 */
@@ -512,7 +533,7 @@
     const down = (p) => ((p.finance.match(/선수금 (\d+)%/) || [])[1] || "");
     const chips = ["all", ...S.models.map((m) => m.id).filter((id) => list.some((p) => p.model === id))];
     const card = (p) => { const hr = headRate(p), fin = p.price ? p.price - discOf(p.price, hr) : 0;
-      return `<article class="zr"><img src="${imgFor(p)}" alt="" loading="lazy">
+      return `<article class="zr"><img src="${sm(imgFor(p))}" alt="" loading="lazy">
         <div class="zr-b"><div class="zr-top"><span class="zr-m">${months(p)} 무이자</span><span class="zr-my">${esc(myLabel(p))}</span></div>
         <h3>${esc(p.trim)}</h3>
         <p class="zr-d">${down(p) ? `선수금 ${down(p)}%` : ""}${hr ? ` · 할인 ${hr}%` : ""}</p>
@@ -536,7 +557,7 @@
   /* ---------- 전기차 사전계약 ---------- */
   function renderEvTeaser(el) {
     if (!el || !S.ev) return;
-    el.innerHTML = S.ev.map((v) => `<a class="evt" href="ev.html#${v.id}"><img src="${esc(v.image)}" alt="${esc(v.name)}" loading="lazy"><div><span>${esc(v.tag)}</span><h3>${esc(v.name.replace("The all-new ", ""))}</h3><p>${esc(v.lead)}</p></div></a>`).join("");
+    el.innerHTML = S.ev.map((v) => `<a class="evt" href="ev.html#${v.id}"><img src="${esc(sm(v.image))}" alt="${esc(v.name)}" loading="lazy"><div><span>${esc(v.tag)}</span><h3>${esc(v.name.replace("The all-new ", ""))}</h3><p>${esc(v.lead)}</p></div></a>`).join("");
   }
   function renderEv(el) {
     if (!el || !S.ev) return;
@@ -566,7 +587,7 @@
   /* ---------- 출고 이야기 목록 (data.js reviews 한 곳에서 관리) ---------- */
   function renderStoryList(el) {
     if (!el) return;
-    el.innerHTML = S.reviews.filter((r) => r.link).map((r) => `<a class="st-card" href="${esc(r.link)}"><img src="${esc(r.thumb || r.photo)}" alt="" loading="lazy"><div><small>${esc(r.date)}</small><b>${esc(r.title || r.car)}</b><p>${esc(r.excerpt || r.reason || "")}</p><span>이야기 읽기 →</span></div></a>`).join("");
+    el.innerHTML = S.reviews.filter((r) => r.link).map((r, i) => `<a class="st-card" href="${esc(r.link)}"><img src="${esc(sm(r.thumb || r.photo))}" alt="" ${i < 2 ? 'fetchpriority="high"' : 'loading="lazy"'}><div><small>${esc(r.date)}</small><b>${esc(r.title || r.car)}</b><p>${esc(r.excerpt || r.reason || "")}</p><span>이야기 읽기 →</span></div></a>`).join("");
   }
 
   /* ---------- 하단 고정 버튼: 키보드가 열리거나 상담 폼을 보고 있을 때는 숨김 ---------- */
@@ -591,7 +612,7 @@
       const best = ps.reduce((a, p) => Math.max(a, headRate(p)), 0), loy = ps.reduce((a, p) => Math.max(a, loyalty(p)), 0);
       const offer = best ? `${ML()} 현금+금융 최대 <b>${best}%</b>` : loy ? `재구매·Trade-in 최대 <b>${loy}%</b>` : ps.length ? "이달 조건 상담" : "";
       return `<button type="button" class="lp-m" data-lp-model="${m.id}" aria-pressed="false">
-        <span class="lp-m-img"><img src="${esc(m.coreImage || m.image)}" alt="" loading="lazy"></span>
+        <span class="lp-m-img"><img src="${esc(sm(m.coreImage || m.image))}" alt="" loading="lazy"></span>
         <span class="lp-m-b"><small>${esc(m.kind)}</small><strong>${esc(m.name)}</strong>
         <em>${m.priceFrom ? `${man(m.priceFrom)}부터 · ${esc(m.priceStatus)}` : "가격 상담"}</em>${offer ? `<span class="lp-m-o">${offer}</span>` : ""}</span>
         <span class="lp-m-ck" aria-hidden="true">✓</span></button>`;
@@ -616,7 +637,20 @@
   function renderLpOffers(el, id) {
     if (!el) return;
     const head = `<div class="basis"><span><b>${esc(S.promoMeta.month)} 혜택</b> · 적용 기간 ${dot(S.promoMeta.validFrom)} ~ ${dot(S.promoMeta.validTo)}</span><span>자료 기준일 ${dot(S.promoMeta.basisDate)} · 가격표 ${PRICE_DATE()} 기준</span></div>`;
-    if (!id) { el.innerHTML = `<p class="lp-empty">위에서 관심 모델을 고르면 이달 혜택과 적용 조건을 바로 보여드립니다.</p>`; return; }
+    if (!id) {
+      /* 모델을 고르기 전: 4개 모델의 이달 대표 조건 요약 → 누르면 해당 모델 선택 */
+      const rows = lpModels().map((m) => {
+        const ps = S.promotions.filter((x) => x.model === m.id && active(x) && x.price);
+        const p = ps.filter((x) => headRate(x)).sort((a, b) => headRate(b) - headRate(a) || (a.stock ? 1 : 0) - (b.stock ? 1 : 0))[0] || bestOf(m.id); // 모델 카드의 '최대 %'와 같은 트림
+        if (!p) return "";
+        const hr = headRate(p);
+        const right = hr && p.price ? `${hr}%<em>${man(p.price - discOf(p.price, hr))}</em>` : loyalty(p) ? `재구매·Trade-in 최대 ${loyalty(p)}%<em>${p.price ? man(p.price) + "부터" : "가격 상담"}</em>` : `조건 상담<em>${p.price ? man(p.price) + "부터" : ""}</em>`;
+        return `<li><button type="button" data-lp-pick="${m.id}"><b>${esc(m.name)}</b><small>${esc(p.trim)} · ${esc(myLabel(p))}${hr ? ` · 현금 ${p.base}%${p.mbm ? `+금융 ${p.mbm}%` : ""}` : ""}</small><strong>${right}</strong></button></li>`;
+      }).join("");
+      el.innerHTML = head + (rows ? `<ul class="lp-sum">${rows}</ul><p class="note" style="color:var(--mut);margin-top:10px">모델을 누르면 트림별 혜택과 적용 조건을 자세히 보여드립니다. 할인 후 금액은 현금+금융 할인 기준(탁송·등록비 별도).</p>` : `<p class="lp-empty">이번 달 혜택을 정리하고 있습니다. 상담으로 현재 조건을 바로 안내해 드립니다.</p>`);
+      $$("[data-lp-pick]", el).forEach((b) => b.addEventListener("click", () => { const c = $(`[data-lp-model="${b.dataset.lpPick}"]`); if (c) c.click(); }));
+      return;
+    }
     const all = S.promotions.filter((p) => p.model === id && active(p));
     if (!all.length) { el.innerHTML = head + `<p class="lp-empty">${esc(modelName(id))}의 이번 달 조건을 정리하고 있습니다. 상담으로 현재 조건을 바로 안내해 드립니다.</p>`; return; }
     /* 할인 큰 순 → 같은 할인이면 27년식 먼저 → 가격 미정은 맨 뒤 */
@@ -649,7 +683,7 @@
   function renderLpStories(el, id) {
     if (!el) return;
     const mine = S.reviews.filter((r) => r.model === id), list = mine.length ? mine.concat(S.reviews.filter((r) => r.model !== id)) : S.reviews;
-    el.innerHTML = list.slice(0, 6).map((r) => `<a class="lp-s" href="${esc(r.link || "stories.html")}"><img src="${esc(r.photo)}" alt="${esc(r.car)} 실제 출고 사진" loading="lazy"><span class="lp-s-b"><small>${esc(r.tag)}</small><b>${esc(r.car)}${r.color ? " · " + esc(r.color) : ""}</b><em>${esc(r.region)} · ${dot(r.date)}</em></span></a>`).join("");
+    el.innerHTML = list.slice(0, 6).map((r) => `<a class="lp-s" href="${esc(r.link || "stories.html")}"><img src="${esc(sm(r.photo))}" alt="${esc(r.car)} 실제 출고 사진" loading="lazy"><span class="lp-s-b"><small>${esc(r.tag)}</small><b>${esc(r.car)}${r.color ? " · " + esc(r.color) : ""}</b><em>${esc(r.region)} · ${dot(r.date)}</em></span></a>`).join("");
     const h = $("#lpStoriesNote"); if (h) h.textContent = mine.length ? `${modelName(id)} 출고 사례 ${mine.length}건을 먼저 보여드립니다.` : "구리·다산·송도·울산까지 직접 상담하고 출고한 사례입니다.";
   }
 

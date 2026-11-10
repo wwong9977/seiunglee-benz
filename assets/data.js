@@ -28,7 +28,10 @@ window.SITE = {
     privacyOwner: "이세웅 (HS더클래스 효성 구리전시장)", // 개인정보 처리 책임자 표기 — 확인 필요
     retentionText: "상담 종료 후 1년 이내 파기 (확인 필요)",
 
-    /* 성과 측정: 실제 설치 전에는 false 유지 */
+    /* 성과 측정: ID를 넣으면 자동으로 연결됩니다. 없는 ID는 넣지 마세요.
+       ga4Id: GA4 측정 ID (예: "G-XXXXXXX") / naverWaId: 네이버 광고 '프리미엄 로그분석' 공통 인증키 (예: "s_xxxxxxxx") */
+    ga4Id: "",
+    naverWaId: "",
     ga4Installed: false,
     metaPixelInstalled: true,  // 2026-11-10 픽셀 2103643920279636 설치
     naverWcsInstalled: false

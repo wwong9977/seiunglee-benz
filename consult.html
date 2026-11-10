@@ -10,7 +10,7 @@
 <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32"><link rel="apple-touch-icon" href="assets/img/favicon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=ddebd5e3">
+<link rel="stylesheet" href="assets/style.css?v=128881d2">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "이세웅", "jobTitle": "메르세데스-벤츠 세일즈 컨설턴트 (과장)", "telephone": "+82-10-4748-9977", "worksFor": {"@type": "Organization", "name": "HS더클래스 효성 구리전시장"}, "areaServed": ["구리", "남양주", "다산", "서울"]}</script>
 <!-- GA4·메타 픽셀: 설치 코드를 여기에 붙이고 data.js의 ga4Installed/metaPixelInstalled를 true로 -->
 <!-- Meta Pixel -->
@@ -29,38 +29,31 @@
 
 <section class="lp-hero" aria-labelledby="lp-h"><div class="wrap">
   <div class="lp-who">
-    <img data-photo="profile" src="assets/img/profile.jpg" alt="이세웅 과장 프로필 사진" width="84" height="84">
-    <div><p class="lp-org">HS더클래스 효성 구리전시장</p><p class="lp-name">메르세데스-벤츠 세일즈 컨설턴트 <b>이세웅 과장</b></p></div>
+    <img data-photo="profile" src="assets/img/profile.jpg" alt="이세웅 과장 프로필 사진" width="56" height="56" fetchpriority="high">
+    <div><p class="lp-name"><b>이세웅 과장</b> 메르세데스-벤츠 세일즈 컨설턴트</p><p class="lp-org">HS더클래스 효성 구리전시장</p></div>
   </div>
-  <h1 id="lp-h">관심 모델의 <span data-promo-m>11월</span> 혜택과 조건,<br>실제 구매 금액으로 비교해 드립니다</h1>
-  <ul class="lp-svc">
-    <li><b>신차 상담</b><span>모델·트림·색상 비교</span></li>
-    <li><b>금융 비교</b><span>현금·할부·리스·렌트</span></li>
-    <li><b>맞춤 견적</b><span>재구매·MOU·법인 조건 반영</span></li>
-    <li><b>전국 출고</b><span>원거리 직접 방문 출고</span></li>
-  </ul>
-  <a class="btn btn-gold lp-start" href="#lp-model-sec">관심 모델 고르기 ↓</a>
+  <h1 id="lp-h">벤츠 <span data-promo-m>11월</span> 혜택,<br>실제 구매가로 비교해 드립니다</h1>
+  <p class="lp-svc1">신차 상담 · 현금·할부·리스·렌트 비교 · 재구매·MOU 조건 반영 · 전국 출고</p>
+  <div class="lp-pick" id="lp-model-sec">
+    <h2 id="lpm-h" class="lp-pick-h">관심 모델을 선택하세요 <small>혜택과 상담 신청서에 바로 반영됩니다</small></h2>
+    <div class="lp-mgrid" id="lpModels" role="group" aria-labelledby="lpm-h"></div>
+  </div>
   <p class="lp-disc">메르세데스-벤츠 코리아 공식 홈페이지가 아닌, 이세웅 과장의 개인 상담 페이지입니다.</p>
 </div></section>
 
-<section class="sec lp-sec" id="lp-model-sec" aria-labelledby="lpm-h"><div class="wrap">
-  <div class="sec-h"><span class="eyebrow">Step 1 · Model</span><h2 id="lpm-h">관심 모델을 선택하세요</h2><p>선택하면 아래 혜택과 상담 신청서에 바로 반영됩니다.</p></div>
-  <div class="lp-mgrid" id="lpModels" role="group" aria-label="관심 모델"></div>
-</div></section>
-
 <section class="sec lp-sec char" id="lp-offer-sec" aria-labelledby="lpo-h"><div class="wrap">
-  <div class="sec-h"><span class="eyebrow">Step 2 · Offers</span><h2 id="lpo-h"><span data-lp-name>관심 모델</span> <span data-promo-m>11월</span> 구매 혜택</h2><p>메르세데스-벤츠 코리아·벤츠 금융 자료에서 확인된 조건만 표시합니다.</p></div>
+  <div class="sec-h"><span class="eyebrow">This Month Offers</span><h2 id="lpo-h"><span data-lp-name>관심 모델</span> <span data-promo-m>11월</span> 구매 혜택</h2><p>메르세데스-벤츠 코리아·벤츠 금융 자료에서 확인된 조건만 표시합니다.</p></div>
   <div id="lpOffers" aria-live="polite"></div>
 </div></section>
 
 <section class="sec lp-sec" id="lp-story-sec" aria-labelledby="lps-h"><div class="wrap">
-  <div class="sec-h"><span class="eyebrow">Step 3 · Delivery Stories</span><h2 id="lps-h">실제 출고 사례</h2><p id="lpStoriesNote">구리·다산·송도·울산까지 직접 상담하고 출고한 사례입니다.</p></div>
+  <div class="sec-h"><span class="eyebrow">Delivery Stories</span><h2 id="lps-h">실제 출고 사례</h2><p id="lpStoriesNote">구리·다산·송도·울산까지 직접 상담하고 출고한 사례입니다.</p></div>
   <div class="lp-slist" id="lpStories"></div>
   <p style="margin-top:14px"><a class="hs-all" href="stories.html">출고 이야기 전체 보기 →</a></p>
 </div></section>
 
 <section class="sec" id="consult" aria-labelledby="consult-h"><div class="wrap">
-  <div class="sec-h"><span class="eyebrow">Step 4 · Consultation</span><h2 id="consult-h"><span data-lp-name>관심 모델</span> 상담 신청</h2><p>필수는 <b>이름·연락처·관심 모델</b> 세 가지뿐입니다. 확인 후 이세웅 과장이 직접 연락드립니다.</p></div>
+  <div class="sec-h"><span class="eyebrow">Consultation</span><h2 id="consult-h"><span data-lp-name>관심 모델</span> 상담 신청</h2><p>필수는 <b>이름·연락처·관심 모델</b> 세 가지뿐입니다. 확인 후 이세웅 과장이 직접 연락드립니다.</p></div>
   <div class="fbox">
     <span class="testtag" id="f-test">테스트 폼 · 실제 접수되지 않습니다</span>
     <form id="leadForm" novalidate>
@@ -108,5 +101,5 @@
   <a class="q" href="#consult" data-loc="mbar_form">상담 신청</a>
 </nav>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="assets/data.js?v=ee896319"></script><script src="assets/mou-list.js?v=843df8ca"></script><script src="assets/app.js?v=7f5c45e7"></script>
+<script src="assets/data.js?v=ac98fc12"></script><script src="assets/mou-list.js?v=843df8ca"></script><script src="assets/app.js?v=237dccb4"></script>
 </body></html>
