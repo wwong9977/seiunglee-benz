@@ -158,7 +158,7 @@
     el.innerHTML = list.map((r) => `<article class="rcard">${slot(r.car + " " + (r.color || "") + " 실제 출고 사진", "", r.photo)}
       <div class="body"><span class="kind" style="font-size:12px;color:var(--gold)">${esc(r.tag)}</span><h3>${esc(r.car)}${r.color ? " · " + esc(r.color) : ""}</h3><p class="meta">${esc(r.region)} · ${esc((r.date || "").replace(/-/g, "."))}</p>
       <ol class="steps">${r.worry ? `<li><b>고민</b>${esc(r.worry)}</li>` : ""}<li><b>선택 이유</b>${esc(r.reason)}</li><li><b>진행</b>${esc(r.process)}</li></ol>
-      <div class="acts" style="display:flex;gap:8px;margin-top:auto">${r.link ? `<a class="btn btn-line btn-sm" style="flex:1" href="${esc(r.link)}" target="_blank" rel="noopener">출고 이야기 전체</a>` : ""}<button class="btn btn-gold btn-sm" style="flex:1" data-consult="${r.model}" data-loc="review">${esc(modelName(r.model))} 상담</button></div></div></article>`).join("");
+      <div class="acts" style="display:flex;gap:8px;margin-top:auto">${r.link ? `<a class="btn btn-line btn-sm" style="flex:1" href="${esc(r.link)}">이야기 읽기</a>` : ""}<button class="btn btn-gold btn-sm" style="flex:1" data-consult="${r.model}" data-loc="review">${esc(modelName(r.model))} 상담</button></div></div></article>`).join("");
   }
   function renderGallery(el) {
     if (!el || !S.eclassGallery) return;
