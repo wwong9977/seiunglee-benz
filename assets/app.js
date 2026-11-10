@@ -84,24 +84,25 @@
     const hr = headRate(p);
     const better = (p.better || []).map((b) => `<span class="flag up">▲ ${esc(b)}</span>`).join(" ");
     const adds = [p.ret ? `재구매 +${p.ret}%` : "", p.trade ? `Trade-in +${p.trade}%` : "", p.conquest ? `타 브랜드 보유 +${p.conquest}%` : ""].filter(Boolean).join(" · ");
-    let calc = "";
-    if (p.price && hr) {
-      const d = discOf(p.price, hr);
-      calc = `<div class="calc">차량가 <b>${man(p.price)}</b>${p.priceNote ? ` <small>(${esc(p.priceNote)})</small>` : ""}<br>현금${p.mbm ? "+금융" : ""} 할인 <b>${man(d)}</b> → <b class="g">${man(p.price - d)}</b><br><small>탁송·등록비 별도 · 월 납입금이 아닌 차량가 기준</small></div>`;
-    } else if (p.price) calc = `<div class="calc">차량가 <b>${man(p.price)}</b>${p.priceNote ? ` <small>(${esc(p.priceNote)})</small>` : ""}</div>`;
+    const d = p.price && hr ? discOf(p.price, hr) : 0;
+    const zero = /무이자/.test(p.finance || "") ? (p.finance.match(/^[^(·]*무이자[^(·]*/) || [""])[0].replace("할부", "").trim() : "";
+    const priceLine = p.price ? (hr ? `<p class="pc-price"><span>${man(p.price)}</span> → <b>${man(p.price - d)}</b></p>` : `<p class="pc-price"><b>${man(p.price)}</b>${p.priceNote ? ` <small>${esc(p.priceNote)}</small>` : ""}</p>`) : `<p class="pc-price"><b>가격 상담</b></p>`;
     return `<article class="pcard">
-      <div class="top"><div><h3>${esc(p.trim)}</h3><div class="my">${esc(modelName(p.model))} · ${esc(myLabel(p))}</div></div></div>
-      ${better ? `<div style="display:flex;flex-wrap:wrap;gap:4px">${better}</div>` : ""}
+      <div class="top"><div><h3>${esc(p.trim)}</h3><div class="my">${esc(modelName(p.model))} · ${esc(myLabel(p))}${zero ? ` · <span class="pc-zero">${esc(zero)}</span>` : ""}</div></div></div>
+      ${better ? `<div class="pc-flags">${better}</div>` : ""}
       <div class="rates" role="group" aria-label="할인 구성">
         <div><small>현금 할인</small><strong>${p.base ? p.base + "%" : "—"}</strong></div>
         <div><small>금융 이용 시${p.mbmNote ? "*" : ""}</small><strong>${p.mbm ? "+" + p.mbm + "%" : "—"}</strong></div>
-        <div class="max"><small>합계</small><strong>${hr ? hr + "%" : "상담"}</strong></div>
+        <div class="max"><small>합계</small><strong>${hr ? hr + "%" : "—"}</strong></div>
       </div>
-      ${p.mbmNote ? `<p class="cond">* ${esc(p.mbmNote)}</p>` : ""}
-      ${adds ? `<div class="cond"><b>해당되면 추가</b> · ${esc(adds)}${p.conquest ? " (재구매와 타 브랜드는 둘 중 하나)" : ""}${p.extraText ? "<br>" + esc(p.extraText) : ""}</div>` : ""}
-      ${p.finance ? `<div class="cond"><b>금융 조건</b> · ${esc(p.finance)}</div>` : ""}
-      ${calc}
-      <button class="btn btn-dark btn-sm" data-quote="${esc(p.model)}|${esc(p.trim)}|${esc(p.my)}">견적 계산 · 상담</button>
+      ${priceLine}
+      <details class="pc-more"><summary>조건·금융 자세히</summary>
+        ${p.mbmNote ? `<p class="cond">* 금융 이용 시: ${esc(p.mbmNote)}</p>` : ""}
+        ${adds ? `<div class="cond"><b>해당되면 추가</b> · ${esc(adds)}${p.conquest ? " (재구매와 타 브랜드는 둘 중 하나)" : ""}${p.extraText ? "<br>" + esc(p.extraText) : ""}</div>` : ""}
+        ${p.finance ? `<div class="cond"><b>금융 조건</b> · ${esc(p.finance)}</div>` : ""}
+        <p class="pc-note">${p.price && hr ? `현금${p.mbm ? "+금융" : ""} 할인 ${man(d)} 기준 · ` : ""}탁송·등록비 별도 · 월 납입금이 아닌 차량가 기준</p>
+      </details>
+      ${p.price ? `<button class="btn btn-dark btn-sm" data-quote="${esc(p.model)}|${esc(p.trim)}|${esc(p.my)}">견적 계산 · 상담</button>` : `<button class="btn btn-dark btn-sm" data-consult="${esc(p.model)}" data-loc="promo">가격·조건 상담</button>`}
     </article>`;
   }
   function promoGroup(list) {

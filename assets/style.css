@@ -562,3 +562,89 @@ body{font-family:var(--sans);letter-spacing:-.02em}
 .nav a{white-space:nowrap}
 .nav{gap:20px}
 @media(min-width:900px) and (max-width:1179px){.nav{display:none}.menu-btn{display:grid}}
+
+/* ===== 카드 공통 (v9) ===== */
+.pc-flags{display:flex;flex-wrap:wrap;gap:4px}
+.pc-zero{color:var(--gold);font-weight:600}
+.pc-price{font-size:14px;color:var(--silver)}
+.pc-price span{text-decoration:line-through;color:var(--mut)}
+.pc-price b{font-size:20px;color:var(--gold);letter-spacing:-.03em}
+.pc-price small{color:var(--mut)}
+.pc-more{border-top:1px solid var(--line);padding-top:8px}
+.pc-more summary{cursor:pointer;font-size:13px;color:var(--silver);list-style:none;display:flex;justify-content:space-between}
+.pc-more summary::-webkit-details-marker{display:none}
+.pc-more summary:after{content:"+";color:var(--gold);font-size:18px;line-height:1}
+.pc-more[open] summary:after{content:"–"}
+.pc-more > *:not(summary){margin-top:8px}
+.pc-note{font-size:11.5px;color:var(--mut)}
+
+/* ===== 모바일 정리 (v9) ===== */
+@media(max-width:699px){
+  .sec{padding:44px 0}
+  .sec-h{margin-bottom:18px}
+  .sec-h h2{font-size:24px}
+  .sec-h p{font-size:14.5px}
+  .eyebrow{font-size:11px}
+  /* 가로 스와이프 목록 */
+  .core-list,.evt-list,#reviews,.news-list{display:flex!important;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;margin:0 -20px;padding:0 20px 6px;scrollbar-width:none}
+  .core-list::-webkit-scrollbar,.evt-list::-webkit-scrollbar,#reviews::-webkit-scrollbar,.news-list::-webkit-scrollbar{display:none}
+  .core,.evt,#reviews .rcard,.news{flex:0 0 82%;scroll-snap-align:start}
+  .core{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  .core-img{aspect-ratio:16/9}
+  .core-body{padding:12px 14px 14px}
+  .swipe-hint{display:block;font-size:12px;color:var(--mut);margin-top:6px}
+  #reviews .rcard .steps{font-size:12.5px}
+  #reviews .rcard .acts .btn{height:38px;font-size:13px}
+  .news:first-child{flex-direction:column}
+  .news-img{aspect-ratio:16/9}
+  /* 출고 띠 */
+  .st-msg b{font-size:18px}
+  .st-msg ul{flex-wrap:nowrap;overflow-x:auto;margin:0 -20px;padding:0 20px;scrollbar-width:none}
+  .st-msg ul::-webkit-scrollbar{display:none}
+  .st-msg li{flex:none;white-space:nowrap}
+  .st-item{flex-basis:42%}
+  /* 첫 화면 */
+  .hs-wrap{padding:12px 0 26px}
+  .hs-body{padding:16px 16px 18px;gap:6px}
+  .hs-amt{font-size:34px}
+  .hs-prices strong{font-size:22px}
+  .hs-ctas .btn{flex:1}
+  /* MOU 카드 3칸 */
+  #mou-body > .grid{grid-template-columns:repeat(3,1fr);gap:8px}
+  .mou-card{padding:12px 10px}
+  .mou-card strong{font-size:22px;margin:2px 0}
+  .mou-card p{display:none}
+  .mou-card small{font-size:11px;margin-top:2px}
+  .mou-card .kind{font-size:11.5px}
+  .mou-box{padding:16px}
+  .mou-rules{font-size:13px}
+  /* 담당자 */
+  .adv{gap:16px}
+  .adv .photo{max-width:none;aspect-ratio:16/10;border-radius:16px}
+  .adv .photo img{object-position:30% 25%}
+  .svc{gap:8px;margin:14px 0}
+  .svc div{padding:11px}
+  /* 혜택 카드 */
+  .pcard{padding:16px;gap:10px}
+  .rates strong{font-size:18px}
+  .pg-h{margin:16px 0 8px}
+  /* 리포트 */
+  .rp li{padding:14px;gap:10px}
+  .rp p{font-size:13.5px}
+  .chks{grid-template-columns:1fr 1fr;gap:8px}
+  .chk{padding:12px}
+  /* 견적 */
+  .qz-in,.qz-out{padding:16px}
+  .qz-opts label{padding:10px;font-size:14px}
+  /* 폼 */
+  .fbox{padding:20px 16px}
+  /* 전기차 */
+  .ev-body{padding:18px 16px}
+  .ev-specs dd{font-size:13px}
+  .ev-steps{grid-template-columns:1fr 1fr}
+  .ev-steps li{padding:12px}
+  /* 하단 */
+  .ftr{padding:28px 0 20px;font-size:12px}
+  .mbar a,.mbar button{height:48px}
+}
+@media(min-width:700px){.swipe-hint{display:none}}
