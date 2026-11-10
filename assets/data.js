@@ -15,15 +15,16 @@ window.SITE = {
     phone: "010-4748-9977",        // 2026-11-10 과장님 확인
     kakaoUrl: "https://pf.kakao.com/_xfxfNFX/chat", // 2026-11-10 과장님 확인
     blogUrl: "",                  // 확인 필요: 네이버 블로그 주소
-    siteUrl: "https://seiunglee.imweb.me",
+    siteUrl: "https://wwong9977.github.io/seiunglee-benz/", // 아임웹 사용 종료 (2026-11-10)
     profilePhoto: "assets/img/profile.jpg",
     logoLight: "assets/img/logo-light.png",
     heroPhoto: "assets/img/hero-gle-coupe.jpg",
     heroCaption: "실제 출고 차량 · GLE 450 4MATIC Coupé AMG Line (구리)",
     regions: ["구리", "남양주", "다산", "서울 동북권", "전국 상담 가능"],
 
-    /* 상담 접수 연결: 비어 있으면 '테스트 모드'로 동작(저장·전송 안 함) */
-    formEndpoint: "",             // 예) Google Apps Script 웹앱 URL
+    /* 상담 접수 연결: 비어 있으면 저장·전송하지 않음 (운영 화면=전화·카카오 안내, 미리보기=테스트 표시)
+       연결 방법: backend/apps-script/SETUP.md → 받은 웹앱 주소(…/exec)를 아래 따옴표 안에 */
+    formEndpoint: "",
     privacyOwner: "이세웅 (HS더클래스 효성 구리전시장)", // 개인정보 처리 책임자 표기 — 확인 필요
     retentionText: "상담 종료 후 1년 이내 파기 (확인 필요)",
 
@@ -35,6 +36,7 @@ window.SITE = {
 
   /* ---------- 2. 가격 기준 ---------- */
   priceBasis: {
+    date: "2026-11-04",           // 가격표 기준일 (화면의 '가격표 OOOO.OO.OO 기준' 표기에 사용)
     label: "차량가: 메르세데스-벤츠 일반 소비자 판매 가격표 (2026.11.04) · 27년식 기준",
     checkedAt: "2026-11-10",
     status: "확인됨",
@@ -88,7 +90,10 @@ window.SITE = {
      ※ 재구매(+Trade-in)와 Conquest는 둘 중 하나만 적용 → 최대값은 큰 쪽으로 자동 계산
      validTo가 지나면 자동으로 '현재 혜택'에서 내려갑니다. */
   promoMeta: {
-    month: "2026년 11월", validFrom: "2026-11-01", validTo: "2026-11-30",
+    month: "2026년 11월",
+    basisDate: "2026-11-02",      // 프로모션 자료 기준일
+    validFrom: "2026-11-01", validTo: "2026-11-30",   // 적용 기간: 이 기간이 지나면 혜택 카드·첫 화면 슬라이드가 자동으로 내려갑니다
+    compareLabel: "10월",         // 'O월보다 좋아진 조건' 표기용 (지난달)
     source: "메르세데스-벤츠 코리아 11월 리테일 프로모션 (2026.11.02) · 벤츠파이낸셜·벤츠모빌리티 11월 금융 프로모션",
     compareWith: "10월 자료 (2026.10.01 기준)",
     common: "화면의 할인은 현금 할인과 금융(MBM) 이용 시 추가 할인만 더한 값입니다. 재구매·Trade-in·타 브랜드 보유·MOU 혜택은 견적 계산기에서 해당되는 것만 골라 더해 보세요. 재고·출고 시점에 따라 달라질 수 있습니다."
@@ -286,42 +291,56 @@ window.SITE = {
     { t:"벤츠 신한카드", d:"카드 종류별 혜택은 구매 시점 기준으로 상담 시 안내" }
   ],
 
-  /* ---------- 5. 출고 후기 (실제 고객 사례만 · 공개 동의 확인) ---------- */
+  /* ---------- 5. 출고 후기 (실제 고객 사례만 · 공개 동의 확인) ----------
+     여기 한 곳만 고치면 홈·출고 이야기 목록·광고 상담 페이지·모델별 후기에 함께 반영됩니다.
+     새 후기 추가: 맨 위에 한 덩어리를 복사해 넣고, 상세 글(story-번호.html)과 사진은 별도로 올립니다. */
   reviews: [
     { model:"s-class", car:"S 450 4MATIC Long Exclusive", color:"블랙", region:"남양주 다산 · 소개 고객", tag:"S-Class 재구매 · 법인리스",
       worry:"오래 타던 S-Class의 교체 시기, 다른 차로는 바꾸기 어렵다는 고민",
       reason:"새로 바뀐 S-Class의 실내 디자인과 익숙한 승차감",
       process:"기존 출고 고객의 소개로 상담 → 법인리스로 진행 → 블랙 컬러 출고",
       photo:"assets/img/rv-s450-black.jpg", date:"2026-10-30",
-      link:"story-175339397.html" },
+      link:"story-175339397.html",
+      title:"S450 4MATIC Long Exclusive 블랙 | S클래스 오너가 다시 S클래스를 선택한 이유",
+      thumb:"assets/img/stories/st-175339397-1.jpg", excerpt:"오늘 소개해 드릴 차량은 메르세데스-벤츠의 플래그십 세단, S450 4MATIC Long Exclusive 블랙 모델입니다.…" },
     { model:"s-class", car:"S 450 4MATIC Long Exclusive", color:"웜그레이", region:"인천 송도 · 소개 고객", tag:"비대면 상담 · 개인사업자 리스",
       worry:"사업 운영 상황과 자금 계획에 맞는 구매 방식 선택",
       reason:"새로 나온 웜그레이 컬러와 S-Class의 품격",
       process:"상담·계약 비대면 진행 → 개인사업자 리스 → 송도로 직접 찾아가 출고",
       photo:"assets/img/rv-s450-grey.jpg", date:"2026-10-30",
-      link:"story-175339181.html" },
+      link:"story-175339181.html",
+      title:"S450 4MATIC Long Exclusive | 새로운 웜그레이 컬러, 인천 송도 출고 이야기",
+      thumb:"assets/img/stories/st-175339181-1.jpg", excerpt:"오늘 소개해 드릴 차량은 메르세데스-벤츠의 플래그십 세단, S450 4MATIC Long Exclusive 모델입니다.…" },
     { model:"e-class", car:"E 200 AMG Line", color:"화이트", region:"울산 · 원거리 고객", tag:"카톡 상담 하루 만에 계약 · 1주일 출고",
       worry:"울산 거주·해외 출장으로 전시장 방문이 어려운 상황",
       reason:"선물용 차량으로 스포티한 AMG Line 디자인",
       process:"카카오톡으로 할인·법인리스 견적 안내 → 하루 만에 계약 → 울산까지 직접 방문 출고",
       photo:"assets/img/rv-e200-ulsan.jpg", date:"2026-10-30",
-      link:"story-175338884.html" },
+      link:"story-175338884.html",
+      title:"AI가 연결해 준 특별한 인연 김*준 대표님, 서울에서 울산까지 직접 찾아간 감동의 출고 이야기",
+      thumb:"assets/img/stories/st-175338884-1.jpg", excerpt:"오늘 소개해 드릴 출고 이야기는 저에게도 오랫동안 기억에 남을 특별한 인연입니다.…" },
     { model:"gle", car:"GLE 450 4MATIC Coupé AMG Line", color:"화이트", region:"구리 · 전시장 방문 고객", tag:"방문부터 1주일 만에 출고",
       worry:"기존 소형 전기차의 주행 가능 거리가 아쉬움",
       reason:"SUV의 여유와 쿠페 디자인을 함께 갖춘 GLE 쿠페",
       process:"전시장 방문 상담 → 프로모션·실구매 견적 비교 → 계약 1주일 만에 출고",
       photo:"assets/img/rv-gle-coupe.jpg", date:"2026-10-30",
-      link:"story-175338499.html" },
+      link:"story-175338499.html",
+      title:"[구리 벤츠 출고 후기] GLE 450 4MATIC Coupe AMG Line, 전시장 방문부터 단 1주일 만의 출고까지!",
+      thumb:"assets/img/stories/st-175338499-1.jpg", excerpt:"오늘 소개해 드릴 차량은 세련된 쿠페 디자인과 SUV의 존재감을 동시에 갖춘 프리미엄 모델,…" },
     { model:"e-class", car:"E 200 AMG Line", color:"블랙", region:"구리 · 전시장 방문 고객", tag:"방문 당일 계약",
       worry:"E-Class 디자인·주요 사양과 구매 조건 비교",
       reason:"AMG Line의 스포티한 외관과 실내",
       process:"전시장 상담 → 당일 계약 → 배정·출고 일정 안내 → 기능 설명 후 인도",
       photo:"assets/img/rv-e200-black.jpg", date:"2026-10-16",
-      link:"story-175125600.html" },
+      link:"story-175125600.html",
+      title:"메르세데스-벤츠 E200 AMG Line 최대할인으로 출고 후기",
+      thumb:"assets/img/stories/st-175125600-1.jpg", excerpt:"오늘 소개해 드릴 차량은 메르세데스-벤츠 E200 AMG Line입니다.…" },
     { model:"gle", car:"GLE 450 d 4MATIC", color:"블랙", region:"구리전시장 출고 준비", tag:"출고 준비 완료",
       worry:"", reason:"블랙 외장·블랙 실내 조합의 프리미엄 SUV", process:"인도 전 외관·실내 점검과 출고 준비",
       photo:"assets/img/rv-gle450d.jpg", date:"2026-10-12",
-      link:"story-175066766.html" }
+      link:"story-175066766.html",
+      title:"벤츠 GLE 450 4MATIC 출고 준비 완료 | 블랙 컬러의 품격 있는 프리미엄 SUV",
+      thumb:"assets/img/stories/st-175066766-1.jpg", excerpt:"Mercedes-Benz GLE 450d 4MATIC | Black…" }
   ],
   /* E-Class 상세 페이지 실제 사진 (구리전시장 출고·출고 준비 차량) */
   eclassGallery: [

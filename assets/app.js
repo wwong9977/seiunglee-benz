@@ -14,6 +14,11 @@
   const myLabel = (p) => (p.my === "MY27" ? "27년식" : p.my === "MY26" ? "26년식" + (p.stock ? " 재고" : "") : p.my);
   const discOf = (price, rate) => Math.floor((price * rate) / 100 / 10000) * 10000;
   const modelName = (id) => (S.models.find((m) => m.id === id) || {}).name || id;
+  const inRange = (from, to) => { const t = todayStr(); return (!from || from <= t) && (!to || t <= to); };
+  const promoOn = () => inRange(S.promoMeta.validFrom, S.promoMeta.validTo);
+  const ML = () => (promoOn() ? Number(S.promoMeta.validFrom.slice(5, 7)) + "월" : "이달"); // 화면의 'O월' 표기 (기간이 지나면 '이달')
+  const dot = (d) => String(d || "").replace(/-/g, ".");
+  const PRICE_DATE = () => dot(S.priceBasis.date || "");
   const store = { get(k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { sessionStorage.setItem(k, v); } catch (e) {} } };
 
   /* ---------- 측정(이벤트) ---------- */
@@ -23,23 +28,45 @@
     const ev = { event: name, ...params, ...utm() };
     window.dataLayer.push(ev);
     try { if (C.ga4Installed && window.gtag) gtag("event", name, params); } catch (e) {}
-    try { if (C.metaPixelInstalled && window.fbq) { if (name === "lead_submit_success") fbq("track", "Lead"); else if (name === "call_click" || name === "kakao_click") fbq("track", "Contact", { method: name === "call_click" ? "phone" : "kakao", ...params }); else fbq("trackCustom", name, params); } } catch (e) {}
+    /* 메타 픽셀: 저장 완료=Lead(표준) / 전화·카카오 클릭=Contact(표준)+call_click·kakao_click(구분용) / 그 외=맞춤 이벤트 */
+    try { if (C.metaPixelInstalled && window.fbq) {
+      if (name === "lead_submit_success") fbq("track", "Lead", { content_name: params.model || "" });
+      else if (name === "call_click" || name === "kakao_click") { fbq("track", "Contact", { content_name: name === "call_click" ? "phone" : "kakao", content_category: params.location || "" }); fbq("trackCustom", name, params); }
+      else fbq("trackCustom", name, params);
+    } } catch (e) {}
     log.unshift(new Date().toLocaleTimeString("ko-KR") + "  " + name + " " + JSON.stringify(params));
     const d = $("#dbg"); if (d) d.innerHTML = "<b>측정 이벤트 로그 (테스트)</b>" + log.slice(0, 30).map((l) => "<div>" + esc(l) + "</div>").join("");
   }
 
-  /* ---------- UTM 보존 ---------- */
+  /* ---------- UTM·유입 보존 ----------
+     광고·블로그로 들어온 첫 페이지의 UTM을 30일 동안 기억했다가 상담 접수에 함께 저장합니다.
+     새 UTM으로 다시 들어오면 그 값으로 바꿉니다(마지막 광고 클릭 기준). 내부 페이지 이동은 무시합니다. */
+  const SRC_KEY = "lead_src", SRC_DAYS = 30;
+  const lstore = {
+    get(k) { try { return localStorage.getItem(k); } catch (e) { return store.get(k); } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch (e) { store.set(k, v); } }
+  };
   function utm() {
-    const raw = store.get("lead_src");
-    return raw ? JSON.parse(raw) : {};
+    try {
+      const o = JSON.parse(lstore.get(SRC_KEY) || "{}");
+      if (o._exp && o._exp < Date.now()) return {};
+      const { _exp, ...rest } = o; return rest;
+    } catch (e) { return {}; }
   }
   (function captureUtm() {
-    const q = new URLSearchParams(location.search), keys = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "gclid", "fbclid", "n_keyword"];
+    const q = new URLSearchParams(location.search);
+    const keys = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "gclid", "fbclid", "n_media", "n_query", "n_keyword", "n_campaign_type"];
     const found = {}; keys.forEach((k) => { if (q.get(k)) found[k] = q.get(k).slice(0, 120); });
-    if (Object.keys(found).length || !store.get("lead_src")) {
-      found.landing = location.pathname.split("/").pop() || "index.html";
-      found.referrer = document.referrer ? new URL(document.referrer).hostname : "";
-      if (Object.keys(found).length > 2 || !store.get("lead_src")) store.set("lead_src", JSON.stringify(found));
+    let ref = ""; try { ref = document.referrer ? new URL(document.referrer).hostname : ""; } catch (e) {}
+    const external = ref && ref !== location.hostname;
+    const prev = utm();
+    if (Object.keys(found).length || !Object.keys(prev).length || (external && !prev.utm_source)) {
+      const rec = Object.keys(found).length ? found : (Object.keys(prev).length && !external ? prev : {});
+      rec.landing = (location.pathname.split("/").pop() || "index.html") + (q.get("model") ? "?model=" + q.get("model").slice(0, 20) : "");
+      rec.referrer = external ? ref : (prev.referrer || "");
+      rec.first_seen = new Date().toISOString();
+      rec._exp = Date.now() + SRC_DAYS * 864e5;
+      lstore.set(SRC_KEY, JSON.stringify(rec));
     }
   })();
 
@@ -51,14 +78,21 @@
   function wireContacts() {
     $$("[data-action=call]").forEach((a) => {
       if (C.phone) { a.href = "tel:" + C.phone.replace(/[^0-9+]/g, ""); a.setAttribute("aria-label", "전화 상담 " + C.phone); }
-      a.addEventListener("click", (e) => { track("call_click", { location: a.dataset.loc || "" }); if (!C.phone) { e.preventDefault(); toast("전화번호 설정 전입니다 · data.js의 phone 값을 입력하세요"); } });
     });
     $$("[data-action=kakao]").forEach((a) => {
       if (C.kakaoUrl) { a.href = C.kakaoUrl; a.target = "_blank"; a.rel = "noopener"; }
-      a.addEventListener("click", (e) => { track("kakao_click", { location: a.dataset.loc || "" }); if (!C.kakaoUrl) { e.preventDefault(); toast("카카오채널 주소 설정 전입니다 · data.js의 kakaoUrl 값을 입력하세요"); } });
     });
     $$("[data-phone-text]").forEach((el) => (el.textContent = C.phone || "전화번호 확인 필요"));
     document.addEventListener("click", (e) => {
+      /* 전화·카카오 클릭 측정: 버튼 종류와 관계없이 tel: / 카카오 채널 링크를 모두 구분해서 기록 */
+      const c = e.target.closest('a[href^="tel:"], a[href*="pf.kakao.com"], [data-action=call], [data-action=kakao]');
+      if (c) {
+        const isCall = c.dataset.action === "call" || /^tel:/.test(c.getAttribute("href") || "");
+        const loc = c.dataset.loc || (c.closest("[data-loc-area]") || {}).dataset?.locArea || "";
+        if (isCall && !C.phone) { e.preventDefault(); toast("전화번호 설정 전입니다 · data.js의 phone 값을 입력하세요"); }
+        else if (!isCall && !C.kakaoUrl) { e.preventDefault(); toast("카카오채널 주소 설정 전입니다 · data.js의 kakaoUrl 값을 입력하세요"); }
+        else track(isCall ? "call_click" : "kakao_click", { location: loc });
+      }
       const q = e.target.closest("[data-quote]"); if (q) { e.preventDefault(); const [m, t, y] = q.dataset.quote.split("|"); openQuote(m, t, y, "card"); return; }
       const b = e.target.closest("[data-consult]"); if (b) { e.preventDefault(); openConsult(b.dataset.consult, b.dataset.loc || ""); }
     });
@@ -118,7 +152,7 @@
     if (!all.length) { el.innerHTML = basis + `<div class="empty">이번 달 혜택을 정리하고 있습니다. 현재 조건은 상담으로 바로 안내해 드립니다.</div>`; return; }
     const tabs = only ? "" : `<div class="tabs" role="tablist">${tabModels.map((m, i) => `<button class="tab" role="tab" aria-selected="${i === 0}" data-tab="${m.id}">${esc(m.name)}</button>`).join("")}</div>`;
     el.innerHTML = basis + tabs + `<div id="promoGrid">${promoGroup(all.filter((p) => p.model === first))}</div><p class="note">※ ${esc(S.promoMeta.common)}</p>` +
-      (S.goldenTime && todayStr() <= S.goldenTime.validTo ? `<p class="note">※ 11월 사은품: ${esc(S.goldenTime.text)}</p>` : "");
+      (S.goldenTime && inRange(S.goldenTime.validFrom, S.goldenTime.validTo) ? `<p class="note">※ ${ML()} 사은품: ${esc(S.goldenTime.text)}</p>` : "");
     $$(".tab", el).forEach((t) => t.addEventListener("click", () => {
       $$(".tab", el).forEach((x) => x.setAttribute("aria-selected", x === t));
       $("#promoGrid", el).innerHTML = promoGroup(all.filter((p) => p.model === t.dataset.tab));
@@ -126,9 +160,9 @@
     }));
   }
   function renderImprovements(el, only) {
-    if (!el || todayStr() > S.promoMeta.validTo) { if (el) el.remove(); return; }
+    if (!el || !promoOn() || !S.improvements.length) { if (el) el.remove(); return; }
     const list = S.improvements.filter((i) => !only || i.model === only);
-    el.innerHTML = `<h3 style="font-size:15px;margin-bottom:10px">10월보다 좋아진 11월 조건</h3><ul style="list-style:none;display:grid;gap:6px">${list.map((i) => `<li style="font-size:14px;display:flex;gap:8px"><span style="color:#8b6a2f">▲</span><span>${esc(i.text)}</span></li>`).join("")}</ul>`;
+    el.innerHTML = `<h3 style="font-size:15px;margin-bottom:10px">${esc(S.promoMeta.compareLabel || "지난달")}보다 좋아진 ${ML()} 조건</h3><ul style="list-style:none;display:grid;gap:6px">${list.map((i) => `<li style="font-size:14px;display:flex;gap:8px"><span style="color:#8b6a2f">▲</span><span>${esc(i.text)}</span></li>`).join("")}</ul>`;
   }
 
   /* ---------- 모델 카드 ---------- */
@@ -174,8 +208,14 @@
     const sel = $("#f-model");
     const og = (label, arr) => `<optgroup label="${label}">${arr.map((m) => `<option value="${m.id}">${esc(m.name)}</option>`).join("")}</optgroup>`;
     sel.innerHTML = `<option value="">선택해 주세요</option>` + og("주요 모델", S.models.filter((m) => m.main)) + og("그 외 모델", S.models.filter((m) => !m.main && !m.ev)) + og("전기차 사전계약", S.models.filter((m) => m.ev)) + `<option value="other">기타 모델 / 미정</option>`;
-    if (defaultModel) sel.value = defaultModel;
-    $("#f-test").hidden = !!C.formEndpoint || LIVE();
+    if (defaultModel && sel.querySelector(`option[value="${CSS.escape(defaultModel)}"]`)) sel.value = defaultModel;
+    /* 접수 연결 상태 표시: 연결 전이면 고객에게도 분명히 알림 (운영=전화·카카오 안내 / 미리보기=테스트 표시) */
+    const tag = $("#f-test");
+    if (tag) {
+      tag.hidden = !!C.formEndpoint;
+      if (!C.formEndpoint && LIVE()) { tag.textContent = "온라인 접수 연결 준비 중 · 지금은 전화·카카오 상담이 가장 빠릅니다"; tag.classList.add("pending"); }
+      else if (!C.formEndpoint) tag.textContent = "테스트 모드 · 입력 내용이 저장·전송되지 않습니다";
+    }
     $$("[data-cfg=privacyOwner]").forEach((e) => (e.textContent = C.privacyOwner));
     $$("[data-cfg=retention]").forEach((e) => (e.textContent = C.retentionText));
     const started = Date.now();
@@ -204,11 +244,12 @@
       if (!validate()) return;
       if ($("#f-hp").value || Date.now() - started < 2500) { show("err", "잠시 후 다시 시도해 주세요."); return; } // 스팸 방지
       if (doneIds.has(sid)) { show("ok", "이미 접수된 상담입니다. 추가 문의는 전화·카카오로 연락 주세요."); return; }
+      const val = (id) => ((($("#" + id) || {}).value) || "").trim();
       const data = {
-        submission_id: sid, name: $("#f-name").value.trim(), phone: phoneEl.value, model: sel.value,
+        submission_id: sid, name: val("f-name"), phone: phoneEl.value, model: sel.value,
         method: (f.querySelector("[name=method]:checked") || {}).value || "", timing: (f.querySelector("[name=timing]:checked") || {}).value || "",
-        message: $("#f-msg").value.trim().slice(0, 1000), company: ($("#f-company") || {}).value || "", agree_privacy: true, agree_marketing: $("#f-mkt").checked,
-        page: location.pathname.split("/").pop() || "index.html", submitted_at: new Date().toISOString(), ...utm()
+        message: val("f-msg").slice(0, 1000), company: val("f-company").slice(0, 60), agree_privacy: true, agree_marketing: !!($("#f-mkt") || {}).checked,
+        hp: val("f-hp"), page: location.pathname.split("/").pop() || "index.html", submitted_at: new Date().toISOString(), ...utm()
       };
       const btn = $("#f-submit"); busy = true; btn.disabled = true; btn.textContent = "접수 중…";
       try {
@@ -222,18 +263,22 @@
           show("test", `<b>테스트 모드 — 실제로 저장·전송되지 않았습니다.</b><br>연결 후 아래 내용이 관리 시트에 저장됩니다.<pre>${esc(JSON.stringify(preview, null, 2))}</pre>`);
           track("lead_submit_test", { model: data.model });
         } else {
-          const ctrl = new AbortController(); const to = setTimeout(() => ctrl.abort(), 12000);
-          const res = await fetch(C.formEndpoint, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(data), signal: ctrl.signal });
-          clearTimeout(to);
+          const ctrl = new AbortController(); const to = setTimeout(() => ctrl.abort(), 15000);
+          let res;
+          try { res = await fetch(C.formEndpoint, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(data), signal: ctrl.signal, redirect: "follow" }); }
+          finally { clearTimeout(to); }
           const j = await res.json().catch(() => ({}));
-          if (!res.ok || !j.ok) throw new Error(j.error || "저장 확인 실패");
+          if (!res.ok || j.ok !== true) throw new Error(j.error || "no_confirm"); // 저장 확인(ok:true)이 없으면 완료로 표시하지 않음
           doneIds.add(sid);
           show("ok", `<b>상담 신청이 접수되었습니다.</b><br>${esc(C.advisorName)} ${esc(C.advisorTitle)}이 확인 후 연락드리겠습니다. (접수번호 ${esc(j.id || sid.slice(0, 8))})`);
           track("lead_submit_success", { model: data.model, method: data.method });
           f.reset(); sel.value = data.model; sid = crypto.randomUUID ? crypto.randomUUID() : String(Date.now());
         }
       } catch (err) {
-        show("err", `<b>접수가 완료되지 않았습니다.</b> 입력하신 내용은 그대로 남아 있습니다.<br><button type="button" class="btn btn-dark btn-sm" id="retry" style="margin-top:8px">다시 시도</button> 또는 전화·카카오로 문의해 주세요.`);
+        const code = String((err && err.message) || err);
+        const why = { invalid_phone: "휴대폰 번호를 다시 확인해 주세요.", invalid_name: "이름을 다시 확인해 주세요.", invalid_model: "관심 모델을 다시 선택해 주세요.", consent_required: "개인정보 수집·이용 동의가 필요합니다.", busy: "접수가 몰리고 있습니다. 잠시 후 다시 시도해 주세요." }[code]
+          || (err && err.name === "AbortError" ? "응답이 늦어지고 있습니다." : "일시적인 연결 문제일 수 있습니다.");
+        show("err", `<b>접수가 완료되지 않았습니다.</b> ${esc(why)} 입력하신 내용은 그대로 남아 있습니다.<br><button type="button" class="btn btn-dark btn-sm" id="retry" style="margin-top:8px">다시 시도</button> <a class="btn btn-line btn-sm" style="margin-top:8px" href="tel:${esc(C.phone.replace(/[^0-9]/g, ""))}" data-loc="form_error">전화 ${esc(C.phone)}</a> <a class="btn btn-line btn-sm" style="margin-top:8px" href="${esc(C.kakaoUrl)}" target="_blank" rel="noopener">카카오 상담</a>`);
         $("#retry").addEventListener("click", () => f.requestSubmit());
         track("lead_submit_error", { reason: String(err.message || err).slice(0, 60) });
       } finally { busy = false; btn.disabled = false; btn.textContent = "상담 신청하기"; }
@@ -299,11 +344,11 @@
           <p class="hs-cond">현금 ${p.base}%${p.mbm ? ` + 금융 이용 시 ${p.mbm}%` : ""} = ${hr}%${loyalty(p) ? ` · 재구매·Trade-in 등은 견적 계산기에서 추가` : ""}</p>
           <div class="hs-prices"><div><small>차량가</small><s>${man(p.price)}</s></div><div class="fin"><small>할인 후</small><strong>${man(p.price - d)}</strong></div></div>
           ${p.finance ? `<p class="hs-fin"><small>금융</small> ${esc(p.finance.split("(")[0].replace(/ 또는.*/, "").trim())}</p>` : ""}
-          <p class="hs-note">가격표 2026.11.04 기준 · 탁송·등록비 별도 · 최종 금액은 견적서로 확정</p>
+          <p class="hs-note">가격표 ${PRICE_DATE()} 기준 · 탁송·등록비 별도 · 최종 금액은 견적서로 확정</p>
         </div></article>`; }).join("")}</div>
       <div class="hs-ctrl"><div class="hs-dots" role="tablist">${slides.map((_, i) => `<button type="button" role="tab" aria-label="${i + 1}번 혜택" aria-selected="${i === 0}" data-i="${i}"></button>`).join("")}</div>
       <div class="hs-arrows"><button type="button" class="hs-prev" aria-label="이전 혜택">‹</button><button type="button" class="hs-next" aria-label="다음 혜택">›</button></div></div>
-      <div class="hs-ctas"><button class="btn btn-gold" id="hsCta">이 차로 견적 받기 →</button><a class="hs-all" href="promotion.html">11월 혜택 전체 보기 →</a></div>`;
+      <div class="hs-ctas"><button class="btn btn-gold" id="hsCta">이 차로 견적 받기 →</button><a class="hs-all" href="promotion.html">${ML()} 혜택 전체 보기 →</a></div>`;
     const tr = $("#hsTrack", el), dots = $$(".hs-dots button", el); let cur = 0;
     const go = (i) => { cur = (i + slides.length) % slides.length; tr.scrollTo({ left: tr.clientWidth * cur, behavior: "smooth" }); };
     tr.addEventListener("scroll", () => { const i = Math.round(tr.scrollLeft / tr.clientWidth); if (i !== cur) cur = i; dots.forEach((d, k) => d.setAttribute("aria-selected", k === cur)); }, { passive: true });
@@ -366,7 +411,7 @@
         <p class="qz-break" id="q-break"></p>
         <p class="qz-fin" id="q-fin"></p>
         <button class="btn btn-gold" id="q-go" type="button" style="width:100%">이 조건으로 견적 받기</button>
-        <p class="qz-note">가격표 2026.11.04 · 11월 조건 기준 예상치입니다. 탁송·등록비·보험은 별도이며, 재구매·Trade-in·타 브랜드·MOU는 서류 확인 후 확정됩니다. 재구매와 타 브랜드 혜택은 함께 받을 수 없습니다.</p>
+        <p class="qz-note">가격표 ${PRICE_DATE()} · ${ML()} 조건 기준 예상치입니다. 탁송·등록비·보험은 별도이며, 재구매·Trade-in·타 브랜드·MOU는 서류 확인 후 확정됩니다. 재구매와 타 브랜드 혜택은 함께 받을 수 없습니다.</p>
       </div></div>`;
     const mSel = $("#q-model"), tSel = $("#q-trim");
     const fillTrims = (model, pick) => {
@@ -427,10 +472,13 @@
 
   function renderNews(el) {
     if (!el || !S.news) return;
-    el.innerHTML = S.news.map((n) => `<article class="news">${n.image ? `<div class="news-img"><img src="${esc(n.image)}" alt="${esc(n.title)}" loading="lazy"></div>` : ""}<div class="news-body"><span class="news-tag">${esc(n.tag)}</span><h3>${esc(n.title)}</h3><p>${esc(n.text)}</p><button class="news-go" data-consult="${n.model === "other" ? "other" : n.model}" data-loc="news">상담 받기 →</button></div></article>`).join("");
+    const list = S.news.filter((n) => inRange(n.validFrom, n.validTo || S.promoMeta.validTo)); // 기간 지난 소식은 자동으로 숨김
+    if (!list.length) { const sec = el.closest("section"); if (sec) sec.remove(); return; }
+    el.innerHTML = list.map((n) => `<article class="news">${n.image ? `<div class="news-img"><img src="${esc(n.image)}" alt="${esc(n.title)}" loading="lazy"></div>` : ""}<div class="news-body"><span class="news-tag">${esc(n.tag)}</span><h3>${esc(n.title)}</h3><p>${esc(n.text)}</p><button class="news-go" data-consult="${n.model === "other" ? "other" : n.model}" data-loc="news">상담 받기 →</button></div></article>`).join("");
   }
   function renderReport(el) {
     if (!el || !S.report) return;
+    if (!inRange(S.report.validFrom || S.promoMeta.validFrom, S.report.validTo || S.promoMeta.validTo)) { const sec = el.closest("section"); if (sec) sec.remove(); return; } // 지난달 구매전략은 숨김
     const R = S.report;
     el.innerHTML = `<ol class="rp">${R.points.map((x, i) => `<li><span class="rp-n">${String(i + 1).padStart(2, "0")}</span><div><h3>${esc(x.h)}</h3><p>${esc(x.p)}</p></div></li>`).join("")}</ol>`;
   }
@@ -509,6 +557,102 @@
     }));
   }
 
+  /* ---------- 'O월' 표기 자동 변경: <span data-promo-m>11월</span> → 현재 혜택 월 (기간이 지나면 '이달') ---------- */
+  function applyMonth() {
+    $$("[data-promo-m]").forEach((e) => (e.textContent = ML()));
+    $$("[data-promo-compare]").forEach((e) => (e.textContent = S.promoMeta.compareLabel || "지난달"));
+  }
+
+  /* ---------- 출고 이야기 목록 (data.js reviews 한 곳에서 관리) ---------- */
+  function renderStoryList(el) {
+    if (!el) return;
+    el.innerHTML = S.reviews.filter((r) => r.link).map((r) => `<a class="st-card" href="${esc(r.link)}"><img src="${esc(r.thumb || r.photo)}" alt="" loading="lazy"><div><small>${esc(r.date)}</small><b>${esc(r.title || r.car)}</b><p>${esc(r.excerpt || r.reason || "")}</p><span>이야기 읽기 →</span></div></a>`).join("");
+  }
+
+  /* ---------- 하단 고정 버튼: 키보드가 열리거나 상담 폼을 보고 있을 때는 숨김 ---------- */
+  function initMbar() {
+    const bar = $(".mbar"); if (!bar) return;
+    const fbox = $("#consult .fbox"); let typing = false, formVis = false;
+    const upd = () => document.body.classList.toggle("mbar-off", typing || formVis);
+    document.addEventListener("focusin", (e) => { if (e.target.matches("input:not([type=checkbox]):not([type=radio]), textarea, select")) { typing = true; upd(); } });
+    document.addEventListener("focusout", () => setTimeout(() => { const a = document.activeElement; typing = !!(a && a.matches && a.matches("input:not([type=checkbox]):not([type=radio]), textarea, select")); upd(); }, 120));
+    if (window.visualViewport) visualViewport.addEventListener("resize", () => { const kb = visualViewport.height < window.innerHeight * 0.72; if (kb !== typing && kb) { typing = true; upd(); } });
+    if (fbox && "IntersectionObserver" in window) new IntersectionObserver((en) => { formVis = en[0].isIntersecting; upd(); }, { rootMargin: "0px 0px -80px 0px" }).observe(fbox);
+  }
+
+  /* ---------- 광고 상담 페이지 (consult.html) ---------- */
+  function lpModels() { return S.models.filter((m) => m.main); }
+  function renderLanding() {
+    const pick = $("#lpModels"); if (!pick) return;
+    const qm = new URLSearchParams(location.search).get("model");
+    let cur = lpModels().some((m) => m.id === qm) ? qm : "";
+    pick.innerHTML = lpModels().map((m) => {
+      const ps = S.promotions.filter((p) => p.model === m.id && active(p));
+      const best = ps.reduce((a, p) => Math.max(a, headRate(p)), 0), loy = ps.reduce((a, p) => Math.max(a, loyalty(p)), 0);
+      const offer = best ? `${ML()} 현금+금융 최대 <b>${best}%</b>` : loy ? `재구매·Trade-in 최대 <b>${loy}%</b>` : ps.length ? "이달 조건 상담" : "";
+      return `<button type="button" class="lp-m" data-lp-model="${m.id}" aria-pressed="false">
+        <span class="lp-m-img"><img src="${esc(m.coreImage || m.image)}" alt="" loading="lazy"></span>
+        <span class="lp-m-b"><small>${esc(m.kind)}</small><strong>${esc(m.name)}</strong>
+        <em>${m.priceFrom ? `${man(m.priceFrom)}부터 · ${esc(m.priceStatus)}` : "가격 상담"}</em>${offer ? `<span class="lp-m-o">${offer}</span>` : ""}</span>
+        <span class="lp-m-ck" aria-hidden="true">✓</span></button>`;
+    }).join("");
+    const select = (id, how) => {
+      cur = id;
+      $$("[data-lp-model]", pick).forEach((b) => b.setAttribute("aria-pressed", b.dataset.lpModel === id));
+      const sel = $("#f-model"); if (sel && id) sel.value = id;
+      const fm = $("#f-model"); if (fm) { const w = fm.closest(".fld"); if (w) w.classList.remove("invalid"); fm.setAttribute("aria-invalid", "false"); }
+      renderLpOffers($("#lpOffers"), id); renderLpStories($("#lpStories"), id);
+      $$("[data-lp-name]").forEach((e) => (e.textContent = id ? modelName(id) : "관심 모델"));
+      if (how) track("lp_model_select", { model: id, how });
+    };
+    pick.addEventListener("click", (e) => {
+      const b = e.target.closest("[data-lp-model]"); if (!b) return;
+      select(b.dataset.lpModel, "card");
+      const t = $("#lp-offer-sec"); if (t) t.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    const sel = $("#f-model"); if (sel) sel.addEventListener("change", () => { if (sel.value !== cur && lpModels().some((m) => m.id === sel.value)) select(sel.value, "form"); });
+    select(cur, qm ? "url" : "");
+  }
+  function renderLpOffers(el, id) {
+    if (!el) return;
+    const head = `<div class="basis"><span><b>${esc(S.promoMeta.month)} 혜택</b> · 적용 기간 ${dot(S.promoMeta.validFrom)} ~ ${dot(S.promoMeta.validTo)}</span><span>자료 기준일 ${dot(S.promoMeta.basisDate)} · 가격표 ${PRICE_DATE()} 기준</span></div>`;
+    if (!id) { el.innerHTML = `<p class="lp-empty">위에서 관심 모델을 고르면 이달 혜택과 적용 조건을 바로 보여드립니다.</p>`; return; }
+    const all = S.promotions.filter((p) => p.model === id && active(p));
+    if (!all.length) { el.innerHTML = head + `<p class="lp-empty">${esc(modelName(id))}의 이번 달 조건을 정리하고 있습니다. 상담으로 현재 조건을 바로 안내해 드립니다.</p>`; return; }
+    /* 할인 큰 순 → 같은 할인이면 27년식 먼저 → 가격 미정은 맨 뒤 */
+    const score = (p) => (p.price ? 0 : 1e4) - headRate(p) * 10 + (p.stock ? 1 : 0);
+    const sorted = [...all].sort((a, b) => score(a) - score(b) || (a.price || 0) - (b.price || 0));
+    const row = (p) => {
+      const hr = headRate(p), d = p.price && hr ? discOf(p.price, hr) : 0;
+      const rate = hr ? `현금 ${p.base}%${p.mbm ? ` + 금융 ${p.mbm}%` : ""}` : loyalty(p) ? `재구매·Trade-in 최대 ${loyalty(p)}%` : "조건 상담";
+      const zero = (p.finance || "").match(/(24·36개월|24개월) 무이자 할부 \(선수금 (\d+)%\)/);
+      return `<li class="lp-o"><div class="lp-o-h"><b>${esc(p.trim)}</b><span class="lp-my${p.stock ? " stock" : ""}">${esc(myLabel(p))}</span></div>
+        <div class="lp-o-r"><span>${esc(rate)}</span>${p.price ? (d ? `<span class="lp-o-p"><s>${man(p.price)}</s> <strong>${man(p.price - d)}</strong></span>` : `<span class="lp-o-p"><strong>${man(p.price)}</strong></span>`) : `<span class="lp-o-p"><strong>가격 상담</strong></span>`}</div>
+        ${p.finance ? `<p class="lp-o-f">${zero ? `<em>${zero[1]} 무이자 · 선수금 ${zero[2]}%</em> ` : ""}${esc(zero ? p.finance.replace(zero[0], "").replace(/^\s*·\s*/, "") : p.finance)}</p>` : ""}${p.extraText ? `<p class="lp-o-f">${esc(p.extraText)}</p>` : ""}</li>`;
+    };
+    const max = 4;
+    const ret = Math.max(...all.map((p) => p.ret || 0)), trade = Math.max(...all.map((p) => p.trade || 0)), con = Math.max(...all.map((p) => p.conquest || 0));
+    const conds = [
+      all.some((p) => headRate(p)) ? "할인 금액은 <b>현금 할인 + 벤츠 금융(MBM) 이용 시 추가 할인</b>을 더한 차량가 기준입니다. 금융을 이용하지 않으면 현금 할인만 적용됩니다." : "이번 달 현금·금융 할인은 없으며, 아래 재구매·보유 혜택이 해당되면 더해집니다.",
+      ret || trade ? `기존 벤츠 보유 시 재구매 최대 +${ret}%${trade ? `, 인증중고차 매각(Trade-in) +${trade}%` : ""}${con ? ` · 타 프리미엄 브랜드 보유 +${con}% (재구매와 둘 중 하나)` : ""} — 트림별로 다르며 견적 시 확인` : "",
+      S.mou ? `MOU 제휴사 임직원·회원 ${esc(S.mou.cards[0].rate)} (재직·회원 증빙 후 확정)` : "",
+      /무이자/.test(all.map((p) => p.finance).join(" ")) ? "무이자 할부는 표시된 선수금 조건이 있으며, 금융 심사에 따라 이용이 제한될 수 있습니다." : "",
+      S.goldenTime && inRange(S.goldenTime.validFrom, S.goldenTime.validTo) ? esc(S.goldenTime.text) : "",
+      "26년식 재고 조건은 재고 소진 시 종료됩니다. 탁송·등록비는 별도이며 최종 금액은 견적서로 확정됩니다."
+    ].filter(Boolean);
+    el.innerHTML = head + `<ul class="lp-olist">${sorted.slice(0, max).map(row).join("")}</ul>` +
+      (sorted.length > max ? `<details class="lp-more"><summary>${esc(modelName(id))} 트림 ${sorted.length - max}개 더 보기</summary><ul class="lp-olist">${sorted.slice(max).map(row).join("")}</ul></details>` : "") +
+      `<div class="lp-cond"><h3>적용 조건</h3><ul>${conds.map((c) => `<li>${c}</li>`).join("")}</ul><p class="lp-src">출처: ${esc(S.promoMeta.source)}</p></div>` +
+      `<button type="button" class="btn btn-gold lp-go" data-lp-go>${esc(modelName(id))} 견적 상담 신청 ↓</button>`;
+    $("[data-lp-go]", el).addEventListener("click", () => openConsult(id, "lp_offer"));
+  }
+  function renderLpStories(el, id) {
+    if (!el) return;
+    const mine = S.reviews.filter((r) => r.model === id), list = mine.length ? mine.concat(S.reviews.filter((r) => r.model !== id)) : S.reviews;
+    el.innerHTML = list.slice(0, 6).map((r) => `<a class="lp-s" href="${esc(r.link || "stories.html")}"><img src="${esc(r.photo)}" alt="${esc(r.car)} 실제 출고 사진" loading="lazy"><span class="lp-s-b"><small>${esc(r.tag)}</small><b>${esc(r.car)}${r.color ? " · " + esc(r.color) : ""}</b><em>${esc(r.region)} · ${dot(r.date)}</em></span></a>`).join("");
+    const h = $("#lpStoriesNote"); if (h) h.textContent = mine.length ? `${modelName(id)} 출고 사례 ${mine.length}건을 먼저 보여드립니다.` : "구리·다산·송도·울산까지 직접 상담하고 출고한 사례입니다.";
+  }
+
   /* ---------- 시작 ---------- */
   window.addEventListener("DOMContentLoaded", () => {
     const page = document.body.dataset.page, only = document.body.dataset.model || "";
@@ -531,8 +675,13 @@
     $$("[data-photo=profile]").forEach((i) => { if (C.profilePhoto) i.src = C.profilePhoto; });
     renderFaq($("#faq"), page === "e-class" ? S.eclass.faq : S.faq);
     if (page === "e-class") renderTrims();
-    initForm(only);
+    renderStoryList($("#storyList"));
+    const qModel = new URLSearchParams(location.search).get("model") || "";
+    initForm(only || qModel);
+    renderLanding();
+    applyMonth();
     wireContacts();
+    initMbar();
     track("page_view", { page });
   });
 
