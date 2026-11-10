@@ -43,34 +43,43 @@ window.SITE = {
 
   /* ---------- 3. 모델 ---------- */
   models: [
+    /* main:true = 홈 핵심 차종·차종 가이드에 표시 / ev:true = 전기차 사전계약 */
     {
-      id: "e-class", image: "assets/img/cat-e-pair.jpg", coreImage: "assets/img/cat-e-side.jpg", name: "E-Class", kind: "세단", page: "e-class.html",
+      id: "e-class", main: true, image: "assets/img/cat-e-pair.jpg", coreImage: "assets/img/cat-e-side.jpg", name: "E-Class", kind: "세단", page: "e-class.html",
       tagline: "가장 많이 비교되는 비즈니스 세단",
       trims: ["E 200 Exclusive", "E 200 AMG Line", "E 300 4MATIC", "E 350 e 4MATIC", "E 450 4MATIC"],
       priceFrom: 77500000, priceStatus: "27년식",
       fit: "출퇴근·업무 이동이 많고, 편안함과 품격을 함께 원하는 분"
     },
     {
-      id: "s-class", image: "assets/img/cat-s-front.jpg", coreImage: "assets/img/cat-s-black.jpg", name: "S-Class", kind: "세단", page: "",
-      tagline: "플래그십 세단 · 법인·재구매 상담",
-      trims: ["S 350 d", "S 450 4MATIC", "S 500 4MATIC", "S 580 4MATIC"],
+      id: "s-class", main: true, image: "assets/img/cat-s-front.jpg", coreImage: "assets/img/cat-s-amg.jpg", name: "S-Class", kind: "세단", page: "",
+      tagline: "The New S-Class 27년식 · 재구매·법인 상담",
+      trims: ["S 350 d 4MATIC", "S 450 4MATIC", "S 450 4MATIC Long", "S 500 4MATIC Long", "S 580 4MATIC Long"],
       priceFrom: 154000000, priceStatus: "27년식",
       fit: "뒷좌석 탑승이 잦은 대표·임원, 장거리 이동이 많은 분"
     },
     {
-      id: "glc", image: "assets/img/cat-glc-pair.jpg", coreImage: "assets/img/cat-glc-coupe.jpg", name: "GLC", kind: "SUV · Coupé", page: "",
+      id: "glc", main: true, image: "assets/img/cat-glc-pair.jpg", coreImage: "assets/img/cat-glc-coupe.jpg", name: "GLC", kind: "SUV · Coupé", page: "",
       tagline: "도심형 중형 SUV · SUV와 쿠페 선택",
       trims: ["GLC 220 d 4MATIC", "GLC 300 4MATIC", "GLC 300 4MATIC Coupé"],
       priceFrom: 82200000, priceStatus: "27년식",
       fit: "가족 1~3인, 도심 주행 위주, 적당한 차체를 원하는 분"
     },
     {
-      id: "gle", image: "assets/img/cat-gle-suv.jpg", coreImage: "assets/img/cat-gle-coupe-rear.jpg", name: "GLE", kind: "SUV · Coupé", page: "",
+      id: "gle", main: true, image: "assets/img/cat-gle-suv.jpg", coreImage: "assets/img/cat-gle-coupe-rear.jpg", name: "GLE", kind: "SUV · Coupé", page: "",
       tagline: "넉넉한 공간의 대형 SUV",
-      trims: ["GLE 300 d 4MATIC", "GLE 450 4MATIC", "GLE 450 4MATIC Coupé"],
-      priceFrom: 119200000, priceStatus: "26년식",
+      trims: ["GLE 300 d 4MATIC", "GLE 350 4MATIC", "GLE 450 4MATIC", "GLE 450 4MATIC Coupé"],
+      priceFrom: 118000000, priceStatus: "26년식",
       fit: "가족 여행·장거리, 넉넉한 2열과 적재공간이 필요한 분"
-    }
+    },
+    { id: "c-class", name: "C-Class", kind: "세단", image: "assets/img/cat-c.jpg" },
+    { id: "glb", name: "GLB", kind: "SUV", image: "assets/img/cat-glb.jpg" },
+    { id: "gls", name: "GLS", kind: "대형 SUV", image: "assets/img/cat-gls.jpg" },
+    { id: "eq", name: "EQE · EQS", kind: "전기차", image: "assets/img/cat-eqs.jpg" },
+    { id: "g-class", name: "G-Class", kind: "SUV", image: "assets/img/cat-g.jpg" },
+    { id: "glc-ev", ev: true, name: "GLC electric", kind: "전기 SUV", image: "assets/img/cat-glc-ev.jpg" },
+    { id: "glb-ev", ev: true, name: "GLB electric", kind: "전기 SUV", image: "assets/img/cat-glb-ev.jpg" },
+    { id: "cla-ev", ev: true, name: "CLA electric", kind: "전기 세단", image: "assets/img/cat-cla-ev.jpg" }
   ],
 
   /* ---------- 4. 이달의 프로모션 ----------
@@ -109,17 +118,17 @@ window.SITE = {
     { model:"e-class", trim:"E 450 4MATIC AMG Line", my:"MY26", stock:true, price:116000000, base:11, mbm:0, ret:1, trade:1, conquest:0, finance:"일반할부 연 7.43% (60개월·선수금 30%)", better:[] },
     { model:"e-class", trim:"E 450 4MATIC Exclusive", my:"MY26", stock:true, price:129600000, base:11, mbm:0, ret:1, trade:1, conquest:0, finance:"일반할부 연 7.43% (60개월·선수금 30%)", better:[] },
 
-    /* ----- S-Class ----- */
-    { model:"s-class", trim:"The New S-Class (S 350 d · S 450 · S 500 · S 580)", my:"MY27", price:154000000, priceNote:"S 350 d 4MATIC 기준", base:0, mbm:0, ret:2, trade:1, conquest:0,
-      finance:"일반할부 연 7.43% · 재구매 고객 운용리스 특별 조건 (상담)",
-      extraText:"재구매+ : 보유 E-Class 이상 고객 대상, 재구매 횟수에 따라 보증연장 최대 +2년/+7만km · 타 프리미엄 브랜드 보유 고객 보증연장 +1년/+3만km",
-      better:["재구매+ 프로그램 신설","타 브랜드 보유 고객 보증연장 신설"] },
-    { model:"s-class", trim:"S 450 4MATIC Long", my:"MY26", stock:true, price:195000000, base:10, mbm:0, ret:2, trade:1, conquest:0, finance:"일반할부 연 7.43% (60개월·선수금 30%)", better:[] },
-    { model:"s-class", trim:"S 500 4MATIC Long", my:"MY26", stock:true, price:217000000, base:10, mbm:0, ret:2, trade:1, conquest:0, finance:"일반할부 연 7.43% (60개월·선수금 30%)", better:[] },
-    { model:"s-class", trim:"S 580 4MATIC Long", my:"MY26", stock:true, price:260000000, base:10, mbm:0, ret:2, trade:1, conquest:0, finance:"일반할부 연 7.43% (60개월·선수금 30%)", better:[] },
-    { model:"s-class", trim:"S 450 4MATIC (SWB)", my:"MY26", stock:true, price:162000000, base:7, mbm:4, mbmNote:"할부 +4% / 운용리스·장기렌트 +6%", ret:2, trade:1, conquest:0,
-      finance:"24개월 무이자 할부 (선수금 65%) · 일반할부 연 5.40%", better:["24개월 무이자 신설"] },
 
+    /* ----- S-Class 27년식 (현금·금융 할인 없음 → 재구매·Trade-in 중심) ----- */
+    { model:"s-class", trim:"S 350 d 4MATIC", my:"MY27", price:154000000, base:0, mbm:0, ret:2, trade:1, conquest:0,
+      finance:"일반할부 연 7.43% · 재구매 고객 운용리스 특별 조건",
+      extraText:"재구매+ : 보유 E-Class 이상 고객은 재구매 횟수에 따라 보증연장 최대 +2년/+7만km · 타 프리미엄 브랜드 보유 고객 보증연장 +1년/+3만km",
+      better:["재구매+ 프로그램 신설"] },
+    { model:"s-class", trim:"S 450 4MATIC", my:"MY27", price:162400000, base:0, mbm:0, ret:2, trade:1, conquest:0, finance:"일반할부 연 7.43% · 재구매 고객 운용리스 특별 조건", better:["재구매+ 프로그램 신설"] },
+    { model:"s-class", trim:"S 450 4MATIC Long Exclusive", my:"MY27", price:175400000, base:0, mbm:0, ret:2, trade:1, conquest:0, finance:"일반할부 연 7.43% · 재구매 고객 운용리스 특별 조건", better:["재구매+ 프로그램 신설"] },
+    { model:"s-class", trim:"S 450 4MATIC Long AMG Line", my:"MY27", price:195400000, base:0, mbm:0, ret:2, trade:1, conquest:0, finance:"일반할부 연 7.43% · 재구매 고객 운용리스 특별 조건", better:["재구매+ 프로그램 신설"] },
+    { model:"s-class", trim:"S 500 4MATIC Long", my:"MY27", price:220000000, base:0, mbm:0, ret:2, trade:1, conquest:0, finance:"일반할부 연 7.43% · 재구매 고객 운용리스 특별 조건", better:["재구매+ 프로그램 신설"] },
+    { model:"s-class", trim:"S 580 4MATIC Long", my:"MY27", price:270000000, base:0, mbm:0, ret:2, trade:1, conquest:0, finance:"일반할부 연 7.43% · 재구매 고객 운용리스 특별 조건", better:["재구매+ 프로그램 신설"] },
     /* ----- GLC 27년식 ----- */
     { model:"glc", trim:"GLC 300 4MATIC Coupé AVANTGARDE", my:"MY27", price:86600000, base:7, mbm:1, ret:1, trade:1, conquest:1,
       finance:"24개월 무이자 할부 (선수금 65%) · 일반할부 연 5.65% · 특별 리스", better:["기본 할인 5% → 7%","금융 할인 +1% 신설","24개월 무이자 신설"] },
@@ -149,8 +158,6 @@ window.SITE = {
     /* ----- 벤츠파이낸셜 11월 요약표로 추가된 무이자 모델 (26년식 재고) ----- */
     { model:"e-class", trim:"Mercedes-AMG E 53 4MATIC+", my:"MY26", stock:true, price:148400000, base:10, mbm:0, ret:2, trade:1, conquest:0,
       finance:"24·36개월 무이자 할부 (선수금 65%) · 일반할부 연 4.26% · 특별 리스", better:["24·36개월 무이자"] },
-    { model:"s-class", trim:"Mercedes-AMG S 63 E PERFORMANCE", my:"MY26", stock:true, price:299000000, base:10, mbm:0, ret:2, trade:1, conquest:0,
-      finance:"24·36개월 무이자 할부 (선수금 65%) · 일반할부 연 4.26% · 특별 리스", better:["24·36개월 무이자"] },
     { model:"glc", trim:"GLC 300 4MATIC Coupé AVANTGARDE", my:"MY26", stock:true, price:86600000, base:7, mbm:4, ret:1, trade:1, conquest:1,
       finance:"24개월 무이자 할부 (선수금 65%) · 일반할부 연 5.39%", better:["24개월 무이자"] },
     { model:"gle", trim:"GLE 350 4MATIC", my:"MY26", stock:true, price:118000000, base:10, mbm:0, ret:1, trade:1, conquest:1,
@@ -160,7 +167,32 @@ window.SITE = {
     { model:"gle", trim:"Mercedes-AMG GLE 53 4MATIC+ Coupé", my:"MY26", stock:true, price:170000000, base:5, mbm:0, ret:2, trade:1, conquest:1,
       finance:"24·36개월 무이자 할부 (선수금 65%) · 일반할부 연 4.26% · 특별 리스", better:["24·36개월 무이자"] },
     { model:"gle", trim:"The new GLE 450 4MATIC AMG Line / Coupé", my:"MY27", price:null, base:0, mbm:0, ret:1, trade:1, conquest:1,
-      finance:"", better:["MY27 신규 (가격·출고 일정 상담)"] }
+      finance:"", better:["MY27 신규 (가격·출고 일정 상담)"] },
+    /* ----- 그 외 무이자 모델 (벤츠파이낸셜 11월 요약표 · 가격은 요약표/가격표 기준) ----- */
+    { model:"c-class", trim:"C 200 AVANTGARDE", my:"MY26", stock:true, price:65100000, base:10, mbm:4, ret:1, trade:1, conquest:0,
+      finance:"24개월 무이자 할부 (선수금 65%) · 일반할부 연 5.33% · 특별 리스", better:["24개월 무이자"] },
+    { model:"c-class", trim:"C 200 AMG Line", my:"MY26", stock:true, price:68300000, base:10, mbm:4, ret:1, trade:1, conquest:0,
+      finance:"24개월 무이자 할부 (선수금 65%) · 일반할부 연 5.33% · 특별 리스", better:["24개월 무이자"] },
+    { model:"glb", trim:"GLB 250 4MATIC", my:"MY26", stock:true, price:72000000, base:13, mbm:4, ret:1, trade:1, conquest:0,
+      finance:"24개월 무이자 할부 (선수금 65%) · 일반할부 연 5.26% · 특별 리스", better:["24개월 무이자"] },
+    { model:"glb", trim:"Mercedes-AMG GLB 35 4MATIC", my:"MY26", stock:true, price:79500000, base:9, mbm:4, ret:2, trade:1, conquest:0,
+      finance:"24개월 무이자 할부 (선수금 65%) · 일반할부 연 4.08% · 특별 리스", better:["24개월 무이자"] },
+    { model:"gls", trim:"GLS 450 4MATIC", my:"MY26", stock:true, price:154000000, base:8, mbm:0, ret:2, trade:1, conquest:0,
+      finance:"24·36개월 무이자 할부 (선수금 65%) · 일반할부 연 4.26% · 특별 리스", better:["24·36개월 무이자"] },
+    { model:"gls", trim:"GLS 580 4MATIC", my:"MY26", stock:true, price:193400000, base:9, mbm:0, ret:2, trade:1, conquest:0,
+      finance:"24·36개월 무이자 할부 (선수금 65%) · 일반할부 연 4.26% · 특별 리스", better:["24·36개월 무이자"] },
+    { model:"gls", trim:"Mercedes-AMG GLS 63 4MATIC+", my:"MY26", stock:true, price:210000000, base:1, mbm:0, ret:2, trade:1, conquest:0,
+      finance:"24·36개월 무이자 할부 (선수금 65%) · 일반할부 연 4.47% · 특별 리스", better:["24·36개월 무이자"] },
+    { model:"eq", trim:"EQS 400", my:"MY27", price:null, image:"assets/img/cat-eqs.jpg", base:0, mbm:0, ret:2, trade:1, conquest:0,
+      finance:"24·36개월 무이자 할부 (선수금 65%) · 일반할부 연 4.19% · 특별 리스", better:["24·36개월 무이자"] },
+    { model:"eq", trim:"EQS 450 4MATIC SUV", my:"MY26", stock:true, price:166000000, image:"assets/img/cat-eqs-suv.jpg", base:10, mbm:0, ret:2, trade:1, conquest:0,
+      finance:"24·36개월 무이자 할부 (선수금 65%) · 일반할부 연 4.19% · 특별 리스", better:["24·36개월 무이자"] },
+    { model:"eq", trim:"EQS 580 4MATIC SUV", my:"MY26", stock:true, price:192000000, image:"assets/img/cat-eqs-suv.jpg", base:10, mbm:0, ret:2, trade:1, conquest:0,
+      finance:"24·36개월 무이자 할부 (선수금 65%) · 일반할부 연 4.19% · 특별 리스", better:["24·36개월 무이자"] },
+    { model:"eq", trim:"EQE 350+", my:"MY26", stock:true, price:110000000, image:"assets/img/cat-eqe.jpg", base:10, mbm:0, ret:1, trade:1, conquest:0,
+      finance:"24·36개월 무이자 할부 (선수금 65%) · 일반할부 연 4.19% · 특별 리스", better:["24·36개월 무이자"] },
+    { model:"g-class", trim:"Mercedes-AMG G 63", my:"MY26", stock:true, price:262600000, image:"assets/img/cat-g63.jpg", base:0, mbm:0, ret:2, trade:1, conquest:0,
+      finance:"24·36개월 무이자 할부 (선수금 65%) · 일반할부 연 4.50% · 특별 리스", better:["24·36개월 무이자"] },
   ],
 
   /* ---------- 4-1. MOU · 제휴(Affinity) 혜택 ----------
@@ -181,11 +213,27 @@ window.SITE = {
     ]
   },
 
+  /* ---------- 전기차 사전계약 (카탈로그 2026.10 · 11월 프로모션 기준) ---------- */
+  ev: [
+    { id:"glc-ev", name:"The all-new electric GLC", tag:"사전계약 상담 중", image:"assets/img/cat-glc-ev.jpg", image2:"assets/img/cat-glc-ev-city.jpg",
+      trims:["GLC 300 4MATIC electric", "GLC 300 4MATIC electric AMG Line", "GLC 400 4MATIC electric"],
+      specs:[["1회 충전 주행거리","448km (복합, GLC 300 4MATIC electric)"],["모터 최고출력","310kW (GLC 300 4MATIC electric)"],["구동","사륜구동 4MATIC"],["급속 충전","800V · 최대 320kW (GLC 400: 330kW), 10→80% 약 22분"]],
+      offer:"11월: 기존 벤츠 재구매 +1%, Trade-in +1%", lead:"GLC의 공간과 실용성을 그대로, 완전 전동화로 새로 나온 중형 전기 SUV" },
+    { id:"glb-ev", name:"The all-new electric GLB", tag:"사전계약 상담 중", image:"assets/img/cat-glb-ev.jpg", image2:"assets/img/cat-glb-ev-front.jpg",
+      trims:["GLB 200 electric", "GLB 250+ electric"],
+      specs:[["급속 충전","800V · 최대 320kW, 10→80% 약 22분"],["트림","GLB 200 electric · GLB 250+ electric"],["주행거리·제원","트림별 인증 제원 상담 시 안내"]],
+      offer:"11월: GLB 250+ electric 현금 100만원 할인, 재구매 +1%, Trade-in +1%", lead:"각진 SUV 디자인과 넉넉한 실내, 가족용 전기 SUV" },
+    { id:"cla-ev", name:"The all-new electric CLA", tag:"사전계약 상담 중", image:"assets/img/cat-cla-ev.jpg", image2:"assets/img/cat-cla-ev-side.jpg",
+      trims:["CLA 200 electric Essential", "CLA 200 electric Advanced", "CLA 200 electric AMG Line", "CLA 250+ electric", "CLA 250+ electric AMG Line"],
+      specs:[["1회 충전 주행거리","474km (복합, CLA 250+ electric)"],["모터 최고출력","200kW (CLA 250+ electric)"],["구동","후륜구동"],["급속 충전","800V · 최대 320kW, 10→80% 약 22분"]],
+      offer:"11월: CLA 200·CLA 250+ electric 현금 100만원 할인, 재구매 +1%, Trade-in +1%", lead:"벤츠 전기 세단의 새 기준, 쿠페형 실루엣의 엔트리 전기 세단" }
+  ],
+
   /* 10월 대비 좋아진 점 (홈 요약) */
   improvements: [
     { model:"gle", text:"GLE 450 AMG Line Coupé(MY26) 기본 할인 12% → 15%" },
     { model:"gle", text:"GLE 450 SUV·Coupé 24·36개월 무이자 신설, 일반할부 금리 5.23% → 3.86%" },
-    { model:"gle", text:"무이자 대상 확대: GLE 350·GLE 450 d 쿠페·AMG GLE 53, AMG E 53, AMG S 63 E (24·36개월)" },
+    { model:"gle", text:"무이자 대상 확대: GLE 350·GLE 450 d 쿠페·AMG GLE 53, AMG E 53, GLS, EQE·EQS, AMG G 63 (24·36개월), C-Class·GLB (24개월)" },
     { model:"glc", text:"GLC 300 Coupé(MY27) 기본 할인 5% → 7%, 금융 특별할인 +1%·24개월 무이자 신설" },
     { model:"e-class", text:"E 200(MY27) 조건 신설·24개월 무이자 · E 300(MY26) 24개월 무이자 신설" },
     { model:"s-class", text:"신형 S-Class(MY27) 재구매+ 프로그램·타 브랜드 고객 보증연장 신설" }
@@ -202,7 +250,7 @@ window.SITE = {
     { model:"e-class", trim:"E 200 Exclusive", my:"MY27", label:"E-Class 27년식", image:"assets/img/cat-e-blue.jpg" },
     { model:"gle", trim:"GLE 450 4MATIC Coupé AMG Line", my:"MY26", label:"GLE 쿠페 · 무이자 24·36개월", image:"assets/img/cat-gle-coupe.jpg" },
     { model:"glc", trim:"GLC 300 4MATIC Coupé AVANTGARDE", my:"MY27", label:"GLC 쿠페 27년식 할인 상향", image:"assets/img/cat-glc-coupe-front.jpg" },
-    { model:"s-class", trim:"S 450 4MATIC Long", my:"MY26", label:"S-Class 재고 할인", image:"assets/img/cat-s-front.jpg" }
+    { model:"e-class", trim:"E 300 4MATIC AMG Line", my:"MY27", label:"E 300 4MATIC 27년식", image:"assets/img/cat-e-pair.jpg" }
   ],
 
   /* ---------- 4-3. 신차·사전계약 소식 ---------- */

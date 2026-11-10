@@ -112,9 +112,10 @@
   function renderPromos(el, only) {
     if (!el) return;
     const all = S.promotions.filter(active), first = only || S.models[0].id;
+    const tabModels = S.models.filter((m) => all.some((p) => p.model === m.id));
     const basis = `<div class="basis"><span><b>${esc(S.promoMeta.month)} 혜택</b></span><span>적용 기간 ${S.promoMeta.validFrom.replace(/-/g, ".")} ~ ${S.promoMeta.validTo.replace(/-/g, ".")}</span><span>할인 기준: ${esc(S.promoMeta.source)}</span><span>${esc(S.priceBasis.label)}</span></div>`;
     if (!all.length) { el.innerHTML = basis + `<div class="empty">이번 달 혜택을 정리하고 있습니다. 현재 조건은 상담으로 바로 안내해 드립니다.</div>`; return; }
-    const tabs = only ? "" : `<div class="tabs" role="tablist">${S.models.map((m, i) => `<button class="tab" role="tab" aria-selected="${i === 0}" data-tab="${m.id}">${esc(m.name)}</button>`).join("")}</div>`;
+    const tabs = only ? "" : `<div class="tabs" role="tablist">${tabModels.map((m, i) => `<button class="tab" role="tab" aria-selected="${i === 0}" data-tab="${m.id}">${esc(m.name)}</button>`).join("")}</div>`;
     el.innerHTML = basis + tabs + `<div id="promoGrid">${promoGroup(all.filter((p) => p.model === first))}</div><p class="note">※ ${esc(S.promoMeta.common)}</p>` +
       (S.goldenTime && todayStr() <= S.goldenTime.validTo ? `<p class="note">※ 11월 사은품: ${esc(S.goldenTime.text)}</p>` : "");
     $$(".tab", el).forEach((t) => t.addEventListener("click", () => {
@@ -137,7 +138,7 @@
   }
   function renderModels(el) {
     if (!el) return;
-    el.innerHTML = S.models.map((m) => {
+    el.innerHTML = S.models.filter((m) => m.main).map((m) => {
       const pr = m.priceFrom ? `${man(m.priceFrom)}부터 <span class="flag dark">${esc(m.priceStatus)}</span>` : `가격 <span class="flag dark">확인 필요</span>`;
       const best = S.promotions.filter((p) => p.model === m.id && active(p)).reduce((a, p) => Math.max(a, headRate(p)), 0);
       return `<article class="mcard">${slot(m.name + " 이미지", "", m.image, "카탈로그 이미지 · 판매 차량과 색상·사양이 다를 수 있습니다")}
@@ -170,7 +171,8 @@
   function initForm(defaultModel) {
     const f = $("#leadForm"); if (!f) return;
     const sel = $("#f-model");
-    sel.innerHTML = `<option value="">선택해 주세요</option>` + S.models.map((m) => `<option value="${m.id}">${esc(m.name)}</option>`).join("") + `<option value="other">기타 모델 / 미정</option>`;
+    const og = (label, arr) => `<optgroup label="${label}">${arr.map((m) => `<option value="${m.id}">${esc(m.name)}</option>`).join("")}</optgroup>`;
+    sel.innerHTML = `<option value="">선택해 주세요</option>` + og("주요 모델", S.models.filter((m) => m.main)) + og("그 외 모델", S.models.filter((m) => !m.main && !m.ev)) + og("전기차 사전계약", S.models.filter((m) => m.ev)) + `<option value="other">기타 모델 / 미정</option>`;
     if (defaultModel) sel.value = defaultModel;
     $("#f-test").hidden = !!C.formEndpoint || LIVE();
     $$("[data-cfg=privacyOwner]").forEach((e) => (e.textContent = C.privacyOwner));
@@ -313,13 +315,21 @@
   function bestOf(model) {
     const all = S.promotions.filter((x) => active(x) && x.model === model && x.price && headRate(x));
     const now = all.filter((x) => !x.stock).sort((a, b) => headRate(b) - headRate(a));
-    return now[0] || all.sort((a, b) => headRate(b) - headRate(a))[0];
+    if (now[0] || all[0]) return now[0] || all.sort((a, b) => headRate(b) - headRate(a))[0];
+    // 현금·금융 할인이 없는 모델(예: S-Class 27년식) → 가장 낮은 가격의 27년식
+    return S.promotions.filter((x) => active(x) && x.model === model && x.price && !x.stock).sort((a, b) => a.price - b.price)[0];
   }
   function renderCore(el) {
     if (!el) return;
-    el.innerHTML = S.models.map((m) => {
+    el.innerHTML = S.models.filter((m) => m.main).map((m) => {
       const p = bestOf(m.id); if (!p) return "";
       const hr = headRate(p), fin = p.price - discOf(p.price, hr);
+      if (!hr) return `<article class="core"><div class="core-img"><img src="${esc(m.coreImage || m.image)}" alt="${esc(m.name)} 이미지" loading="lazy"></div>
+        <div class="core-body"><div class="core-badges"><span class="my">${esc(myLabel(p))}</span>${(p.better || []).slice(0, 1).map((b) => `<span>${esc(b)}</span>`).join("")}</div>
+        <h3>The New ${esc(m.name)}</h3>
+        <p class="core-rate"><b style="font-size:22px">재구매 최대 ${loyalty(p)}%</b></p>
+        <p class="core-sub">${esc(p.trim)} ${man(p.price)}부터 · 재구매 고객 보증연장</p>
+        <button class="core-go" data-quote="${esc(p.model)}|${esc(p.trim)}|${esc(p.my)}">견적 계산하기 →</button></div></article>`;
       return `<article class="core"><div class="core-img"><img src="${esc(m.coreImage || m.image)}" alt="${esc(m.name)} 이미지" loading="lazy"></div>
         <div class="core-body"><div class="core-badges"><span class="my">${esc(myLabel(p))}</span>${(p.better || []).slice(0, 1).map((b) => `<span>${esc(b)}</span>`).join("")}</div>
         <h3>${esc(p.trim)}</h3>
@@ -336,7 +346,7 @@
     const list = S.promotions.filter((p) => active(p) && p.price);
     el.innerHTML = `<div class="qz">
       <div class="qz-in">
-        <div class="fld"><label for="q-model">모델</label><select id="q-model">${S.models.map((m) => `<option value="${m.id}">${esc(m.name)}</option>`).join("")}</select></div>
+        <div class="fld"><label for="q-model">모델</label><select id="q-model">${S.models.filter((m) => list.some((p) => p.model === m.id)).map((m) => `<option value="${m.id}">${esc(m.name)}</option>`).join("")}</select></div>
         <div class="fld"><label for="q-trim">트림 · 연식</label><select id="q-trim"></select></div>
         <fieldset class="qz-opts"><legend>해당되는 혜택을 선택하세요</legend>
           <label><input type="checkbox" id="q-mbm" checked> <span>벤츠 금융(MBM) 이용 <b id="q-mbm-r"></b></span></label>
@@ -439,24 +449,26 @@
   /* 무이자 가능 차량 목록 */
   const imgFor = (p) => {
     const t = p.trim.toLowerCase(), c = /coupé|coupe| cp/.test(t);
-    return { "e-class": "assets/img/cat-e-blue.jpg", "s-class": "assets/img/cat-s-black.jpg",
+    if (p.image) return p.image;
+    const m = S.models.find((x) => x.id === p.model);
+    return { "e-class": "assets/img/cat-e-blue.jpg", "s-class": "assets/img/cat-s-amg.jpg",
       glc: c ? "assets/img/cat-glc-coupe.jpg" : "assets/img/cat-glc-suv.jpg",
-      gle: c ? "assets/img/cat-gle-coupe.jpg" : "assets/img/cat-gle-suv.jpg" }[p.model] || "";
+      gle: c ? "assets/img/cat-gle-coupe.jpg" : "assets/img/cat-gle-suv.jpg" }[p.model] || (m && m.image) || "";
   };
   function renderZero(el) {
     if (!el) return;
-    const list = S.promotions.filter((p) => active(p) && p.price && /무이자/.test(p.finance || ""));
+    const list = S.promotions.filter((p) => active(p) && /무이자/.test(p.finance || ""));
     if (!list.length) { el.closest("section").remove(); return; }
     const months = (p) => (/24·36/.test(p.finance) ? "24·36개월" : "24개월");
     const down = (p) => ((p.finance.match(/선수금 (\d+)%/) || [])[1] || "");
     const chips = ["all", ...S.models.map((m) => m.id).filter((id) => list.some((p) => p.model === id))];
-    const card = (p) => { const hr = headRate(p), fin = p.price - discOf(p.price, hr);
+    const card = (p) => { const hr = headRate(p), fin = p.price ? p.price - discOf(p.price, hr) : 0;
       return `<article class="zr"><img src="${imgFor(p)}" alt="" loading="lazy">
         <div class="zr-b"><div class="zr-top"><span class="zr-m">${months(p)} 무이자</span><span class="zr-my">${esc(myLabel(p))}</span></div>
         <h3>${esc(p.trim)}</h3>
         <p class="zr-d">${down(p) ? `선수금 ${down(p)}%` : ""}${hr ? ` · 할인 ${hr}%` : ""}</p>
-        <p class="zr-p"><s>${man(p.price)}</s> <b>${man(fin)}</b></p></div>
-        <button class="zr-go" data-quote="${esc(p.model)}|${esc(p.trim)}|${esc(p.my)}" aria-label="${esc(p.trim)} 견적 계산">견적 →</button></article>`; };
+        <p class="zr-p">${p.price ? (hr ? `<s>${man(p.price)}</s> <b>${man(fin)}</b>` : `<b>${man(p.price)}</b>`) : `<b>가격 상담</b>`}</p></div>
+        ${p.price ? `<button class="zr-go" data-quote="${esc(p.model)}|${esc(p.trim)}|${esc(p.my)}" aria-label="${esc(p.trim)} 견적 계산">견적 →</button>` : `<button class="zr-go" data-consult="${esc(p.model)}" data-loc="zero">상담 →</button>`}</article>`; };
     const draw = (id, all) => {
       const l = list.filter((p) => id === "all" || p.model === id);
       const show = all ? l : l.slice(0, 6);
@@ -472,6 +484,30 @@
     draw("all", false);
   }
 
+  /* ---------- 전기차 사전계약 ---------- */
+  function renderEvTeaser(el) {
+    if (!el || !S.ev) return;
+    el.innerHTML = S.ev.map((v) => `<a class="evt" href="ev.html#${v.id}"><img src="${esc(v.image)}" alt="${esc(v.name)}" loading="lazy"><div><span>${esc(v.tag)}</span><h3>${esc(v.name.replace("The all-new ", ""))}</h3><p>${esc(v.lead)}</p></div></a>`).join("");
+  }
+  function renderEv(el) {
+    if (!el || !S.ev) return;
+    el.innerHTML = S.ev.map((v) => `<section class="ev" id="${v.id}" aria-labelledby="${v.id}-h">
+      <div class="ev-img"><img src="${esc(v.image)}" alt="${esc(v.name)}" loading="lazy"><span class="hs-imgnote">카탈로그 이미지</span></div>
+      <div class="ev-body"><span class="news-tag">${esc(v.tag)}</span><h2 id="${v.id}-h">${esc(v.name)}</h2><p class="ev-lead">${esc(v.lead)}</p>
+        <div class="ev-trims">${v.trims.map((t) => `<span>${esc(t)}</span>`).join("")}</div>
+        <dl class="ev-specs">${v.specs.map(([k, val]) => `<div><dt>${esc(k)}</dt><dd>${esc(val)}</dd></div>`).join("")}</dl>
+        <p class="ev-offer">🎁 ${esc(v.offer)}</p>
+        <div class="ev-acts"><button class="btn btn-gold" data-pre="${v.id}">사전계약 상담 신청</button><a class="btn btn-line" href="#" data-action="kakao" data-loc="ev_${v.id}">카카오로 문의</a></div>
+      </div></section>`).join("");
+    $$("[data-pre]", el).forEach((b) => b.addEventListener("click", () => {
+      const v = S.ev.find((x) => x.id === b.dataset.pre); track("ev_precontract_click", { model: v.id });
+      const sel = $("#f-model"); if (sel) sel.value = v.id;
+      const m = $("#f-msg"); if (m && !/^\[사전계약\]/.test(m.value)) m.value = `[사전계약] ${v.name} · 희망 트림: \n` + m.value;
+      const f = $("#consult"); if (f) f.scrollIntoView({ behavior: "smooth", block: "start" });
+      setTimeout(() => { const n = $("#f-name"); if (n) n.focus({ preventScroll: true }); }, 600);
+    }));
+  }
+
   /* ---------- 시작 ---------- */
   window.addEventListener("DOMContentLoaded", () => {
     const page = document.body.dataset.page, only = document.body.dataset.model || "";
@@ -480,6 +516,8 @@
     renderStrip($("#strip"));
     renderCore($("#core"));
     renderZero($("#zero"));
+    renderEvTeaser($("#evTeaser"));
+    renderEv($("#evList"));
     renderNews($("#news"));
     renderReport($("#report"));
     renderChecks($("#checks"));
