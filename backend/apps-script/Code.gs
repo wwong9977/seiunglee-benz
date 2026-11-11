@@ -94,7 +94,7 @@ function doPost(e) {
           '접수번호: ' + id + '\n이름: ' + name + '\n연락처: ' + phoneFmt + '\n관심 모델: ' + MODELS[model] +
           '\n구매 방식: ' + (method || '-') + '\n구매 시기: ' + (timing || '-') +
           '\n유입: ' + [d.utm_source, d.utm_medium, d.utm_campaign].filter(String).join(' / ') +
-          '\n\n시트에서 확인: ' + SpreadsheetApp.getActive().getUrl());
+          '\n\n시트에서 확인: ' + ss_().getUrl());
       } catch (mailErr) { /* 알림 실패는 접수 성공에 영향 없음 */ }
     }
     return out_({ ok: true, id: id });
@@ -110,8 +110,19 @@ function doGet() {
   return out_({ ok: true, service: 'lead-intake', sheet: SHEET_NAME });
 }
 
-function sheet_() {
+/** 접수 시트 파일: 시트에 붙은 스크립트면 그 시트, 단독 스크립트면 처음 실행 때 '벤츠 상담 접수' 시트를 새로 만들어 기억 */
+function ss_() {
+  var props = PropertiesService.getScriptProperties();
+  var id = props.getProperty('SHEET_ID');
+  if (id) return SpreadsheetApp.openById(id);
   var ss = SpreadsheetApp.getActive();
+  if (!ss) { ss = SpreadsheetApp.create('벤츠 상담 접수'); }
+  props.setProperty('SHEET_ID', ss.getId());
+  return ss;
+}
+
+function sheet_() {
+  var ss = ss_();
   var sh = ss.getSheetByName(SHEET_NAME);
   if (!sh) {
     sh = ss.insertSheet(SHEET_NAME);
@@ -148,7 +159,10 @@ function purgeOld() {
 
 /** 설치 직후 한 번 실행: 시트 탭·머리글 생성, 권한 승인, 보유기간 자동 삭제 예약 (테스트 행은 만들지 않음) */
 function setup() {
-  sheet_();
+  var sh = sheet_();
+  var first = sh.getParent().getSheets()[0];
+  if (first.getName() !== SHEET_NAME && first.getLastRow() === 0) sh.getParent().deleteSheet(first); // 빈 기본 탭 정리
+  Logger.log('접수 시트: ' + sh.getParent().getUrl());
   var has = ScriptApp.getProjectTriggers().some(function (t) { return t.getHandlerFunction() === 'purgeOld'; });
   if (!has) ScriptApp.newTrigger('purgeOld').timeBased().everyDays(1).atHour(4).inTimezone('Asia/Seoul').create();
 }

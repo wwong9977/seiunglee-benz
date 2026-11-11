@@ -24,7 +24,7 @@ window.SITE = {
 
     /* 상담 접수 연결: 비어 있으면 저장·전송하지 않음 (운영 화면=전화·카카오 안내, 미리보기=테스트 표시)
        연결 방법: backend/apps-script/SETUP.md → 받은 웹앱 주소(…/exec)를 아래 따옴표 안에 */
-    formEndpoint: "",
+    formEndpoint: "https://script.google.com/macros/s/AKfycbwWQ7xsM9Wt82Kx-p5KvbNeJR44bSx01MIWvT7KtpAoX-rGfzxNj3POCWBw1HTrDQM/exec", // 2026-11-11 연결 · 접수 시트 "벤츠 상담 접수"
     privacyOwner: "이세웅 (HS더클래스 효성 구리전시장)", // 개인정보 처리 담당
     retentionText: "수집일로부터 1개월 보관 후 파기 (수신 동의 철회·삭제 요청 시 즉시 파기)", // 2026-11-11 과장님 결정 · 접수 시트에서 매일 자동 삭제
 
