@@ -194,7 +194,7 @@ def page(mid, c):
     head = HEAD
     head = re.sub(r"<title>[^<]*</title>", f"<title>{E(c['title'])}</title>", head)
     for pat, val in [(r'(<meta name="description" content=")[^"]*', c["desc"]), (r'(<meta property="og:description" content=")[^"]*', c["desc"]),
-                     (r'(<meta property="og:title" content=")[^"]*', c["title"]), (r'(<link rel="canonical" href=")[^"]*', url), (r'(<meta property="og:url" content=")[^"]*', url)]:
+                     (r'(<meta property="og:title" content=")[^"]*', c["title"]), (r'(<link rel="canonical" href=")[^"]*', url), (r'(<meta property="og:url" content=")[^"]*', url), (r'(<meta property="og:image" content=")[^"]*', f"{SITE_URL}/assets/img/og/og-{mid}.jpg")]:
         head = re.sub(pat, lambda mm: mm.group(1) + E(val), head, count=1)
     stories = [r for r in S["reviews"] if r["model"] == mid]
     others = [(x["id"], PAGES[x["id"]]["file"] if x["id"] in PAGES else x.get("page"), x["name"]) for x in S["models"] if not x.get("ev")]
