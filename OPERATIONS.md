@@ -62,6 +62,7 @@
 ※ `e-class.html` 트림 가이드의 "11월 현재 MY27로 판매하며, 24개월 무이자 대상" 문장은 직접 확인 후 수정이 필요합니다.
 
 ## 6. 파일을 고친 뒤
+1. `python3 tools/make_model_pages.py` 실행 → 차종별 페이지(s-class.html, glc.html 등)의 트림별 가격표를 data.js 기준으로 다시 만듭니다 (차종 소개 문구는 이 파일 안의 PAGES에서 수정)
 1. `python3 tools/bump_versions.py` 실행 → 방문자 브라우저가 새 파일을 받도록 버전 갱신
 2. 미리보기로 확인 후 반영 (Claude가 진행)
 

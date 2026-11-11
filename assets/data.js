@@ -57,31 +57,31 @@ window.SITE = {
       fit: "출퇴근·업무 이동이 많고, 편안함과 품격을 함께 원하는 분"
     },
     {
-      id: "s-class", main: true, image: "assets/img/cat-s-front.jpg", coreImage: "assets/img/cat-s-amg.jpg", name: "S-Class", kind: "세단", page: "",
+      id: "s-class", main: true, image: "assets/img/cat-s-front.jpg", coreImage: "assets/img/cat-s-amg.jpg", name: "S-Class", kind: "세단", page: "s-class.html",
       tagline: "The New S-Class 27년식 · 재구매·법인 상담",
       trims: ["S 350 d 4MATIC", "S 450 4MATIC", "S 450 4MATIC Long", "S 500 4MATIC Long", "S 580 4MATIC Long"],
       priceFrom: 154000000, priceStatus: "27년식",
       fit: "뒷좌석 탑승이 잦은 대표·임원, 장거리 이동이 많은 분"
     },
     {
-      id: "glc", main: true, image: "assets/img/cat-glc-pair.jpg", coreImage: "assets/img/cat-glc-coupe.jpg", name: "GLC", kind: "SUV · Coupé", page: "",
+      id: "glc", main: true, image: "assets/img/cat-glc-pair.jpg", coreImage: "assets/img/cat-glc-coupe.jpg", name: "GLC", kind: "SUV · Coupé", page: "glc.html",
       tagline: "도심형 중형 SUV · SUV와 쿠페 선택",
       trims: ["GLC 220 d 4MATIC", "GLC 300 4MATIC", "GLC 300 4MATIC Coupé"],
       priceFrom: 82200000, priceStatus: "27년식",
       fit: "가족 1~3인, 도심 주행 위주, 적당한 차체를 원하는 분"
     },
     {
-      id: "gle", main: true, image: "assets/img/cat-gle-suv.jpg", coreImage: "assets/img/cat-gle-coupe-rear.jpg", name: "GLE", kind: "SUV · Coupé", page: "",
+      id: "gle", main: true, image: "assets/img/cat-gle-suv.jpg", coreImage: "assets/img/cat-gle-coupe-rear.jpg", name: "GLE", kind: "SUV · Coupé", page: "gle.html",
       tagline: "넉넉한 공간의 대형 SUV",
       trims: ["GLE 300 d 4MATIC", "GLE 350 4MATIC", "GLE 450 4MATIC", "GLE 450 4MATIC Coupé"],
       priceFrom: 118000000, priceStatus: "26년식",
       fit: "가족 여행·장거리, 넉넉한 2열과 적재공간이 필요한 분"
     },
-    { id: "c-class", name: "C-Class", kind: "세단", image: "assets/img/cat-c.jpg" },
-    { id: "glb", name: "GLB", kind: "SUV", image: "assets/img/cat-glb.jpg" },
-    { id: "gls", name: "GLS", kind: "대형 SUV", image: "assets/img/cat-gls.jpg" },
-    { id: "eq", name: "EQE · EQS", kind: "전기차", image: "assets/img/cat-eqs.jpg" },
-    { id: "g-class", name: "G-Class", kind: "SUV", image: "assets/img/cat-g.jpg" },
+    { id: "c-class", page: "c-class.html", name: "C-Class", kind: "세단", image: "assets/img/cat-c.jpg" },
+    { id: "glb", page: "glb.html", name: "GLB", kind: "SUV", image: "assets/img/cat-glb.jpg" },
+    { id: "gls", page: "gls.html", name: "GLS", kind: "대형 SUV", image: "assets/img/cat-gls.jpg" },
+    { id: "eq", page: "eqs-eqe.html", name: "EQE · EQS", kind: "전기차", image: "assets/img/cat-eqs.jpg" },
+    { id: "g-class", page: "g-class.html", name: "G-Class", kind: "SUV", image: "assets/img/cat-g.jpg" },
     { id: "glc-ev", ev: true, name: "GLC electric", kind: "전기 SUV", image: "assets/img/cat-glc-ev.jpg" },
     { id: "glb-ev", ev: true, name: "GLB electric", kind: "전기 SUV", image: "assets/img/cat-glb-ev.jpg" },
     { id: "cla-ev", ev: true, name: "CLA electric", kind: "전기 세단", image: "assets/img/cat-cla-ev.jpg" }

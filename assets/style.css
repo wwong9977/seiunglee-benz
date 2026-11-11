@@ -810,3 +810,16 @@ legend .opt,summary .opt{color:var(--mut);font-weight:400;font-size:12px;margin-
 .fmsg-next{margin:10px 0 6px 18px;display:grid;gap:3px;font-size:14px}
 .fmsg-sub{font-size:13px;opacity:.85;margin-bottom:8px}
 .zr-m,.zr-my{font-size:12px!important}
+
+/* v11 차종별 페이지 */
+@media(min-width:800px){body[data-page=model] .cmp{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}}
+.tr-after{color:var(--gold);font-weight:600}
+.tr-zero{display:inline-block;margin-left:6px;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:600;color:#0b0f15;background:var(--gold);vertical-align:1px}
+.other-models{margin-top:36px;padding-top:22px;border-top:1px solid var(--line)}
+.other-models b{display:block;margin-bottom:12px;font-size:15px}
+.other-models div{display:flex;flex-wrap:wrap;gap:8px}
+.chip-link{display:inline-block;padding:8px 14px;border:1px solid var(--line);border-radius:999px;font-size:14px;color:inherit;text-decoration:none}
+.chip-link:hover{border-color:var(--gold);color:var(--gold)}
+.m-spec{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:6px}
+.m-spec .btn{margin-left:auto}
+.m-spec .tr-zero{margin-left:0}
