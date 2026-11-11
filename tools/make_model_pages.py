@@ -100,6 +100,62 @@ PAGES = {
          ("원하는 색상을 주문할 수 있나요?", "재고 차량과 주문 가능 여부를 상담 시 함께 확인해 드립니다.")]),
 }
 
+
+# ---- 카탈로그 제원 (자동화 폴더 카탈로그 Technical Data 표에서 옮김) ----
+ICE = ["배기량", "구동·변속기", "복합연비", "공차 중량", "전장 × 전폭 × 전고"]
+EVH = ["모터 최고출력", "구동", "복합 전비", "1회 충전 주행거리(복합)", "공차 중량", "전장 × 전폭 × 전고"]
+SPECS = {
+  "s-class": ("S-Class 카탈로그(2026.09)", ICE, [
+    ("S 350 d 4MATIC", "2,989cc", "사륜 · 자동 9단", "13.0km/ℓ (3등급)", "2,260kg", "5,195 × 1,920 × 1,505mm"),
+    ("S 450 4MATIC", "2,999cc", "사륜 · 자동 9단", "10.1km/ℓ (4등급)", "2,195kg", "5,195 × 1,920 × 1,505mm"),
+    ("S 450 4MATIC Long", "2,999cc", "사륜 · 자동 9단", "9.6km/ℓ (4등급)", "2,220kg", "5,305 × 1,920 × 1,505mm"),
+    ("S 500 4MATIC Long", "2,999cc", "사륜 · 자동 9단", "9.8km/ℓ (4등급)", "2,225kg", "5,305 × 1,920 × 1,505mm"),
+    ("S 580 4MATIC Long", "3,982cc", "사륜 · 자동 9단", "7.8km/ℓ (5등급)", "2,310kg", "5,305 × 1,920 × 1,505mm")]),
+  "gle": ("GLE · Mercedes-AMG GLE 카탈로그(2026.06)", ICE, [
+    ("GLE 300 d 4MATIC", "1,993cc", "사륜 · 자동 9단", "11.6km/ℓ (3등급)", "2,380kg", "4,925 × 2,010 × 1,780mm"),
+    ("GLE 350 4MATIC", "1,999cc", "사륜 · 자동 9단", "8.6km/ℓ (5등급)", "2,270kg", "4,925 × 2,010 × 1,780mm"),
+    ("GLE 450 4MATIC", "2,998cc", "사륜 · 자동 9단", "8.4km/ℓ (5등급)", "2,395kg", "4,925 × 2,010 × 1,780mm"),
+    ("GLE 450 d 4MATIC Coupé", "2,989cc", "사륜 · 자동 9단", "11.0km/ℓ (4등급)", "2,390kg", "4,940 × 2,020 × 1,715mm"),
+    ("GLE 450 4MATIC Coupé", "2,998cc", "사륜 · 자동 9단", "8.2km/ℓ (5등급)", "2,325kg", "4,940 × 2,020 × 1,715mm"),
+    ("Mercedes-AMG GLE 53 4MATIC+", "2,998cc", "사륜 · 자동 9단", "7.8km/ℓ (5등급)", "2,430kg", "4,935 × 2,015 × 1,780mm"),
+    ("Mercedes-AMG GLE 53 4MATIC+ Coupé", "2,998cc", "사륜 · 자동 9단", "8.3km/ℓ (5등급)", "2,415kg", "4,945 × 2,020 × 1,715mm")]),
+  "glb": ("GLB 카탈로그(2026.08)", ICE, [
+    ("GLB 250 4MATIC", "1,991cc", "사륜 · DCT 8단", "10.5km/ℓ (4등급)", "1,775kg", "4,650 × 1,845 × 1,690mm")]),
+  "gls": ("GLS 카탈로그(2026.07)", ICE, [
+    ("GLS 450 d 4MATIC", "2,989cc", "사륜 · 자동 9단", "10.0km/ℓ (4등급)", "2,630kg", "5,210 × 2,030 × 1,840mm"),
+    ("GLS 450 4MATIC", "2,998cc", "사륜 · 자동 9단", "7.9km/ℓ (5등급)", "2,545kg", "5,210 × 2,030 × 1,830mm"),
+    ("GLS 580 4MATIC", "3,982cc", "사륜 · 자동 9단", "6.6km/ℓ (5등급)", "2,640kg", "5,210 × 2,030 × 1,840mm"),
+    ("Mercedes-AMG GLS 63 4MATIC+", "3,982cc", "사륜 · 자동 9단", "6.3km/ℓ (5등급)", "2,685kg", "5,245 × 2,030 × 1,837mm")]),
+  "eq": ("EQS SUV 카탈로그(2026.09)", EVH, [
+    ("EQS 450 4MATIC SUV", "265kW", "사륜", "3.7km/kWh", "503km", "2,865kg", "5,125 × 1,965 × 1,745mm"),
+    ("EQS 580 4MATIC SUV", "400kW", "사륜", "3.5km/kWh", "483km", "2,905kg", "5,135 × 1,965 × 1,745mm")]),
+}
+GALLERY = {"s-class": ["s"] * 5, "glc": ["glc"] * 5, "gle": ["gle"] * 5, "c-class": ["c"] * 4, "glb": ["glb"] * 4,
+           "gls": ["gls"] * 5, "eq": ["eqs"] * 4 + ["eqssuv"] * 4, "g-class": ["g"] * 4}
+
+def spec_html(mid, name):
+    if mid not in SPECS: return ""
+    src, heads, rows = SPECS[mid]
+    th = "".join(f"<th>{E(h)}</th>" for h in heads)
+    tr = "".join("<tr><th scope=row>" + E(r[0]) + "</th>" + "".join(f'<td data-l="{E(h)}">{E(v)}</td>' for h, v in zip(heads, r[1:])) + "</tr>" for r in rows)
+    return f'''<section class="sec" aria-labelledby="spec-h"><div class="wrap">
+  <div class="sec-h"><span class="eyebrow">Specifications</span><h2 id="spec-h">{E(name)} 주요 제원</h2><p>{E(src)} 인증 제원 기준입니다. 판매 차량의 사양과 다를 수 있습니다.</p></div>
+  <div class="spec-wrap"><table class="spec-t"><thead><tr><th>트림</th>{th}</tr></thead><tbody>{tr}</tbody></table></div>
+  <p class="note" style="color:var(--mut)">※ 연비·전비는 표준모드 기준이며 도로 상태, 운전 방법, 적재, 기온 등에 따라 실제와 다를 수 있습니다.</p>
+</div></section>'''
+
+def gal_html(mid, name):
+    keys = GALLERY.get(mid)
+    if not keys: return ""
+    cnt = {}; figs = []
+    for k in keys:
+        cnt[k] = cnt.get(k, 0) + 1
+        figs.append(f'<figure class="gal"><img src="assets/img/gallery/g-{k}-{cnt[k]}.jpg" alt="메르세데스-벤츠 {E(name)} 카탈로그 이미지 {len(figs)+1}" loading="lazy" decoding="async"></figure>')
+    return f'''<section class="sec char" aria-labelledby="gal-h"><div class="wrap">
+  <div class="sec-h"><span class="eyebrow">Gallery</span><h2 id="gal-h">{E(name)} 디자인 · 실내</h2><p>메르세데스-벤츠 카탈로그 이미지입니다. 판매 차량의 색상·사양과 다를 수 있습니다.</p></div>
+  <div class="m-gal">{"".join(figs)}</div>
+</div></section>'''
+
 tpl = open("e-class.html", encoding="utf-8").read()
 head_end = tpl.index("</head>") + len("</head>")
 HEAD, rest = tpl[:head_end], tpl[head_end:]
@@ -168,11 +224,13 @@ def page(mid, c):
   </div>
 </div></section>
 
-<section class="sec char" aria-labelledby="cmp-h"><div class="wrap">
+{gal_html(mid, m["name"])}
+<section class="sec" aria-labelledby="cmp-h"><div class="wrap">
   <div class="sec-h"><span class="eyebrow">How to choose</span><h2 id="cmp-h">이렇게 고르면 쉽습니다</h2></div>
   <div class="cmp">{guide}</div>
 </div></section>
 
+{spec_html(mid, m["name"])}
 <section class="sec light" id="m-promo" aria-labelledby="mp-h"><div class="wrap">
   <div class="sec-h"><span class="eyebrow">{E(m["name"])} Offers</span><h2 id="mp-h"><span data-promo-m>{E(month[-3:].strip())}</span> {E(m["name"])} 혜택</h2><p>할인은 현금 + 금융 이용 시 추가분이며, MOU 제휴사 임직원이라면 <a href="index.html#mou" style="text-decoration:underline">추가 할인(+2%)</a>도 확인해 보세요.</p></div>
   <div id="better" class="basis" style="display:block;background:#fbf8f1;border-color:#eadfc6"></div>
