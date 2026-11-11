@@ -299,6 +299,14 @@ window.SITE = {
      여기 한 곳만 고치면 홈·출고 이야기 목록·광고 상담 페이지·모델별 후기에 함께 반영됩니다.
      새 후기 추가: 맨 위에 한 덩어리를 복사해 넣고, 상세 글(story-번호.html)과 사진은 별도로 올립니다. */
   reviews: [
+    { model:"e-class", car:"E 200 Exclusive", color:"화이트 · 베이지 시트", region:"경기 안양 · 소개 고객", tag:"소개 고객 · 리스 출고",
+      worry:"여러 리스 조건 가운데 어떤 견적이 유리한지 비교",
+      reason:"클래식한 Exclusive 디자인과 화이트·베이지 조합",
+      process:"기존 고객 소개로 상담 → 리스 조건 비교 → 산은캐피탈 리스 견적으로 결정 → 출고",
+      photo:"assets/img/stories/st-anyang-2.jpg", date:"2026-11-11",
+      link:"story-anyang-e200.html",
+      title:"E 200 Exclusive 화이트 | 소개로 만난 안양 대표님, 리스 견적에 믿고 맡겨주신 출고 이야기",
+      thumb:"assets/img/stories/st-anyang-1.jpg", excerpt:"이번 출고는 기존 고객님의 소개로 시작된 인연이었고, 경기도 안양에 거주하시는 대표님께서 저를 믿고 차량을 맡겨주셨습니다.…" },
     { model:"s-class", car:"S 450 4MATIC Long Exclusive", color:"블랙", region:"남양주 다산 · 소개 고객", tag:"S-Class 재구매 · 법인리스",
       worry:"오래 타던 S-Class의 교체 시기, 다른 차로는 바꾸기 어렵다는 고민",
       reason:"새로 바뀐 S-Class의 실내 디자인과 익숙한 승차감",
