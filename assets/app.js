@@ -602,7 +602,11 @@
   }
 
   /* ---------- 광고 상담 페이지 (consult.html) ---------- */
-  function lpModels() { return S.models.filter((m) => m.main); }
+  function lpModels() { // 핵심 4개 차종 + 광고 링크로 지정된 차종(?model=)
+    const qm = new URLSearchParams(location.search).get("model") || "";
+    const extra = S.models.filter((m) => !m.main && m.id === qm);
+    return extra.concat(S.models.filter((m) => m.main));
+  }
   function renderLanding() {
     const pick = $("#lpModels"); if (!pick) return;
     const qm = new URLSearchParams(location.search).get("model");
@@ -614,7 +618,7 @@
       return `<button type="button" class="lp-m" data-lp-model="${m.id}" aria-pressed="false">
         <span class="lp-m-img"><img src="${esc(sm(m.coreImage || m.image))}" alt="" loading="lazy"></span>
         <span class="lp-m-b"><small>${esc(m.kind)}</small><strong>${esc(m.name)}</strong>
-        <em>${m.priceFrom ? `${man(m.priceFrom)}부터 · ${esc(m.priceStatus)}` : "가격 상담"}</em>${offer ? `<span class="lp-m-o">${offer}</span>` : ""}</span>
+        <em>${m.priceFrom ? `${man(m.priceFrom)}부터 · ${esc(m.priceStatus)}` : (() => { const pp = ps.filter((p) => p.price).sort((a, b) => a.price - b.price)[0]; return pp ? `${man(pp.price)}부터 · ${esc(myLabel(pp))}` : "가격 상담"; })()}</em>${offer ? `<span class="lp-m-o">${offer}</span>` : ""}</span>
         <span class="lp-m-ck" aria-hidden="true">✓</span></button>`;
     }).join("");
     const select = (id, how) => {

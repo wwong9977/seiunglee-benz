@@ -74,4 +74,4 @@ https://wwong9977.github.io/seiunglee-benz/consult.html?model=gle&utm_source=met
 https://wwong9977.github.io/seiunglee-benz/consult.html?model=e-class&utm_source=naver&utm_medium=cpc&utm_campaign=2026-12_eclass
 https://wwong9977.github.io/seiunglee-benz/consult.html?utm_source=naver_blog&utm_medium=blog&utm_campaign=story_gle
 ```
-`model` 값: `e-class`, `s-class`, `glc`, `gle` (없으면 고객이 직접 선택)
+`model` 값: `e-class`, `s-class`, `glc`, `gle`, `c-class`, `glb`, `gls`, `eq`, `g-class`, `glc-ev`, `glb-ev`, `cla-ev` (없으면 고객이 직접 선택)
