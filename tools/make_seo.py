@@ -23,7 +23,8 @@ cards = "".join(
     f'<p>{esc(r.get("excerpt") or r.get("reason"))}</p><span>이야기 읽기 →</span></div></a>'
     for i, r in enumerate(stories))
 p = "stories.html"; s = open(p, encoding="utf-8").read()
-s = re.sub(r'(<div class="st-list" id="storyList">).*?(</div>\n</div></section>)', lambda m: m.group(1) + cards + m.group(2), s, count=1, flags=re.S)
+s, n = re.subn(r'<!--stories-->.*?<!--/stories-->', lambda m: '<!--stories-->' + cards + '<!--/stories-->', s, count=1, flags=re.S)
+assert n == 1, "stories.html 에 <!--stories--> 표시가 없습니다"
 open(p, "w", encoding="utf-8").write(s)
 
 # 2) 상세 페이지 BlogPosting 구조화 데이터
