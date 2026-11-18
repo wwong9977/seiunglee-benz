@@ -46,7 +46,7 @@ for r in stories:
 today = datetime.date.today().isoformat()
 latest = max([r.get("date", today) for r in stories] + ["2000-01-01"])
 pages = ["", "consult.html", "promotion.html", "e-class.html", "s-class.html", "glc.html", "gle.html", "c-class.html",
-         "glb.html", "gls.html", "eqs-eqe.html", "g-class.html", "ev.html", "stories.html"]
+         "glb.html", "gls.html", "eqs-eqe.html", "g-class.html", "ev.html", "stories.html", "benz-guri.html", "event-jamsil.html"]
 urls = [(SITE + p, latest if p in ("", "stories.html") else today, "1.0" if p == "" else "0.8") for p in pages if p == "" or os.path.exists(p)]
 urls += [(SITE + r["link"], r.get("date", today), "0.6") for r in stories]
 open("sitemap.xml", "w", encoding="utf-8").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
