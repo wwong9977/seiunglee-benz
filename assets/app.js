@@ -495,7 +495,7 @@
     if (!el || !S.news) return;
     const list = S.news.filter((n) => inRange(n.validFrom, n.validTo || S.promoMeta.validTo)); // 기간 지난 소식은 자동으로 숨김
     if (!list.length) { const sec = el.closest("section"); if (sec) sec.remove(); return; }
-    el.innerHTML = list.map((n) => `<article class="news">${n.image ? `<div class="news-img"><img src="${esc(sm(n.image))}" alt="${esc(n.title)}" loading="lazy"></div>` : ""}<div class="news-body"><span class="news-tag">${esc(n.tag)}</span><h3>${esc(n.title)}</h3><p>${esc(n.text)}</p><button class="news-go" data-consult="${n.model === "other" ? "other" : n.model}" data-loc="news">상담 받기 →</button></div></article>`).join("");
+    el.innerHTML = list.map((n) => `<article class="news">${n.image ? `<div class="news-img"><img src="${esc(sm(n.image))}" alt="${esc(n.title)}" loading="lazy"></div>` : ""}<div class="news-body"><span class="news-tag">${esc(n.tag)}</span><h3>${esc(n.title)}</h3><p>${esc(n.text)}</p>${n.link ? `<a class="news-go is-link" href="${esc(n.link)}" data-loc="news">${esc(n.linkText || "자세히 보기")} →</a>` : `<button class="news-go" data-consult="${n.model === "other" ? "other" : n.model}" data-loc="news">상담 받기 →</button>`}</div></article>`).join("");
   }
   function renderReport(el) {
     if (!el || !S.report) return;

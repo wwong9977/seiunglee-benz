@@ -849,3 +849,13 @@ legend .opt,summary .opt{color:var(--mut);font-weight:400;font-size:12px;margin-
   .spec-t tr{flex:0 0 86%;scroll-snap-align:start}
   .spec-t tr:only-child{flex-basis:100%}
 }
+
+/* v13 이벤트 페이지 (event-*.html) */
+.ev-box{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0 26px}
+.ev-box>div{background:rgba(255,255,255,.05);border:1px solid rgba(200,169,106,.35);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.ev-box small{color:#9fa7b3;font-size:12px}
+.ev-box b{color:#fff;font-size:17px;line-height:1.35}
+.ev-box em{font-style:normal;color:var(--gold);font-size:13px}
+.ev-note{color:#9fa7b3;font-size:13.5px}
+.news-go.is-link{display:inline-block;text-decoration:none}
+@media(max-width:560px){.ev-box{grid-template-columns:1fr}.ev-box b{font-size:16px}}

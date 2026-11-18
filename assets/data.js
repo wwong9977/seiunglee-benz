@@ -264,6 +264,8 @@ window.SITE = {
 
   /* ---------- 4-3. 신차·사전계약 소식 ---------- */
   news: [
+    /* link가 있으면 '상담 받기' 대신 해당 페이지로 연결. 전시 종료 시 validTo를 종료일로 바꾸면 자동으로 내려갑니다 */
+    { tag:"잠실 롯데몰 전시 중", title:"E 200 Exclusive 27년식 · 젠틀몬스터 앞", text:"잠실 롯데몰 젠틀몬스터 매장 앞에 E 200 Exclusive 27년식이 전시되어 있습니다. 11월 최대 18% 할인(현금 14% + 벤츠 금융 4%), 현장 QR로 상담신청하시면 벤츠 머그컵과 수제 쿠키를 드립니다.", model:"e-class", image:"assets/img/event/jamsil-front.jpg", link:"event-jamsil.html", linkText:"전시·이벤트 보기", validFrom:"2026-11-18" },
     { tag:"사전계약 재구매 혜택", title:"The New S-Class (MY27)", text:"기존 E-Class 이상 보유 고객은 재구매 횟수에 따라 보증연장이 최대 +2년/+7만km까지 늘어납니다. 타 프리미엄 브랜드 보유 고객도 보증연장 +1년/+3만km.", model:"s-class", image:"assets/img/cat-s-news.jpg" },
     { tag:"MY27 상담 시작", title:"The new GLE (MY27)", text:"GLE 450 4MATIC AMG Line·Coupé MY27이 11월 조건표에 새로 올라왔습니다. 가격·출고 일정과 MY26 재고 조건을 나란히 비교해 드립니다.", model:"gle" },
     { tag:"11월 신설", title:"Electric CLA · GLB 250+ electric", text:"전기 CLA(CLA 200·CLA 250+)와 GLB 250+ electric에 11월부터 100만원 현금 할인이 생겼습니다. 보조금은 지역·시점에 따라 달라 함께 확인해 드립니다.", model:"other" },
