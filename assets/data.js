@@ -11,7 +11,7 @@ window.SITE = {
     advisorName: "이세웅",
     advisorTitle: "과장",
     showroom: "HS더클래스 효성 구리전시장",
-    showroomAddress: "",          // 확인 필요: 전시장 주소
+    showroomAddress: "경기도 구리시 한다리길 13", // 확인됨 2026-11-18
     phone: "010-4748-9977",        // 2026-11-10 과장님 확인
     kakaoUrl: "https://pf.kakao.com/_xfxfNFX/chat", // 2026-11-10 과장님 확인
     blogUrl: "https://blog.naver.com/dokcar", // 2026-11-16 과장님 확인 (네이버 블로그)

@@ -859,3 +859,5 @@ legend .opt,summary .opt{color:var(--mut);font-weight:400;font-size:12px;margin-
 .ev-note{color:#9fa7b3;font-size:13.5px}
 .news-go.is-link{display:inline-block;text-decoration:none}
 @media(max-width:560px){.ev-box{grid-template-columns:1fr}.ev-box b{font-size:16px}}
+.ev-box .ev-wide{grid-column:1/-1}
+.ev-box em a{color:inherit}
