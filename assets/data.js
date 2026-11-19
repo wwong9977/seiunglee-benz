@@ -224,7 +224,7 @@ window.SITE = {
   /* ---------- 전기차 사전계약 (카탈로그 2026.10 · 11월 프로모션 기준) ---------- */
   /* offer(이달 혜택 문구)는 프로모션 적용 기간(promoMeta)이 지나면 자동으로 숨겨집니다. 다른 기간이면 offerValidFrom/offerValidTo를 추가 */
   ev: [
-    { id:"glc-ev", name:"The all-new electric GLC", tag:"사전계약 상담 중", image:"assets/img/cat-glc-ev.jpg", image2:"assets/img/cat-glc-ev-city.jpg",
+    { id:"glc-ev", name:"The all-new electric GLC", tag:"판매 시작 · 구리전시장 실차 입고", cta:"구매 상담 신청", prefix:"GLC 전기차", link:"news-glc-electric.html", linkText:"입고 실차 사진", image:"assets/img/cat-glc-ev.jpg", image2:"assets/img/cat-glc-ev-city.jpg",
       trims:["GLC 300 4MATIC electric", "GLC 300 4MATIC electric AMG Line", "GLC 400 4MATIC electric"],
       specs:[["1회 충전 주행거리","448km (복합, GLC 300 4MATIC electric)"],["모터 최고출력","310kW (GLC 300 4MATIC electric)"],["구동","사륜구동 4MATIC"],["급속 충전","800V · 최대 320kW (GLC 400: 330kW), 10→80% 약 22분"]],
       offer:"11월: 기존 벤츠 재구매 +1%, Trade-in +1%", lead:"GLC의 공간과 실용성을 그대로, 완전 전동화로 새로 나온 중형 전기 SUV" },
@@ -264,6 +264,7 @@ window.SITE = {
 
   /* ---------- 4-3. 신차·사전계약 소식 ---------- */
   news: [
+    { tag:"판매 시작", title:"GLC 전기차 · 구리전시장 실차 입고", text:"The all-new electric GLC(GLC 300 4MATIC electric)가 출고 차량으로 구리전시장에 들어왔습니다. 이제 판매가 시작됐습니다. 실차 사진과 주행거리·충전 정보를 확인해 보세요.", model:"glc-ev", image:"assets/img/news/glc-ev-side.jpg", link:"news-glc-electric.html", linkText:"실차 사진 보기", validFrom:"2026-11-19" },
     /* link가 있으면 '상담 받기' 대신 해당 페이지로 연결. 전시 종료 시 validTo를 종료일로 바꾸면 자동으로 내려갑니다 */
     { tag:"잠실 롯데몰 전시 중", title:"E 200 Exclusive 27년식 · 젠틀몬스터 앞", text:"잠실 롯데몰 젠틀몬스터 매장 앞에 E 200 Exclusive 27년식이 전시되어 있습니다. 11월 최대 18% 할인(현금 14% + 벤츠 금융 4%), 현장 QR로 상담신청하시면 벤츠 머그컵과 수제 쿠키를 드립니다.", model:"e-class", image:"assets/img/event/jamsil-front.jpg", link:"event-jamsil.html", linkText:"전시·이벤트 보기", validFrom:"2026-11-18" },
     { tag:"사전계약 재구매 혜택", title:"The New S-Class (MY27)", text:"기존 E-Class 이상 보유 고객은 재구매 횟수에 따라 보증연장이 최대 +2년/+7만km까지 늘어납니다. 타 프리미엄 브랜드 보유 고객도 보증연장 +1년/+3만km.", model:"s-class", image:"assets/img/cat-s-news.jpg" },

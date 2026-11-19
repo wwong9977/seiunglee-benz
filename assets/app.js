@@ -567,12 +567,12 @@
         <div class="ev-trims">${v.trims.map((t) => `<span>${esc(t)}</span>`).join("")}</div>
         <dl class="ev-specs">${v.specs.map(([k, val]) => `<div><dt>${esc(k)}</dt><dd>${esc(val)}</dd></div>`).join("")}</dl>
         ${v.offer && inRange(v.offerValidFrom || S.promoMeta.validFrom, v.offerValidTo || S.promoMeta.validTo) ? `<p class="ev-offer">🎁 ${esc(v.offer)}</p>` : ""}
-        <div class="ev-acts"><button class="btn btn-gold" data-pre="${v.id}">사전계약 상담 신청</button><a class="btn btn-line" href="#" data-action="kakao" data-loc="ev_${v.id}">카카오로 문의</a></div>
+        <div class="ev-acts"><button class="btn btn-gold" data-pre="${v.id}">${esc(v.cta || "사전계약 상담 신청")}</button>${v.link ? `<a class="btn btn-line" href="${esc(v.link)}">${esc(v.linkText || "자세히 보기")}</a>` : ""}<a class="btn btn-line" href="#" data-action="kakao" data-loc="ev_${v.id}">카카오로 문의</a></div>
       </div></section>`).join("");
     $$("[data-pre]", el).forEach((b) => b.addEventListener("click", () => {
       const v = S.ev.find((x) => x.id === b.dataset.pre); track("ev_precontract_click", { model: v.id });
       const sel = $("#f-model"); if (sel) sel.value = v.id;
-      const m = $("#f-msg"); if (m && !/^\[사전계약\]/.test(m.value)) m.value = `[사전계약] ${v.name} · 희망 트림: \n` + m.value;
+      const px = v.prefix || "사전계약"; const m = $("#f-msg"); if (m && !m.value.startsWith(`[${px}]`)) m.value = `[${px}] ${v.name} · 희망 트림: \n` + m.value;
       const f = $("#consult"); if (f) f.scrollIntoView({ behavior: "smooth", block: "start" });
       setTimeout(() => { const n = $("#f-name"); if (n) n.focus({ preventScroll: true }); }, 600);
     }));
