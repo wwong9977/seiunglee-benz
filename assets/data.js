@@ -131,16 +131,16 @@ window.SITE = {
     { model:"e-class", trim:"E 450 4MATIC Exclusive", my:"MY26", stock:true, price:129600000, base:11, mbm:0, ret:1, trade:1, conquest:0, finance:"일반할부 연 7.43% (60개월·선수금 30%)", better:[] },
 
 
-    /* ----- S-Class 27년식 (현금·금융 할인 없음 → 재구매·Trade-in 중심) ----- */
-    { model:"s-class", trim:"S 350 d 4MATIC", my:"MY27", price:154000000, base:0, mbm:0, ret:2, trade:1, conquest:0,
+    /* ----- S-Class 27년식 (위탁·전시 차량 현금 4% 기본 적용 · 재구매 조건) ----- */
+    { model:"s-class", trim:"S 350 d 4MATIC", my:"MY27", price:154000000, base:4, mbm:0, ret:2, trade:1, conquest:0,
       finance:"일반할부 연 7.43% · 재구매 고객 운용리스 특별 조건",
-      extraText:"S-Class 재구매 고객: 주유 바우처 50만원 · 재구매 저금리 할부·리스·렌트 · 운용리스/장기렌트 재구매 시 여행상품권 100만원 · 전시·위탁 차량 재구매 시 취득세 지원 4% + Trade-in 추가 3% · 재구매+ : 보유 E-Class 이상 고객은 재구매 횟수에 따라 보증연장 최대 +2년/+7만km · 타 프리미엄 브랜드 보유 고객 보증연장 +1년/+3만km",
-      better:["11/20 재구매 혜택 강화","재구매+ 프로그램 신설"] },
-    { model:"s-class", trim:"S 450 4MATIC", my:"MY27", price:162400000, base:0, mbm:0, ret:2, trade:1, conquest:0, finance:"일반할부 연 7.43% · 재구매 고객 운용리스 특별 조건", extraText:"S-Class 재구매 고객: 주유 바우처 50만원 · 재구매 저금리 할부·리스·렌트 · 운용리스/장기렌트 재구매 시 여행상품권 100만원 · 전시·위탁 차량 재구매 시 취득세 지원 4% + Trade-in 추가 3%", better:["11/20 재구매 혜택 강화","재구매+ 프로그램 신설"] },
-    { model:"s-class", trim:"S 450 4MATIC Long Exclusive", my:"MY27", price:175400000, base:0, mbm:0, ret:2, trade:1, conquest:0, finance:"일반할부 연 7.43% · 재구매 고객 운용리스 특별 조건", extraText:"S-Class 재구매 고객: 주유 바우처 50만원 · 재구매 저금리 할부·리스·렌트 · 운용리스/장기렌트 재구매 시 여행상품권 100만원 · 전시·위탁 차량 재구매 시 취득세 지원 4% + Trade-in 추가 3%", better:["11/20 재구매 혜택 강화","재구매+ 프로그램 신설"] },
-    { model:"s-class", trim:"S 450 4MATIC Long AMG Line", my:"MY27", price:195400000, base:0, mbm:0, ret:2, trade:1, conquest:0, finance:"일반할부 연 7.43% · 재구매 고객 운용리스 특별 조건", extraText:"S-Class 재구매 고객: 주유 바우처 50만원 · 재구매 저금리 할부·리스·렌트 · 운용리스/장기렌트 재구매 시 여행상품권 100만원 · 전시·위탁 차량 재구매 시 취득세 지원 4% + Trade-in 추가 3%", better:["11/20 재구매 혜택 강화","재구매+ 프로그램 신설"] },
-    { model:"s-class", trim:"S 500 4MATIC Long", my:"MY27", price:220000000, base:0, mbm:0, ret:2, trade:1, conquest:0, finance:"일반할부 연 7.43% · 재구매 고객 운용리스 특별 조건", extraText:"S-Class 재구매 고객: 주유 바우처 50만원 · 재구매 저금리 할부·리스·렌트 · 운용리스/장기렌트 재구매 시 여행상품권 100만원 · 전시·위탁 차량 재구매 시 취득세 지원 4% + Trade-in 추가 3%", better:["11/20 재구매 혜택 강화","재구매+ 프로그램 신설"] },
-    { model:"s-class", trim:"S 580 4MATIC Long", my:"MY27", price:270000000, base:0, mbm:0, ret:2, trade:1, conquest:0, finance:"일반할부 연 7.43% · 재구매 고객 운용리스 특별 조건", extraText:"S-Class 재구매 고객: 주유 바우처 50만원 · 재구매 저금리 할부·리스·렌트 · 운용리스/장기렌트 재구매 시 여행상품권 100만원 · 전시·위탁 차량 재구매 시 취득세 지원 4% + Trade-in 추가 3%", better:["11/20 재구매 혜택 강화","재구매+ 프로그램 신설"] },
+      extraText:"현금 4%는 위탁·전시 차량 기준 (재구매 조건) · S-Class 재구매 고객: 주유 바우처 50만원 · 재구매 저금리 할부·리스·렌트 · 운용리스/장기렌트 재구매 시 여행상품권 100만원 · 전시·위탁 차량 재구매 시 취득세 지원 4% + Trade-in 추가 3% · 재구매+ : 보유 E-Class 이상 고객은 재구매 횟수에 따라 보증연장 최대 +2년/+7만km · 타 프리미엄 브랜드 보유 고객 보증연장 +1년/+3만km",
+      better:["위탁·전시 차량 현금 4%","11/20 재구매 혜택 강화","재구매+ 프로그램 신설"] },
+    { model:"s-class", trim:"S 450 4MATIC", my:"MY27", price:162400000, base:4, mbm:0, ret:2, trade:1, conquest:0, finance:"일반할부 연 7.43% · 재구매 고객 운용리스 특별 조건", extraText:"현금 4%는 위탁·전시 차량 기준 (재구매 조건) · S-Class 재구매 고객: 주유 바우처 50만원 · 재구매 저금리 할부·리스·렌트 · 운용리스/장기렌트 재구매 시 여행상품권 100만원 · 전시·위탁 차량 재구매 시 취득세 지원 4% + Trade-in 추가 3%", better:["위탁·전시 차량 현금 4%","11/20 재구매 혜택 강화","재구매+ 프로그램 신설"] },
+    { model:"s-class", trim:"S 450 4MATIC Long Exclusive", my:"MY27", price:175400000, base:4, mbm:0, ret:2, trade:1, conquest:0, finance:"일반할부 연 7.43% · 재구매 고객 운용리스 특별 조건", extraText:"현금 4%는 위탁·전시 차량 기준 (재구매 조건) · S-Class 재구매 고객: 주유 바우처 50만원 · 재구매 저금리 할부·리스·렌트 · 운용리스/장기렌트 재구매 시 여행상품권 100만원 · 전시·위탁 차량 재구매 시 취득세 지원 4% + Trade-in 추가 3%", better:["위탁·전시 차량 현금 4%","11/20 재구매 혜택 강화","재구매+ 프로그램 신설"] },
+    { model:"s-class", trim:"S 450 4MATIC Long AMG Line", my:"MY27", price:195400000, base:4, mbm:0, ret:2, trade:1, conquest:0, finance:"일반할부 연 7.43% · 재구매 고객 운용리스 특별 조건", extraText:"현금 4%는 위탁·전시 차량 기준 (재구매 조건) · S-Class 재구매 고객: 주유 바우처 50만원 · 재구매 저금리 할부·리스·렌트 · 운용리스/장기렌트 재구매 시 여행상품권 100만원 · 전시·위탁 차량 재구매 시 취득세 지원 4% + Trade-in 추가 3%", better:["위탁·전시 차량 현금 4%","11/20 재구매 혜택 강화","재구매+ 프로그램 신설"] },
+    { model:"s-class", trim:"S 500 4MATIC Long", my:"MY27", price:220000000, base:4, mbm:0, ret:2, trade:1, conquest:0, finance:"일반할부 연 7.43% · 재구매 고객 운용리스 특별 조건", extraText:"현금 4%는 위탁·전시 차량 기준 (재구매 조건) · S-Class 재구매 고객: 주유 바우처 50만원 · 재구매 저금리 할부·리스·렌트 · 운용리스/장기렌트 재구매 시 여행상품권 100만원 · 전시·위탁 차량 재구매 시 취득세 지원 4% + Trade-in 추가 3%", better:["위탁·전시 차량 현금 4%","11/20 재구매 혜택 강화","재구매+ 프로그램 신설"] },
+    { model:"s-class", trim:"S 580 4MATIC Long", my:"MY27", price:270000000, base:4, mbm:0, ret:2, trade:1, conquest:0, finance:"일반할부 연 7.43% · 재구매 고객 운용리스 특별 조건", extraText:"현금 4%는 위탁·전시 차량 기준 (재구매 조건) · S-Class 재구매 고객: 주유 바우처 50만원 · 재구매 저금리 할부·리스·렌트 · 운용리스/장기렌트 재구매 시 여행상품권 100만원 · 전시·위탁 차량 재구매 시 취득세 지원 4% + Trade-in 추가 3%", better:["위탁·전시 차량 현금 4%","11/20 재구매 혜택 강화","재구매+ 프로그램 신설"] },
     /* ----- GLC 27년식 ----- */
     { model:"glc", trim:"GLC 300 4MATIC Coupé AVANTGARDE", my:"MY27", price:86600000, base:11, mbm:1, ret:1, trade:1, conquest:1,
       finance:"24개월 무이자 할부 (선수금 65%) · 일반할부 연 5.65% · 특별 리스", extraText:"위탁·전시 차량 기준 할인 (현금 11% + 금융 1%) · 장기 전시차는 +1% 더해 최대 13% · 공장 주문 차량은 현금 7% · 12/31까지 출고 시 2027년 GLC 전기차 우선 배정권", better:["기본 할인 5% → 11% (위탁·전시)","금융 할인 +1% 신설","24개월 무이자 신설"] },
@@ -261,7 +261,7 @@ window.SITE = {
     { model:"e-class", text:"(11/20 추가) E 300 4MATIC(MY27) 위탁·전시 차량 현금 10% + 금융 4% = 14%, 24개월 무이자·저금리 리스 신설" },
     { model:"glc", text:"(11/20 추가) GLC·GLC 쿠페(MY27) 위탁·전시 차량 현금 11% + 금융 1% = 12% · 출고 고객 2027년 GLC 전기차 우선 배정권" },
     { model:"gle", text:"(11/20 추가) The new GLE 450 4MATIC AMG Line(MY27) 현금 할인 5% 신설" },
-    { model:"s-class", text:"(11/20 추가) 신형 S-Class 재구매 고객 주유 바우처 50만원·재구매 저금리 금융, 전시·위탁 차량 재구매 시 취득세 지원 4%" }
+    { model:"s-class", text:"(11/20 추가) 신형 S-Class(MY27) 위탁·전시 차량 현금 4% · 재구매 고객 주유 바우처 50만원·재구매 저금리 금융" }
   ],
 
   /* 사은품(골든타임) — 재고 소진 시 대체 가능 */
