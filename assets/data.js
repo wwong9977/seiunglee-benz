@@ -39,9 +39,9 @@ window.SITE = {
 
   /* ---------- 2. 가격 기준 ---------- */
   priceBasis: {
-    date: "2026-11-04",           // 가격표 기준일 (화면의 '가격표 OOOO.OO.OO 기준' 표기에 사용)
-    label: "차량가: 메르세데스-벤츠 일반 소비자 판매 가격표 (2026.11.04) · 27년식 기준",
-    checkedAt: "2026-11-10",
+    date: "2026-11-16",           // 가격표 기준일 (화면의 '가격표 OOOO.OO.OO 기준' 표기에 사용)
+    label: "차량가: 메르세데스-벤츠 권장 소비자 가격표 (2026.11.16) · 27년식 기준",
+    checkedAt: "2026-11-23",
     status: "확인됨",
     note: "27년식 가격이 없는 모델(GLE 등)은 26년식 재고 가격으로 표시. 탁송료·등록비 별도."
   },
@@ -144,10 +144,12 @@ window.SITE = {
     /* ----- GLC 27년식 ----- */
     { model:"glc", trim:"GLC 300 4MATIC Coupé AVANTGARDE", my:"MY27", price:86600000, base:7, mbm:1, ret:1, trade:1, conquest:1,
       finance:"24개월 무이자 할부 (선수금 65%) · 일반할부 연 5.65% · 특별 리스", extraText:"전시·위탁 차량은 현금 할인 11% + 금융 1% (+장기 전시차 1%) = 최대 13% · 12/31까지 출고 시 2027년 GLC 전기차 우선 배정권", better:["11/20 전시·위탁 차량 최대 13%","기본 할인 5% → 7%","금융 할인 +1% 신설","24개월 무이자 신설"] },
-    { model:"glc", trim:"GLC 300 4MATIC Coupé AMG Line", my:"MY27", price:96900000, base:7, mbm:1, ret:1, trade:1, conquest:1,
-      finance:"24개월 무이자 할부 (선수금 65%) · 일반할부 연 5.65% · 특별 리스", extraText:"전시·위탁 차량은 현금 할인 11% + 금융 1% (+장기 전시차 1%) = 최대 13% · 12/31까지 출고 시 2027년 GLC 전기차 우선 배정권", better:["11/20 전시·위탁 차량 최대 13%","기본 할인 5% → 7%","금융 할인 +1% 신설","24개월 무이자 신설"] },
+    { model:"glc", trim:"GLC 300 4MATIC Coupé AMG Line", my:"MY27", price:97900000, base:7, mbm:1, ret:1, trade:1, conquest:1,
+      finance:"24개월 무이자 할부 (선수금 65%) · 일반할부 연 5.65% · 특별 리스", extraText:"11/16 가격표부터 9,790만원 (MY27 초기 생산분 재고는 9,690만원) · 전시·위탁 차량은 현금 할인 11% + 금융 1% (+장기 전시차 1%) = 최대 13% · 12/31까지 출고 시 2027년 GLC 전기차 우선 배정권", better:["11/20 전시·위탁 차량 최대 13%","기본 할인 5% → 7%","금융 할인 +1% 신설","24개월 무이자 신설"] },
     { model:"glc", trim:"GLC 300 4MATIC AVANTGARDE", my:"MY27", price:82500000, base:7, mbm:1, ret:1, trade:1, conquest:1, finance:"일반할부 연 6.60% (60개월·선수금 30%)", extraText:"전시·위탁 차량은 현금 할인 11% + 금융 1% (+장기 전시차 1%) = 최대 13% · 12/31까지 출고 시 2027년 GLC 전기차 우선 배정권", better:["11/20 전시·위탁 차량 최대 13%","금융 할인 +1% 신설"] },
     { model:"glc", trim:"GLC 300 4MATIC AMG Line", my:"MY27", price:95500000, base:7, mbm:1, ret:1, trade:1, conquest:1, finance:"일반할부 연 6.60% (60개월·선수금 30%)", extraText:"전시·위탁 차량은 현금 할인 11% + 금융 1% (+장기 전시차 1%) = 최대 13% · 12/31까지 출고 시 2027년 GLC 전기차 우선 배정권", better:["11/20 전시·위탁 차량 최대 13%","금융 할인 +1% 신설"] },
+    { model:"glc", trim:"GLC 300 4MATIC", my:"MY27", price:77000000, base:7, mbm:1, ret:1, trade:1, conquest:1, finance:"일반할부 (60개월·선수금 30%) · 특별 리스 상담",
+      extraText:"전시·위탁 차량은 현금 할인 11% + 금융 1% (+장기 전시차 1%) = 최대 13% · 12/31까지 출고 시 2027년 GLC 전기차 우선 배정권", better:["11/16 가격표 신규 트림 (7,700만원)"] },
     /* GLC 26년식 재고 */
     { model:"glc", trim:"GLC 300 4MATIC AMG Line", my:"MY26", stock:true, price:92500000, base:12, mbm:4, ret:1, trade:1, conquest:1,
       finance:"24개월 무이자 할부 (선수금 65%) · 일반할부 연 5.28%", extraText:"12/31까지 출고 시 2027년 GLC 전기차 우선 배정권", better:["24개월 무이자 신설"] },
@@ -178,10 +180,10 @@ window.SITE = {
       finance:"24·36개월 무이자 할부 (선수금 65%) · 일반할부 연 4.26% · 특별 리스", better:["24·36개월 무이자"] },
     { model:"gle", trim:"Mercedes-AMG GLE 53 4MATIC+ Coupé", my:"MY26", stock:true, price:170000000, base:5, mbm:0, ret:2, trade:1, conquest:1,
       finance:"24·36개월 무이자 할부 (선수금 65%) · 일반할부 연 4.26% · 특별 리스", better:["24·36개월 무이자"] },
-    { model:"gle", trim:"The new GLE 450 4MATIC AMG Line", my:"MY27", price:null, base:5, mbm:0, ret:1, trade:1, conquest:1,
-      finance:"", better:["11/20 현금 할인 5% 신설","MY27 신규 (가격·출고 일정 상담)"] },
-    { model:"gle", trim:"The new GLE 450 4MATIC Coupé AMG Line", my:"MY27", price:null, base:0, mbm:0, ret:1, trade:1, conquest:1,
-      finance:"", better:["MY27 신규 (가격·출고 일정 상담)"] },
+    { model:"gle", trim:"The new GLE 450 4MATIC AMG Line", my:"MY27", price:136700000, base:5, mbm:0, ret:1, trade:1, conquest:1,
+      finance:"", better:["11/20 현금 할인 5% 신설","11/16 가격 발표"] },
+    { model:"gle", trim:"The new GLE 450 4MATIC Coupé", my:"MY27", price:140800000, base:0, mbm:0, ret:1, trade:1, conquest:1,
+      finance:"", better:["11/16 가격 발표"] },
     /* ----- 그 외 무이자 모델 (벤츠파이낸셜 11월 요약표 · 가격은 요약표/가격표 기준) ----- */
     { model:"c-class", trim:"C 200 AVANTGARDE", my:"MY26", stock:true, price:65100000, base:10, mbm:4, ret:1, trade:1, conquest:0,
       finance:"24개월 무이자 할부 (선수금 65%) · 일반할부 연 5.33% · 특별 리스", better:["24개월 무이자"] },
@@ -191,6 +193,10 @@ window.SITE = {
       finance:"24개월 무이자 할부 (선수금 65%) · 일반할부 연 5.26% · 특별 리스", better:["24개월 무이자"] },
     { model:"glb", trim:"Mercedes-AMG GLB 35 4MATIC", my:"MY26", stock:true, price:79500000, base:9, mbm:4, ret:2, trade:1, conquest:0,
       finance:"24개월 무이자 할부 (선수금 65%) · 일반할부 연 4.08% · 특별 리스", better:["24개월 무이자"] },
+    { model:"gls", trim:"GLS 450 4MATIC (7인승)", my:"MY27", price:155100000, base:0, mbm:0, ret:2, trade:1, conquest:0,
+      finance:"", extraText:"6인승 1억 5,200만원", better:["11/16 가격 발표"] },
+    { model:"gls", trim:"GLS 450 4MATIC AMG Line (7인승)", my:"MY27", price:161200000, base:0, mbm:0, ret:2, trade:1, conquest:0,
+      finance:"", extraText:"6인승 1억 5,810만원", better:["11/16 가격 발표"] },
     { model:"gls", trim:"GLS 450 4MATIC", my:"MY26", stock:true, price:154000000, base:8, mbm:0, ret:2, trade:1, conquest:0,
       finance:"24·36개월 무이자 할부 (선수금 65%) · 일반할부 연 4.26% · 특별 리스", better:["24·36개월 무이자"] },
     { model:"gls", trim:"GLS 580 4MATIC", my:"MY26", stock:true, price:193400000, base:9, mbm:0, ret:2, trade:1, conquest:0,
@@ -231,16 +237,16 @@ window.SITE = {
   /* offer(이달 혜택 문구)는 프로모션 적용 기간(promoMeta)이 지나면 자동으로 숨겨집니다. 다른 기간이면 offerValidFrom/offerValidTo를 추가 */
   ev: [
     { id:"glc-ev", name:"The all-new electric GLC", tag:"판매 시작 · 구리전시장 실차 입고", cta:"구매 상담 신청", prefix:"GLC 전기차", link:"news-glc-electric.html", linkText:"입고 실차 사진", image:"assets/img/cat-glc-ev.jpg", image2:"assets/img/cat-glc-ev-city.jpg",
-      trims:["GLC 300 4MATIC electric", "GLC 300 4MATIC electric AMG Line", "GLC 400 4MATIC electric"],
-      specs:[["1회 충전 주행거리","448km (복합, GLC 300 4MATIC electric)"],["모터 최고출력","310kW (GLC 300 4MATIC electric)"],["구동","사륜구동 4MATIC"],["급속 충전","800V · 최대 320kW (GLC 400: 330kW), 10→80% 약 22분"]],
+      trims:["GLC 300 4MATIC electric AMG Line (Launch Edition)", "GLC 300 4MATIC electric AMG Line+ (Launch Edition)"],
+      specs:[["가격 (11/16 가격표)","AMG Line 9,000만원 · AMG Line+ 9,480만원 (Launch Edition)"],["1회 충전 주행거리","448km (복합, GLC 300 4MATIC electric)"],["모터 최고출력","310kW (GLC 300 4MATIC electric)"],["구동","사륜구동 4MATIC"],["급속 충전","800V · 최대 320kW (GLC 400: 330kW), 10→80% 약 22분"]],
       offer:"11월: 기존 벤츠 재구매 +1%, Trade-in +1%", lead:"GLC의 공간과 실용성을 그대로, 완전 전동화로 새로 나온 중형 전기 SUV" },
     { id:"glb-ev", name:"The all-new electric GLB", tag:"사전계약 상담 중", image:"assets/img/cat-glb-ev.jpg", image2:"assets/img/cat-glb-ev-front.jpg",
       trims:["GLB 200 electric", "GLB 250+ electric"],
-      specs:[["급속 충전","800V · 최대 320kW, 10→80% 약 22분"],["트림","GLB 200 electric · GLB 250+ electric"],["주행거리·제원","트림별 인증 제원 상담 시 안내"]],
+      specs:[["가격 (11/16 가격표)","GLB 250+ electric 6,990만원"],["급속 충전","800V · 최대 320kW, 10→80% 약 22분"],["트림","GLB 200 electric · GLB 250+ electric"],["주행거리·제원","트림별 인증 제원 상담 시 안내"]],
       offer:"11월: GLB 250+ electric 현금 100만원 할인, 재구매 +1%, Trade-in +1% · 12/31까지 출고 시 2027년 GLC 전기차 우선 배정권", lead:"각진 SUV 디자인과 넉넉한 실내, 가족용 전기 SUV" },
     { id:"cla-ev", name:"The all-new electric CLA", tag:"사전계약 상담 중", image:"assets/img/cat-cla-ev.jpg", image2:"assets/img/cat-cla-ev-side.jpg",
       trims:["CLA 200 electric Essential", "CLA 200 electric Advanced", "CLA 200 electric AMG Line", "CLA 250+ electric", "CLA 250+ electric AMG Line"],
-      specs:[["1회 충전 주행거리","474km (복합, CLA 250+ electric)"],["모터 최고출력","200kW (CLA 250+ electric)"],["구동","후륜구동"],["급속 충전","800V · 최대 320kW, 10→80% 약 22분"]],
+      specs:[["가격 (11/16 가격표)","CLA 200 electric 5,290만~5,890만원 · CLA 250+ electric 6,370만~6,770만원"],["1회 충전 주행거리","474km (복합, CLA 250+ electric)"],["모터 최고출력","200kW (CLA 250+ electric)"],["구동","후륜구동"],["급속 충전","800V · 최대 320kW, 10→80% 약 22분"]],
       offer:"11월: CLA 200·CLA 250+ electric 현금 100만원 할인, 재구매 +1%, Trade-in +1%", lead:"벤츠 전기 세단의 새 기준, 쿠페형 실루엣의 엔트리 전기 세단" }
   ],
 
