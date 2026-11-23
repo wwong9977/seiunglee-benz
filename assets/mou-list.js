@@ -1,7 +1,7 @@
 /* MOU 제휴사 목록 — 회사명만 보관 (사업자번호 등은 넣지 않음). 추가/삭제는 items에 {n:"회사명"}로. mbk:1 = 벤츠코리아 본사 체결(NFA) */
 window.MOU_LIST = {
 "updated": "2026-06-05",
-"source": "2026 RoF MOU list (Consolidated, 2026.06.05) 중 HS더클래스 효성(HSTC) 체결분 + 벤츠코리아 본사(MBK) 체결분 + 2026.11.10 추가 12개사",
+"source": "2026 RoF MOU list (Consolidated, 2026.06.05) 중 HS효성더클래스(HSTC) 체결분 + 벤츠코리아 본사(MBK) 체결분 + 2026.11.10 추가 12개사",
 "groups": [
 "(주)넥슨코리아",
 "(주)아모레퍼시픽",

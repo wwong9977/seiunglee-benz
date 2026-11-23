@@ -33,7 +33,7 @@ for k, (src, title, sub) in ITEMS.items():
     mask = g.resize((W, H)); dark = Image.new("RGB", (W, H), (11, 15, 21)); im = Image.composite(dark, im, mask)
     d = ImageDraw.Draw(im)
     lg = logo.copy(); lg.thumbnail((300, 60)); im.paste(lg, (64, 60), lg)
-    d.text((64, 150), "이세웅 과장 · HS더클래스 효성 구리전시장", font=font("Regular", 22), fill=(184, 190, 200))
+    d.text((64, 150), "이세웅 과장 · HS효성더클래스 구리전시장", font=font("Regular", 22), fill=(184, 190, 200))
     d.text((60, 225), title, font=font("Bold", 84 if len(title) < 8 else 72), fill=(255, 255, 255))
     d.text((64, 345), sub, font=font("Medium", 30), fill=(230, 226, 217))
     d.rounded_rectangle((64, 470, 480, 540), radius=35, fill=(214, 180, 122))

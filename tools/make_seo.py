@@ -8,7 +8,7 @@
 import glob, html, json, os, re, subprocess, datetime
 os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 SITE = "https://wwong9977.github.io/seiunglee-benz/"
-AUTHOR = "이세웅 과장 · HS더클래스 효성 구리전시장"
+AUTHOR = "이세웅 과장 · HS효성더클래스 구리전시장"
 
 data = json.loads(subprocess.check_output(["node", "-e",
     "global.window={};require('./assets/data.js');process.stdout.write(JSON.stringify(window.SITE.reviews))"]))
@@ -55,5 +55,5 @@ rfc = lambda d: datetime.datetime.strptime(d, "%Y-%m-%d").strftime("%a, %d %b %Y
 items = "".join(f"<item><title>{esc(r.get('title'))}</title><link>{SITE}{r['link']}</link><guid>{SITE}{r['link']}</guid>"
                 f"<pubDate>{rfc(r['date'])}</pubDate><description>{esc(r.get('excerpt'))}</description></item>\n" for r in stories)
 open("rss.xml", "w", encoding="utf-8").write(f'<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel>\n<title>구리 벤츠 이세웅 과장 · 출고 이야기</title>'
-    f"<link>{SITE}</link><description>메르세데스-벤츠 HS더클래스 효성 구리전시장 이세웅 과장의 실제 고객 출고 후기</description><language>ko</language>\n{items}</channel></rss>\n")
+    f"<link>{SITE}</link><description>메르세데스-벤츠 HS효성더클래스 구리전시장 이세웅 과장의 실제 고객 출고 후기</description><language>ko</language>\n{items}</channel></rss>\n")
 print(f"stories {len(stories)} · sitemap {len(urls)} urls · rss ok")
