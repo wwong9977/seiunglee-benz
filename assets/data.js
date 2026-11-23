@@ -71,7 +71,7 @@ window.SITE = {
       fit: "가족 1~3인, 도심 주행 위주, 적당한 차체를 원하는 분"
     },
     {
-      id: "gle", main: true, image: "assets/img/cat-gle-suv.jpg", coreImage: "assets/img/cat-gle-coupe-rear.jpg", name: "GLE", kind: "SUV · Coupé", page: "gle.html",
+      id: "gle", main: true, image: "assets/img/new/gle-hero.jpg", coreImage: "assets/img/new/gle-coupe.jpg", name: "GLE", kind: "SUV · Coupé", page: "gle.html",
       tagline: "넉넉한 공간의 대형 SUV",
       trims: ["GLE 300 d 4MATIC", "GLE 350 4MATIC", "GLE 450 4MATIC", "GLE 450 4MATIC Coupé"],
       priceFrom: 118000000, priceStatus: "26년식",
@@ -79,7 +79,7 @@ window.SITE = {
     },
     { id: "c-class", page: "c-class.html", name: "C-Class", kind: "세단", image: "assets/img/cat-c.jpg" },
     { id: "glb", page: "glb.html", name: "GLB", kind: "SUV", image: "assets/img/cat-glb.jpg" },
-    { id: "gls", page: "gls.html", name: "GLS", kind: "대형 SUV", image: "assets/img/cat-gls.jpg" },
+    { id: "gls", main: true, page: "gls.html", name: "GLS", kind: "대형 SUV", image: "assets/img/new/gls-hero.jpg" },
     { id: "eq", page: "eqs-eqe.html", name: "EQE · EQS", kind: "전기차", image: "assets/img/cat-eqs.jpg" },
     { id: "g-class", page: "g-class.html", name: "G-Class", kind: "SUV", image: "assets/img/cat-g.jpg" },
     { id: "glc-ev", ev: true, name: "GLC electric", kind: "전기 SUV", image: "assets/img/cat-glc-ev.jpg" },
@@ -181,9 +181,9 @@ window.SITE = {
     { model:"gle", trim:"Mercedes-AMG GLE 53 4MATIC+ Coupé", my:"MY26", stock:true, price:170000000, base:5, mbm:0, ret:2, trade:1, conquest:1,
       finance:"24·36개월 무이자 할부 (선수금 65%) · 일반할부 연 4.26% · 특별 리스", better:["24·36개월 무이자"] },
     { model:"gle", trim:"The new GLE 450 4MATIC AMG Line", my:"MY27", price:136700000, base:5, mbm:0, ret:1, trade:1, conquest:1,
-      finance:"", better:["11/20 현금 할인 5% 신설","11/16 가격 발표"] },
+      finance:"", link:"new-gle-gls.html", better:["즉시 출고 가능","11/20 현금 할인 5% 신설"] },
     { model:"gle", trim:"The new GLE 450 4MATIC Coupé", my:"MY27", price:140800000, base:0, mbm:0, ret:1, trade:1, conquest:1,
-      finance:"", better:["11/16 가격 발표"] },
+      finance:"", extraText:"사전계약 중 · 출고 일정은 배정 확정 시 안내", better:["사전계약 중"] },
     /* ----- 그 외 무이자 모델 (벤츠파이낸셜 11월 요약표 · 가격은 요약표/가격표 기준) ----- */
     { model:"c-class", trim:"C 200 AVANTGARDE", my:"MY26", stock:true, price:65100000, base:10, mbm:4, ret:1, trade:1, conquest:0,
       finance:"24개월 무이자 할부 (선수금 65%) · 일반할부 연 5.33% · 특별 리스", better:["24개월 무이자"] },
@@ -194,9 +194,9 @@ window.SITE = {
     { model:"glb", trim:"Mercedes-AMG GLB 35 4MATIC", my:"MY26", stock:true, price:79500000, base:9, mbm:4, ret:2, trade:1, conquest:0,
       finance:"24개월 무이자 할부 (선수금 65%) · 일반할부 연 4.08% · 특별 리스", better:["24개월 무이자"] },
     { model:"gls", trim:"GLS 450 4MATIC (7인승)", my:"MY27", price:155100000, base:0, mbm:0, ret:2, trade:1, conquest:0,
-      finance:"", extraText:"6인승 1억 5,200만원", better:["11/16 가격 발표"] },
+      finance:"", extraText:"6인승 1억 5,200만원 · 사전계약 중, 출고 일정은 배정 확정 시 안내", better:["사전계약 중"] },
     { model:"gls", trim:"GLS 450 4MATIC AMG Line (7인승)", my:"MY27", price:161200000, base:0, mbm:0, ret:2, trade:1, conquest:0,
-      finance:"", extraText:"6인승 1억 5,810만원", better:["11/16 가격 발표"] },
+      finance:"", extraText:"6인승 1억 5,810만원 · 즉시 출고 가능 (색상·시트 구성은 재고 확인)", better:["즉시 출고 가능"] },
     { model:"gls", trim:"GLS 450 4MATIC", my:"MY26", stock:true, price:154000000, base:8, mbm:0, ret:2, trade:1, conquest:0,
       finance:"24·36개월 무이자 할부 (선수금 65%) · 일반할부 연 4.26% · 특별 리스", better:["24·36개월 무이자"] },
     { model:"gls", trim:"GLS 580 4MATIC", my:"MY26", stock:true, price:193400000, base:9, mbm:0, ret:2, trade:1, conquest:0,
@@ -272,6 +272,8 @@ window.SITE = {
 
   /* ---------- 4-2. 첫 화면 혜택 슬라이드 (promotions에서 model+trim+my로 찾아 계산) ---------- */
   heroOffers: [
+    { model:"gle", trim:"The new GLE 450 4MATIC AMG Line", my:"MY27", label:"The new GLE · 즉시 출고", cond:"즉시 출고 가능", image:"assets/img/new/gle-hero.jpg" },
+    { model:"gls", trim:"GLS 450 4MATIC AMG Line (7인승)", my:"MY27", label:"The new GLS · 즉시 출고", headline:"즉시 출고 가능", cond:"신형 GLS 450 4MATIC AMG Line · 6인승 1억 5,810만원 · 재구매·Trade-in 해당 시 추가 혜택", image:"assets/img/new/gls-hero.jpg" },
     { model:"e-class", trim:"E 200 Exclusive", my:"MY27", label:"E-Class 27년식", image:"assets/img/cat-e-blue.jpg" },
     { model:"gle", trim:"GLE 450 4MATIC Coupé AMG Line", my:"MY26", label:"GLE 쿠페 · 무이자 24·36개월", image:"assets/img/cat-gle-coupe.jpg" },
     { model:"glc", trim:"GLC 300 4MATIC Coupé AVANTGARDE", my:"MY27", label:"GLC 쿠페 27년식 할인 상향", image:"assets/img/cat-glc-coupe-front.jpg" },
@@ -280,6 +282,7 @@ window.SITE = {
 
   /* ---------- 4-3. 신차·사전계약 소식 ---------- */
   news: [
+    { tag:"신형 출시 · 즉시 출고", title:"The new GLE · The new GLS", text:"신형 GLE 450 4MATIC AMG Line과 GLS 450 4MATIC AMG Line은 바로 출고할 수 있습니다. GLE 450 AMG Line은 11월 현금 5% 할인, GLE 쿠페와 GLS 450(기본형)은 사전계약 중입니다.", model:"gle", image:"assets/img/new/gle-hero.jpg", link:"new-gle-gls.html", linkText:"신형 GLE·GLS 보기", validFrom:"2026-11-23" },
     { tag:"11/20 조건 업데이트", title:"GLC 사면 2027년 GLC 전기차 우선 배정", text:"12월 31일까지 GLC·GLC 쿠페(26·27년식) 또는 GLB 250+ electric을 출고하시면, 2027년에 원하시는 시기에 GLC 전기차를 우선 배정받을 수 있습니다. GLC 27년식 전시·위탁 차량은 최대 13% 할인입니다.", model:"glc", validFrom:"2026-11-20", validTo:"2026-12-31" },
     { tag:"판매 시작", title:"GLC 전기차 · 구리전시장 실차 입고", text:"The all-new electric GLC(GLC 300 4MATIC electric)가 출고 차량으로 구리전시장에 들어왔습니다. 이제 판매가 시작됐습니다. 실차 사진과 주행거리·충전 정보를 확인해 보세요.", model:"glc-ev", image:"assets/img/news/glc-ev-side.jpg", link:"news-glc-electric.html", linkText:"실차 사진 보기", validFrom:"2026-11-19" },
     /* link가 있으면 '상담 받기' 대신 해당 페이지로 연결. 전시 종료 시 validTo를 종료일로 바꾸면 자동으로 내려갑니다 */

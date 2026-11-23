@@ -352,7 +352,7 @@
   const findPromo = (h) => S.promotions.find((p) => p.model === h.model && p.trim === h.trim && p.my === h.my && active(p));
   function renderHero(el) {
     if (!el || !S.heroOffers) return;
-    const slides = S.heroOffers.map((h) => ({ h, p: findPromo(h) })).filter((x) => x.p && x.p.price && headRate(x.p));
+    const slides = S.heroOffers.map((h) => ({ h, p: findPromo(h) })).filter((x) => x.p && x.p.price && (headRate(x.p) || x.h.headline));
     if (!slides.length) { el.innerHTML = ""; return; }
     el.innerHTML = `<div class="hs-track" id="hsTrack">${slides.map(({ h, p }, i) => {
       const hr = headRate(p), d = discOf(p.price, hr);
@@ -361,9 +361,11 @@
         <div class="hs-body">
           <span class="hs-badge">${esc(h.label)}</span>
           <p class="hs-trim">${esc(S.promoMeta.month)} · ${esc(p.trim)} <small>${esc(myLabel(p))}</small></p>
-          <p class="hs-amt"><b>${man(d)}</b> 할인</p>
-          <p class="hs-cond">현금 ${p.base}%${p.mbm ? ` + 금융 이용 시 ${p.mbm}%` : ""} = ${hr}%${loyalty(p) ? ` · 재구매·Trade-in 등은 견적 계산기에서 추가` : ""}</p>
-          <div class="hs-prices"><div><small>차량가</small><s>${man(p.price)}</s></div><div class="fin"><small>할인 후</small><strong>${man(p.price - d)}</strong></div></div>
+          ${h.headline && !hr ? `<p class="hs-amt"><b>${esc(h.headline)}</b></p>
+          <p class="hs-cond">${esc(h.cond || "")}</p>
+          <div class="hs-prices"><div class="fin"><small>차량가</small><strong>${man(p.price)}</strong></div></div>` : `<p class="hs-amt"><b>${man(d)}</b> 할인</p>
+          <p class="hs-cond">${h.cond ? esc(h.cond) + " · " : ""}현금 ${p.base}%${p.mbm ? ` + 금융 이용 시 ${p.mbm}% = ${hr}%` : ""}${loyalty(p) ? ` · 재구매·Trade-in 등은 견적 계산기에서 추가` : ""}</p>
+          <div class="hs-prices"><div><small>차량가</small><s>${man(p.price)}</s></div><div class="fin"><small>할인 후</small><strong>${man(p.price - d)}</strong></div></div>`}
           ${p.finance ? `<p class="hs-fin"><small>금융</small> ${esc(p.finance.split("(")[0].replace(/ 또는.*/, "").trim())}</p>` : ""}
           <p class="hs-note">가격표 ${PRICE_DATE()} 기준 · 탁송·등록비 별도 · 최종 금액은 견적서로 확정</p>
         </div></article>`; }).join("")}</div>

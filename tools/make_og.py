@@ -8,10 +8,11 @@ ITEMS = {  # 파일명: (사진, 큰 제목, 작은 설명)
   "e-class": ("assets/img/cat-e-pair.jpg", "E-Class", "E 200 · E 300 · E 450 가격과 이달 혜택"),
   "s-class": ("assets/img/gallery/g-s-1.jpg", "S-Class", "S 350 d부터 S 580 Long까지"),
   "glc": ("assets/img/gallery/g-glc-1.jpg", "GLC", "SUV · Coupé 가격과 무이자 할부"),
-  "gle": ("assets/img/gallery/g-gle-1.jpg", "GLE", "SUV · Coupé · AMG GLE 53"),
+  "gle": ("assets/img/new/gle-front.jpg", "The new GLE", "GLE 450 AMG Line 즉시 출고 · 11월 5%"),
+  "new-gle-gls": ("assets/img/new/gle-hero.jpg", "The new GLE · GLS", "AMG Line 즉시 출고 · 사전계약 상담"),
   "c-class": ("assets/img/gallery/g-c-1.jpg", "C-Class", "C 200 가격과 무이자 할부"),
   "glb": ("assets/img/gallery/g-glb-2.jpg", "GLB", "GLB 250 · AMG GLB 35"),
-  "gls": ("assets/img/gallery/g-gls-1.jpg", "GLS", "3열 대형 SUV · AMG GLS 63"),
+  "gls": ("assets/img/new/gls-hero.jpg", "The new GLS", "GLS 450 AMG Line 즉시 출고"),
   "eq": ("assets/img/gallery/g-eqs-2.jpg", "EQS · EQE", "벤츠 전기차 가격과 무이자 할부"),
   "g-class": ("assets/img/gallery/g-g-1.jpg", "G-Class", "Mercedes-AMG G 63"),
 }
