@@ -861,3 +861,15 @@ legend .opt,summary .opt{color:var(--mut);font-weight:400;font-size:12px;margin-
 @media(max-width:560px){.ev-box{grid-template-columns:1fr}.ev-box b{font-size:16px}}
 .ev-box .ev-wide{grid-column:1/-1}
 .ev-box em a{color:inherit}
+
+/* v14 메르세웅스 (별명) */
+.nick{color:var(--gold);font-weight:700}
+.brand small .nick{font-weight:700;font-size:inherit;color:var(--gold)}
+.nick-intro .dot{color:#aab3bf}
+@media(max-width:560px){.nick-intro .dot{display:none}}
+.nick-intro{margin:0 0 14px;font-size:20px;font-weight:700;color:#fff;letter-spacing:-.01em}
+.nick-intro span{color:#fff}
+.nick-intro em{font-style:normal;font-weight:500;color:#aab3bf;font-size:16px}
+.nick-intro em strong{color:var(--gold);font-weight:800}
+.nick-sub{display:block;margin-top:8px;font-size:.5em;font-weight:600;color:var(--gold)}
+@media(max-width:560px){.nick-intro{font-size:17px}.nick-intro em{display:block;font-size:14px;margin-top:2px}}
