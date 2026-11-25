@@ -111,12 +111,12 @@ window.SITE = {
       finance:"24개월 무이자 할부 (선수금 75%) · 일반할부 연 5.82% · 특별 리스", better:["MY27 조건 11월 신설","24개월 무이자 신설"] },
     { model:"e-class", trim:"E 300 4MATIC Exclusive", my:"MY27", price:94800000, base:10, mbm:4, ret:1, trade:1, conquest:0,
       finance:"24개월 무이자 할부 · 저금리 운용리스·금융리스 (11/20부터 E 300 특별 저금리, 선수금 조건은 상담)",
-      extraText:"위탁·전시 차량 기준 할인 (현금 10% + 금융 4%) · 장기 전시차는 +1% 더해 최대 15% · 공장 주문 차량은 현금 8%",
-      better:["11/20 24개월 무이자·저금리 신설","위탁·전시 차량 현금 10%"] },
+      extraText:"기본 할인 현금 10% + 벤츠 금융 이용 시 4% = 최대 14%",
+      better:["11/20 24개월 무이자·저금리 신설","현금 할인 10%로 확대"] },
     { model:"e-class", trim:"E 300 4MATIC AMG Line", my:"MY27", price:100100000, base:10, mbm:4, ret:1, trade:1, conquest:0,
       finance:"24개월 무이자 할부 · 저금리 운용리스·금융리스 (11/20부터 E 300 특별 저금리, 선수금 조건은 상담)",
-      extraText:"위탁·전시 차량 기준 할인 (현금 10% + 금융 4%) · 장기 전시차는 +1% 더해 최대 15% · 공장 주문 차량은 현금 8%",
-      better:["11/20 24개월 무이자·저금리 신설","위탁·전시 차량 현금 10%"] },
+      extraText:"기본 할인 현금 10% + 벤츠 금융 이용 시 4% = 최대 14%",
+      better:["11/20 24개월 무이자·저금리 신설","현금 할인 10%로 확대"] },
     { model:"e-class", trim:"E 450 4MATIC AMG Line", my:"MY27", price:117200000, base:10, mbm:0, ret:1, trade:1, conquest:0,
       finance:"일반할부 연 7.43% (60개월·선수금 30%)", better:["재구매·Trade-in 혜택 신설"] },
     { model:"e-class", trim:"E 450 4MATIC Exclusive", my:"MY27", price:129500000, base:10, mbm:0, ret:1, trade:1, conquest:0,
@@ -131,25 +131,25 @@ window.SITE = {
     { model:"e-class", trim:"E 450 4MATIC Exclusive", my:"MY26", stock:true, price:129600000, base:11, mbm:0, ret:1, trade:1, conquest:0, finance:"일반할부 연 7.43% (60개월·선수금 30%)", better:[] },
 
 
-    /* ----- S-Class 27년식 (위탁·전시 차량 현금 4% 기본 적용 · 재구매 조건) ----- */
-    { model:"s-class", trim:"S 350 d 4MATIC", my:"MY27", price:154000000, base:4, mbm:0, ret:2, trade:1, conquest:0,
+    /* ----- S-Class 27년식 (현금 4% 기본 표시 · S-Class 보유 고객 재구매 조건) ----- */
+    { model:"s-class", trim:"S 350 d 4MATIC", my:"MY27", price:154000000, base:4, mbm:0, ret:2, trade:1, conquest:2,
       finance:"일반할부 연 7.43% · 재구매 고객 운용리스 특별 조건",
-      extraText:"현금 4%는 위탁·전시 차량 기준 (재구매 조건) · S-Class 재구매 고객: 주유 바우처 50만원 · 재구매 저금리 할부·리스·렌트 · 운용리스/장기렌트 재구매 시 여행상품권 100만원 · 전시·위탁 차량 재구매 시 취득세 지원 4% + Trade-in 추가 3% · 재구매+ : 보유 E-Class 이상 고객은 재구매 횟수에 따라 보증연장 최대 +2년/+7만km · 타 프리미엄 브랜드 보유 고객 보증연장 +1년/+3만km",
-      better:["위탁·전시 차량 현금 4%","11/20 재구매 혜택 강화","재구매+ 프로그램 신설"] },
-    { model:"s-class", trim:"S 450 4MATIC", my:"MY27", price:162400000, base:4, mbm:0, ret:2, trade:1, conquest:0, finance:"일반할부 연 7.43% · 재구매 고객 운용리스 특별 조건", extraText:"현금 4%는 위탁·전시 차량 기준 (재구매 조건) · S-Class 재구매 고객: 주유 바우처 50만원 · 재구매 저금리 할부·리스·렌트 · 운용리스/장기렌트 재구매 시 여행상품권 100만원 · 전시·위탁 차량 재구매 시 취득세 지원 4% + Trade-in 추가 3%", better:["위탁·전시 차량 현금 4%","11/20 재구매 혜택 강화","재구매+ 프로그램 신설"] },
-    { model:"s-class", trim:"S 450 4MATIC Long Exclusive", my:"MY27", price:175400000, base:4, mbm:0, ret:2, trade:1, conquest:0, finance:"일반할부 연 7.43% · 재구매 고객 운용리스 특별 조건", extraText:"현금 4%는 위탁·전시 차량 기준 (재구매 조건) · S-Class 재구매 고객: 주유 바우처 50만원 · 재구매 저금리 할부·리스·렌트 · 운용리스/장기렌트 재구매 시 여행상품권 100만원 · 전시·위탁 차량 재구매 시 취득세 지원 4% + Trade-in 추가 3%", better:["위탁·전시 차량 현금 4%","11/20 재구매 혜택 강화","재구매+ 프로그램 신설"] },
-    { model:"s-class", trim:"S 450 4MATIC Long AMG Line", my:"MY27", price:195400000, base:4, mbm:0, ret:2, trade:1, conquest:0, finance:"일반할부 연 7.43% · 재구매 고객 운용리스 특별 조건", extraText:"현금 4%는 위탁·전시 차량 기준 (재구매 조건) · S-Class 재구매 고객: 주유 바우처 50만원 · 재구매 저금리 할부·리스·렌트 · 운용리스/장기렌트 재구매 시 여행상품권 100만원 · 전시·위탁 차량 재구매 시 취득세 지원 4% + Trade-in 추가 3%", better:["위탁·전시 차량 현금 4%","11/20 재구매 혜택 강화","재구매+ 프로그램 신설"] },
-    { model:"s-class", trim:"S 500 4MATIC Long", my:"MY27", price:220000000, base:4, mbm:0, ret:2, trade:1, conquest:0, finance:"일반할부 연 7.43% · 재구매 고객 운용리스 특별 조건", extraText:"현금 4%는 위탁·전시 차량 기준 (재구매 조건) · S-Class 재구매 고객: 주유 바우처 50만원 · 재구매 저금리 할부·리스·렌트 · 운용리스/장기렌트 재구매 시 여행상품권 100만원 · 전시·위탁 차량 재구매 시 취득세 지원 4% + Trade-in 추가 3%", better:["위탁·전시 차량 현금 4%","11/20 재구매 혜택 강화","재구매+ 프로그램 신설"] },
-    { model:"s-class", trim:"S 580 4MATIC Long", my:"MY27", price:270000000, base:4, mbm:0, ret:2, trade:1, conquest:0, finance:"일반할부 연 7.43% · 재구매 고객 운용리스 특별 조건", extraText:"현금 4%는 위탁·전시 차량 기준 (재구매 조건) · S-Class 재구매 고객: 주유 바우처 50만원 · 재구매 저금리 할부·리스·렌트 · 운용리스/장기렌트 재구매 시 여행상품권 100만원 · 전시·위탁 차량 재구매 시 취득세 지원 4% + Trade-in 추가 3%", better:["위탁·전시 차량 현금 4%","11/20 재구매 혜택 강화","재구매+ 프로그램 신설"] },
+      extraText:"현금 4%는 S-Class 보유 고객 재구매 기준 · S-Class 재구매 고객: 주유 바우처 50만원 · 재구매 저금리 할부·리스·렌트 · 운용리스/장기렌트 재구매 시 여행상품권 100만원 · S-Class 보유 고객이 기존 차량을 인증중고차로 매각하면 Trade-in +3% (일반 +1% 대신) · 타 프리미엄 브랜드 보유 고객 +2% · 재구매+ : 보유 E-Class 이상 고객은 재구매 횟수에 따라 보증연장 최대 +2년/+7만km · 타 프리미엄 브랜드 보유 고객 보증연장 +1년/+3만km",
+      better:["S-Class 재구매 현금 4%","11/20 재구매 혜택 강화","재구매+ 프로그램 신설"] },
+    { model:"s-class", trim:"S 450 4MATIC", my:"MY27", price:162400000, base:4, mbm:0, ret:2, trade:1, conquest:2, finance:"일반할부 연 7.43% · 재구매 고객 운용리스 특별 조건", extraText:"현금 4%는 S-Class 보유 고객 재구매 기준 · S-Class 재구매 고객: 주유 바우처 50만원 · 재구매 저금리 할부·리스·렌트 · 운용리스/장기렌트 재구매 시 여행상품권 100만원 · S-Class 보유 고객이 기존 차량을 인증중고차로 매각하면 Trade-in +3% (일반 +1% 대신) · 타 프리미엄 브랜드 보유 고객 +2%", better:["S-Class 재구매 현금 4%","11/20 재구매 혜택 강화","재구매+ 프로그램 신설"] },
+    { model:"s-class", trim:"S 450 4MATIC Long Exclusive", my:"MY27", price:175400000, base:4, mbm:0, ret:2, trade:1, conquest:2, finance:"일반할부 연 7.43% · 재구매 고객 운용리스 특별 조건", extraText:"현금 4%는 S-Class 보유 고객 재구매 기준 · S-Class 재구매 고객: 주유 바우처 50만원 · 재구매 저금리 할부·리스·렌트 · 운용리스/장기렌트 재구매 시 여행상품권 100만원 · S-Class 보유 고객이 기존 차량을 인증중고차로 매각하면 Trade-in +3% (일반 +1% 대신) · 타 프리미엄 브랜드 보유 고객 +2%", better:["S-Class 재구매 현금 4%","11/20 재구매 혜택 강화","재구매+ 프로그램 신설"] },
+    { model:"s-class", trim:"S 450 4MATIC Long AMG Line", my:"MY27", price:195400000, base:4, mbm:0, ret:2, trade:1, conquest:2, finance:"일반할부 연 7.43% · 재구매 고객 운용리스 특별 조건", extraText:"현금 4%는 S-Class 보유 고객 재구매 기준 · S-Class 재구매 고객: 주유 바우처 50만원 · 재구매 저금리 할부·리스·렌트 · 운용리스/장기렌트 재구매 시 여행상품권 100만원 · S-Class 보유 고객이 기존 차량을 인증중고차로 매각하면 Trade-in +3% (일반 +1% 대신) · 타 프리미엄 브랜드 보유 고객 +2%", better:["S-Class 재구매 현금 4%","11/20 재구매 혜택 강화","재구매+ 프로그램 신설"] },
+    { model:"s-class", trim:"S 500 4MATIC Long", my:"MY27", price:220000000, base:4, mbm:0, ret:2, trade:1, conquest:2, finance:"일반할부 연 7.43% · 재구매 고객 운용리스 특별 조건", extraText:"현금 4%는 S-Class 보유 고객 재구매 기준 · S-Class 재구매 고객: 주유 바우처 50만원 · 재구매 저금리 할부·리스·렌트 · 운용리스/장기렌트 재구매 시 여행상품권 100만원 · S-Class 보유 고객이 기존 차량을 인증중고차로 매각하면 Trade-in +3% (일반 +1% 대신) · 타 프리미엄 브랜드 보유 고객 +2%", better:["S-Class 재구매 현금 4%","11/20 재구매 혜택 강화","재구매+ 프로그램 신설"] },
+    { model:"s-class", trim:"S 580 4MATIC Long", my:"MY27", price:270000000, base:4, mbm:0, ret:2, trade:1, conquest:2, finance:"일반할부 연 7.43% · 재구매 고객 운용리스 특별 조건", extraText:"현금 4%는 S-Class 보유 고객 재구매 기준 · S-Class 재구매 고객: 주유 바우처 50만원 · 재구매 저금리 할부·리스·렌트 · 운용리스/장기렌트 재구매 시 여행상품권 100만원 · S-Class 보유 고객이 기존 차량을 인증중고차로 매각하면 Trade-in +3% (일반 +1% 대신) · 타 프리미엄 브랜드 보유 고객 +2%", better:["S-Class 재구매 현금 4%","11/20 재구매 혜택 강화","재구매+ 프로그램 신설"] },
     /* ----- GLC 27년식 ----- */
     { model:"glc", trim:"GLC 300 4MATIC Coupé AVANTGARDE", my:"MY27", price:86600000, base:11, mbm:1, ret:1, trade:1, conquest:1,
-      finance:"24개월 무이자 할부 (선수금 65%) · 일반할부 연 5.65% · 특별 리스", extraText:"위탁·전시 차량 기준 할인 (현금 11% + 금융 1%) · 장기 전시차는 +1% 더해 최대 13% · 공장 주문 차량은 현금 7% · 12/31까지 출고 시 2027년 GLC 전기차 우선 배정권", better:["기본 할인 5% → 11% (위탁·전시)","금융 할인 +1% 신설","24개월 무이자 신설"] },
+      finance:"24개월 무이자 할부 (선수금 65%) · 일반할부 연 5.65% · 특별 리스", extraText:"기본 할인 현금 11% + 벤츠 금융 이용 시 1% = 최대 12% · 12/31까지 출고 시 2027년 GLC 전기차 우선 배정권", better:["기본 할인 5% → 11%","금융 할인 +1% 신설","24개월 무이자 신설"] },
     { model:"glc", trim:"GLC 300 4MATIC Coupé AMG Line", my:"MY27", price:97900000, base:11, mbm:1, ret:1, trade:1, conquest:1,
-      finance:"24개월 무이자 할부 (선수금 65%) · 일반할부 연 5.65% · 특별 리스", extraText:"11/16 가격표부터 9,790만원 (MY27 초기 생산분 재고는 9,690만원) · 위탁·전시 차량 기준 할인 (현금 11% + 금융 1%) · 장기 전시차는 +1% 더해 최대 13% · 공장 주문 차량은 현금 7% · 12/31까지 출고 시 2027년 GLC 전기차 우선 배정권", better:["기본 할인 5% → 11% (위탁·전시)","금융 할인 +1% 신설","24개월 무이자 신설"] },
-    { model:"glc", trim:"GLC 300 4MATIC AVANTGARDE", my:"MY27", price:82500000, base:11, mbm:1, ret:1, trade:1, conquest:1, finance:"일반할부 연 6.60% (60개월·선수금 30%)", extraText:"위탁·전시 차량 기준 할인 (현금 11% + 금융 1%) · 장기 전시차는 +1% 더해 최대 13% · 공장 주문 차량은 현금 7% · 12/31까지 출고 시 2027년 GLC 전기차 우선 배정권", better:["위탁·전시 차량 현금 11%","금융 할인 +1% 신설"] },
-    { model:"glc", trim:"GLC 300 4MATIC AMG Line", my:"MY27", price:95500000, base:11, mbm:1, ret:1, trade:1, conquest:1, finance:"일반할부 연 6.60% (60개월·선수금 30%)", extraText:"위탁·전시 차량 기준 할인 (현금 11% + 금융 1%) · 장기 전시차는 +1% 더해 최대 13% · 공장 주문 차량은 현금 7% · 12/31까지 출고 시 2027년 GLC 전기차 우선 배정권", better:["위탁·전시 차량 현금 11%","금융 할인 +1% 신설"] },
+      finance:"24개월 무이자 할부 (선수금 65%) · 일반할부 연 5.65% · 특별 리스", extraText:"11/16 가격표부터 9,790만원 (MY27 초기 생산분 재고는 9,690만원) · 기본 할인 현금 11% + 벤츠 금융 이용 시 1% = 최대 12% · 12/31까지 출고 시 2027년 GLC 전기차 우선 배정권", better:["기본 할인 5% → 11%","금융 할인 +1% 신설","24개월 무이자 신설"] },
+    { model:"glc", trim:"GLC 300 4MATIC AVANTGARDE", my:"MY27", price:82500000, base:11, mbm:1, ret:1, trade:1, conquest:1, finance:"일반할부 연 6.60% (60개월·선수금 30%)", extraText:"기본 할인 현금 11% + 벤츠 금융 이용 시 1% = 최대 12% · 12/31까지 출고 시 2027년 GLC 전기차 우선 배정권", better:["현금 할인 11%로 확대","금융 할인 +1% 신설"] },
+    { model:"glc", trim:"GLC 300 4MATIC AMG Line", my:"MY27", price:95500000, base:11, mbm:1, ret:1, trade:1, conquest:1, finance:"일반할부 연 6.60% (60개월·선수금 30%)", extraText:"기본 할인 현금 11% + 벤츠 금융 이용 시 1% = 최대 12% · 12/31까지 출고 시 2027년 GLC 전기차 우선 배정권", better:["현금 할인 11%로 확대","금융 할인 +1% 신설"] },
     { model:"glc", trim:"GLC 300 4MATIC", my:"MY27", price:77000000, base:11, mbm:1, ret:1, trade:1, conquest:1, finance:"일반할부 (60개월·선수금 30%) · 특별 리스 상담",
-      extraText:"위탁·전시 차량 기준 할인 (현금 11% + 금융 1%) · 장기 전시차는 +1% 더해 최대 13% · 공장 주문 차량은 현금 7% · 12/31까지 출고 시 2027년 GLC 전기차 우선 배정권", better:["11/16 가격표 신규 트림 (7,700만원)"] },
+      extraText:"기본 할인 현금 11% + 벤츠 금융 이용 시 1% = 최대 12% · 12/31까지 출고 시 2027년 GLC 전기차 우선 배정권", better:["11/16 가격표 신규 트림 (7,700만원)"] },
     /* GLC 26년식 재고 */
     { model:"glc", trim:"GLC 300 4MATIC AMG Line", my:"MY26", stock:true, price:92500000, base:12, mbm:4, ret:1, trade:1, conquest:1,
       finance:"24개월 무이자 할부 (선수금 65%) · 일반할부 연 5.28%", extraText:"12/31까지 출고 시 2027년 GLC 전기차 우선 배정권", better:["24개월 무이자 신설"] },
@@ -255,13 +255,13 @@ window.SITE = {
     { model:"gle", text:"GLE 450 AMG Line Coupé(MY26) 기본 할인 12% → 15%" },
     { model:"gle", text:"GLE 450 SUV·Coupé 24·36개월 무이자 신설, 일반할부 금리 5.23% → 3.86%" },
     { model:"gle", text:"무이자 대상 확대: GLE 350·GLE 450 d 쿠페·AMG GLE 53, AMG E 53, GLS, EQE·EQS, AMG G 63 (24·36개월), C-Class·GLB (24개월)" },
-    { model:"glc", text:"GLC 300 Coupé(MY27) 기본 할인 5% → 11% (위탁·전시 차량), 금융 특별할인 +1%·24개월 무이자 신설" },
+    { model:"glc", text:"GLC 300 Coupé(MY27) 기본 할인 5% → 11%, 금융 특별할인 +1%·24개월 무이자 신설" },
     { model:"e-class", text:"E 200(MY27) 조건 신설·24개월 무이자 · E 300(MY26) 24개월 무이자 신설" },
     { model:"s-class", text:"신형 S-Class(MY27) 재구매+ 프로그램·타 브랜드 고객 보증연장 신설" },
-    { model:"e-class", text:"(11/20 추가) E 300 4MATIC(MY27) 위탁·전시 차량 현금 10% + 금융 4% = 14%, 24개월 무이자·저금리 리스 신설" },
-    { model:"glc", text:"(11/20 추가) GLC·GLC 쿠페(MY27) 위탁·전시 차량 현금 11% + 금융 1% = 12% · 출고 고객 2027년 GLC 전기차 우선 배정권" },
+    { model:"e-class", text:"(11/20 추가) E 300 4MATIC(MY27) 현금 10% + 금융 4% = 최대 14%, 24개월 무이자·저금리 리스 신설" },
+    { model:"glc", text:"(11/20 추가) GLC·GLC 쿠페(MY27) 현금 11% + 금융 1% = 최대 12% · 출고 고객 2027년 GLC 전기차 우선 배정권" },
     { model:"gle", text:"(11/20 추가) The new GLE 450 4MATIC AMG Line(MY27) 현금 할인 5% 신설" },
-    { model:"s-class", text:"(11/20 추가) 신형 S-Class(MY27) 위탁·전시 차량 현금 4% · 재구매 고객 주유 바우처 50만원·재구매 저금리 금융" }
+    { model:"s-class", text:"(11/20 추가) 신형 S-Class(MY27) S-Class 재구매 현금 4% · Trade-in +3% · 타 브랜드 보유 +2% · 재구매 고객 주유 바우처 50만원·재구매 저금리 금융" }
   ],
 
   /* 사은품(골든타임) — 재고 소진 시 대체 가능 */
@@ -283,7 +283,7 @@ window.SITE = {
   /* ---------- 4-3. 신차·사전계약 소식 ---------- */
   news: [
     { tag:"신형 출시 · 즉시 출고", title:"The new GLE · The new GLS", text:"신형 GLE 450 4MATIC AMG Line과 GLS 450 4MATIC AMG Line은 바로 출고할 수 있습니다. GLE 450 AMG Line은 11월 현금 5% 할인, GLE 쿠페와 GLS 450(기본형)은 사전계약 중입니다.", model:"gle", image:"assets/img/new/gle-hero.jpg", link:"new-gle-gls.html", linkText:"신형 GLE·GLS 보기", validFrom:"2026-11-23" },
-    { tag:"11/20 조건 업데이트", title:"GLC 사면 2027년 GLC 전기차 우선 배정", text:"12월 31일까지 GLC·GLC 쿠페(26·27년식) 또는 GLB 250+ electric을 출고하시면, 2027년에 원하시는 시기에 GLC 전기차를 우선 배정받을 수 있습니다. GLC 27년식 전시·위탁 차량은 최대 13% 할인입니다.", model:"glc", validFrom:"2026-11-20", validTo:"2026-12-31" },
+    { tag:"11/20 조건 업데이트", title:"GLC 사면 2027년 GLC 전기차 우선 배정", text:"12월 31일까지 GLC·GLC 쿠페(26·27년식) 또는 GLB 250+ electric을 출고하시면, 2027년에 원하시는 시기에 GLC 전기차를 우선 배정받을 수 있습니다. GLC 27년식은 이달 최대 12% 할인입니다.", model:"glc", validFrom:"2026-11-20", validTo:"2026-12-31" },
     { tag:"판매 시작", title:"GLC 전기차 · 구리전시장 실차 입고", text:"The all-new electric GLC(GLC 300 4MATIC electric)가 출고 차량으로 구리전시장에 들어왔습니다. 이제 판매가 시작됐습니다. 실차 사진과 주행거리·충전 정보를 확인해 보세요.", model:"glc-ev", image:"assets/img/news/glc-ev-side.jpg", link:"news-glc-electric.html", linkText:"실차 사진 보기", validFrom:"2026-11-19" },
     /* link가 있으면 '상담 받기' 대신 해당 페이지로 연결. 전시 종료 시 validTo를 종료일로 바꾸면 자동으로 내려갑니다 */
     { tag:"잠실 롯데몰 전시 중", title:"E 200 Exclusive 27년식 · 젠틀몬스터 앞", text:"잠실 롯데몰 젠틀몬스터 매장 앞에 E 200 Exclusive 27년식이 전시되어 있습니다. 11월 최대 18% 할인(현금 14% + 벤츠 금융 4%), 현장 QR로 상담신청하시면 벤츠 머그컵과 수제 쿠키를 드립니다.", model:"e-class", image:"assets/img/event/jamsil-front.jpg", link:"event-jamsil.html", linkText:"전시·이벤트 보기", validFrom:"2026-11-18" },
