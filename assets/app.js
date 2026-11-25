@@ -8,7 +8,7 @@
   const man = (won) => Math.floor(won / 10000).toLocaleString("ko-KR") + "만원";
   const todayStr = () => { const d = new Date(Date.now() + 9 * 3600e3); return d.toISOString().slice(0, 10); }; // KST
   const active = (p) => { const t = todayStr(); return (p.validFrom || S.promoMeta.validFrom) <= t && t <= (p.validTo || S.promoMeta.validTo); };
-  const loyalty = (p) => Math.max((p.ret || 0) + (p.trade || 0), p.conquest || 0);
+  const loyalty = (p) => Math.max((p.ret || 0) + (p.sOwner || 0) + Math.max(p.trade || 0, p.sTrade || 0), p.conquest || 0); // sOwner·sTrade: S-Class 보유 고객 재구매 전용
   const maxRate = (p) => (p.base || 0) + (p.mbm || 0) + loyalty(p);
   const headRate = (p) => (p.base || 0) + (p.mbm || 0); // 화면 표시용: 현금 + 금융(MBM)만
   const myLabel = (p) => (p.my === "MY27" ? "27년식" : p.my === "MY26" ? "26년식" + (p.stock ? " 재고" : "") : p.my);
@@ -133,7 +133,7 @@
   function promoCard(p) {
     const hr = headRate(p);
     const better = (p.better || []).map((b) => `<span class="flag up">▲ ${esc(b)}</span>`).join(" ");
-    const adds = [p.ret ? `재구매 +${p.ret}%` : "", p.trade ? `Trade-in +${p.trade}%` : "", p.conquest ? `타 브랜드 보유 +${p.conquest}%` : ""].filter(Boolean).join(" · ");
+    const adds = [p.ret ? `재구매 +${p.ret}%` : "", p.sOwner ? `S-Class 보유 고객 재구매 +${p.sOwner}%` : "", p.trade ? `Trade-in +${p.trade}%${p.sTrade ? ` (S-Class 보유 고객은 +${p.sTrade}%)` : ""}` : "", p.conquest ? `타 브랜드 보유 +${p.conquest}%` : ""].filter(Boolean).join(" · ");
     const d = p.price && hr ? discOf(p.price, hr) : 0;
     const zero = /무이자/.test(p.finance || "") ? (p.finance.match(/^[^(·]*무이자[^(·]*/) || [""])[0].replace("할부", "").trim() : "";
     const priceLine = p.price ? (hr ? `<p class="pc-price"><span>${man(p.price)}</span> → <b>${man(p.price - d)}</b></p>` : `<p class="pc-price"><b>${man(p.price)}</b>${p.priceNote ? ` <small>${esc(p.priceNote)}</small>` : ""}</p>`) : `<p class="pc-price"><b>가격 상담</b></p>`;
@@ -420,6 +420,7 @@
         <fieldset class="qz-opts"><legend>해당되는 혜택을 선택하세요</legend>
           <label><input type="checkbox" id="q-mbm" checked> <span>벤츠 금융(MBM) 이용 <b id="q-mbm-r"></b></span></label>
           <label><input type="checkbox" id="q-ret"> <span>기존 벤츠 보유 (재구매) <b id="q-ret-r"></b></span></label>
+          <label><input type="checkbox" id="q-sown"> <span>지금 S-Class 보유 (S-Class 재구매) <b id="q-sown-r"></b></span></label>
           <label><input type="checkbox" id="q-trade"> <span>기존 벤츠를 인증중고차로 매각 (Trade-in) <b id="q-trade-r"></b></span></label>
           <label id="q-con-w"><input type="checkbox" id="q-con"> <span>BMW·아우디·제네시스 등 타 브랜드 보유 <b id="q-con-r"></b></span></label>
           <label><input type="checkbox" id="q-mou"> <span>MOU 제휴사 임직원·회원 <b>+2%</b> <em>확인 후 적용</em></span></label>
@@ -447,12 +448,15 @@
     const calc = () => {
       const p = tSel._list[+tSel.value]; if (!p) return; Q = p;
       const set = (id, r, on) => { const w = $(id).closest("label"); $(id + "-r").textContent = r ? `+${r}%` : ""; w.style.display = r ? "" : "none"; if (!r) $(id).checked = false; };
-      set("#q-mbm", p.mbm); set("#q-ret", p.ret); set("#q-trade", p.trade); set("#q-con", p.conquest);
+      set("#q-mbm", p.mbm); set("#q-ret", p.ret); set("#q-sown", p.sOwner); set("#q-con", p.conquest);
+      const sown = $("#q-sown").checked, tradeR = sown && p.sTrade ? p.sTrade : p.trade;
+      set("#q-trade", tradeR);
       const ret = $("#q-ret").checked, trade = $("#q-trade").checked, con = $("#q-con").checked, mbm = $("#q-mbm").checked, mou = $("#q-mou").checked;
       const parts = [["현금", p.base]];
       if (mbm && p.mbm) parts.push(["금융", p.mbm]);
       if (ret && p.ret) parts.push(["재구매", p.ret]);
-      if (trade && p.trade) parts.push(["Trade-in", p.trade]);
+      if (sown && p.sOwner) parts.push(["S-Class 재구매", p.sOwner]);
+      if (trade && tradeR) parts.push(["Trade-in", tradeR]);
       if (con && p.conquest) parts.push(["타 브랜드", p.conquest]);
       if (mou) parts.push(["MOU", 2]);
       const rate = parts.reduce((a, x) => a + x[1], 0), d = discOf(p.price, rate);
@@ -467,9 +471,10 @@
     };
     mSel.addEventListener("change", () => { fillTrims(mSel.value); track("quote_model", { model: mSel.value }); });
     tSel.addEventListener("change", calc);
-    $("#q-ret").addEventListener("change", () => { if ($("#q-ret").checked) $("#q-con").checked = false; calc(); });
+    $("#q-ret").addEventListener("change", () => { if ($("#q-ret").checked) $("#q-con").checked = false; else $("#q-sown").checked = false; calc(); });
     $("#q-trade").addEventListener("change", () => { if ($("#q-trade").checked) $("#q-con").checked = false; calc(); });
-    $("#q-con").addEventListener("change", () => { if ($("#q-con").checked) { $("#q-ret").checked = false; $("#q-trade").checked = false; } calc(); });
+    $("#q-sown").addEventListener("change", () => { if ($("#q-sown").checked) { $("#q-ret").checked = true; $("#q-con").checked = false; } calc(); });
+    $("#q-con").addEventListener("change", () => { if ($("#q-con").checked) { $("#q-ret").checked = false; $("#q-sown").checked = false; $("#q-trade").checked = false; } calc(); });
     ["#q-mbm", "#q-mou"].forEach((id) => $(id).addEventListener("change", calc));
     $("#q-go").addEventListener("click", () => {
       if (!Q) return;

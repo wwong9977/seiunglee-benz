@@ -182,7 +182,7 @@ def trims_html(mid):
         hr = head_rate(p)
         if p.get("price"):
             price = man(p["price"])
-            after = f'<span class="tr-after">이달 {hr}% 적용 시 약 {man(p["price"] - (p["price"] * hr // 100 // 10000) * 10000)}</span>' if hr else '<span class="tr-after">재구매·Trade-in 혜택은 견적 계산에서 확인</span>'
+            after = f'<span class="tr-after">이달 {hr}% 적용 시 약 {man(p["price"] - (p["price"] * hr // 100 // 10000) * 10000)}</span>' if hr else (f'<span class="tr-after">S-Class 보유 고객 재구매 시 현금 {p["sOwner"]}% · 견적 계산에서 확인</span>' if p.get("sOwner") else '<span class="tr-after">재구매·Trade-in 혜택은 견적 계산에서 확인</span>')
             btn = f'<button class="btn btn-line btn-sm" data-quote="{E(mid)}|{E(p["trim"])}|{E(p["my"])}">견적 계산</button>'
         else:
             price, after = "가격 상담", '<span class="tr-after">가격 확정 시 안내</span>'
