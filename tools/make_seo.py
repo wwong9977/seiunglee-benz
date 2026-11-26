@@ -7,7 +7,7 @@
 """
 import glob, html, json, os, re, subprocess, datetime
 os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
-SITE = "https://wwong9977.github.io/seiunglee-benz/"
+SITE = "https://benz-guri.com/"
 AUTHOR = "이세웅 과장 · HS효성더클래스 구리전시장"
 
 data = json.loads(subprocess.check_output(["node", "-e",

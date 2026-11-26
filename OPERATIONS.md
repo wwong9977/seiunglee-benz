@@ -71,8 +71,8 @@
 ## 7. 광고 링크 만드는 법
 광고 상담 페이지 주소 뒤에 모델과 UTM을 붙입니다. 접수 시 시트에 함께 저장됩니다.
 ```
-https://wwong9977.github.io/seiunglee-benz/consult.html?model=gle&utm_source=meta&utm_medium=paid_social&utm_campaign=2026-12_gle&utm_content=video_a
-https://wwong9977.github.io/seiunglee-benz/consult.html?model=e-class&utm_source=naver&utm_medium=cpc&utm_campaign=2026-12_eclass
-https://wwong9977.github.io/seiunglee-benz/consult.html?utm_source=naver_blog&utm_medium=blog&utm_campaign=story_gle
+https://benz-guri.com/consult.html?model=gle&utm_source=meta&utm_medium=paid_social&utm_campaign=2026-12_gle&utm_content=video_a
+https://benz-guri.com/consult.html?model=e-class&utm_source=naver&utm_medium=cpc&utm_campaign=2026-12_eclass
+https://benz-guri.com/consult.html?utm_source=naver_blog&utm_medium=blog&utm_campaign=story_gle
 ```
 `model` 값: `e-class`, `s-class`, `glc`, `gle`, `c-class`, `glb`, `gls`, `eq`, `g-class`, `glc-ev`, `glb-ev`, `cla-ev` (없으면 고객이 직접 선택)

@@ -5,7 +5,7 @@
 """
 import json, os, re, subprocess, html as H
 os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
-SITE_URL = "https://wwong9977.github.io/seiunglee-benz"
+SITE_URL = "https://benz-guri.com"
 S = json.loads(subprocess.check_output(["node", "-e", "global.window={};require('./assets/data.js');process.stdout.write(JSON.stringify(window.SITE))"]))
 E = H.escape
 
