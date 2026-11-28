@@ -1,13 +1,16 @@
 .suv-feature {
   padding: clamp(20px, 4vw, 42px) 0 32px;
 }
-.suv-feature h1 {
+.suv-feature .suv-title {
   margin: 4px 0 20px;
   font-size: clamp(30px, 5vw, 52px);
   line-height: 1.15;
   letter-spacing: -.045em;
 }
 .suv-byline {
+  margin: 0;
+  line-height: 1.5;
+  letter-spacing: normal;
   color: var(--gold);
   font-size: 14px;
   font-weight: 600;
@@ -60,3 +63,5 @@
   .suv-models { grid-template-columns: 1fr; gap: 14px; }
   .suv-copy { padding: 12px 16px 16px; }
 }
+
+.suv-byline span { color: var(--silver); font-weight: 500; }
