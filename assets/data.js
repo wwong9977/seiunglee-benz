@@ -32,7 +32,7 @@ window.SITE = {
        ga4Id: GA4 측정 ID (예: "G-XXXXXXX") / naverWaId: 네이버 광고 '프리미엄 로그분석' 공통 인증키 (예: "s_xxxxxxxx") */
     ga4Id: "",
     naverWaId: "",
-    ga4Installed: false,
+    ga4Installed: true,  // 2026-11-28 Google 태그 GTM-PMVVRZRL 전체 페이지 head에 직접 설치 (ga4Id는 비워둠: 중복 로드 방지)
     metaPixelInstalled: true,  // 2026-11-10 픽셀 2103643920279636 설치
     naverWcsInstalled: false
   },
