@@ -561,7 +561,10 @@ body{font-family:var(--sans);letter-spacing:-.02em}
 [hidden]{display:none!important}
 .nav a{white-space:nowrap}
 .nav{gap:20px}
-@media(min-width:900px) and (max-width:1179px){.nav{display:none}.menu-btn{display:grid}}
+@media(min-width:900px) and (max-width:1439px){.nav{display:none}.menu-btn{display:grid}}
+@media(min-width:1440px){.nav{gap:16px;font-size:13.5px}}
+@media(min-width:1600px){.nav{gap:22px;font-size:14px}}
+.hdr-cta{white-space:nowrap}
 
 /* ===== 카드 공통 (v9) ===== */
 .pc-flags{display:flex;flex-wrap:wrap;gap:4px}
